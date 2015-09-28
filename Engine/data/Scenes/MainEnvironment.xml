@@ -1,0 +1,32 @@
+<Environment>
+	<Light>
+		<Position x="0" y="0" z="50" w="1"/>
+		<Ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
+		<Diffuse r="1.0" g="1.0" b="1.0" a="1.0"/>
+		<Specular r="1.0" g="1.0" b="1.0" a="1.0"/>
+		<Intensity i="5000"/>
+	</Light>
+    
+</Environment>
+<Light>
+        <Position x="20" y="0" z="50" w="1"/>
+        <Ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
+        <Diffuse r="0.0" g="1.0" b="0.0" a="1.0"/>
+        <Specular r="0.0" g="1.0" b="0.0" a="1.0"/>
+        <Intensity i="2500"/>
+    </Light>
+    <Light>
+        <Position x="0" y="20" z="50" w="1"/>
+        <Ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
+        <Diffuse r="0.0" g="0.0" b="1.0" a="1.0"/>
+        <Specular r="0.0" g="0.0" b="1.0" a="1.0"/>
+        <Intensity i="2500"/>
+    </Light>
+
+    <Light>
+        <Position x="0" y="-20" z="50" w="1"/>
+        <Ambient r="0.2" g="0.2" b="0.2" a="1.0"/>
+        <Diffuse r="0.5" g="0.5" b="1.0" a="1.0"/>
+        <Specular r="0.5" g="0.5" b="1.0" a="1.0"/>
+        <Intensity i="2500"/>
+    </Light>

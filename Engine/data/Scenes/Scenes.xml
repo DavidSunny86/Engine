@@ -1,0 +1,3 @@
+<Scenes>
+	<Main Environment="MainEnvironnement.xml" RenderTree="MainRenderTree.xml"/>
+</Scenes>
