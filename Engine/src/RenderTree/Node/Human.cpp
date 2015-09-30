@@ -4,8 +4,7 @@
 
 Human::Human(AbstractNode* parent) : AbstractNode(parent)
 {
-    model_ = ModelManager::Instance()->GetModel(std::string("IronMan"));
-    scale_ *=12;
+    model_ = ModelManager::Instance()->GetModel(std::string("Human"));
 }
 
 

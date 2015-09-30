@@ -1,12 +1,13 @@
 #include "Scene.h"
 #include "Utility/Camera/StaticCamera.h"
 #include "Loader\EnvironmentLoader.h"
+#include "Loader\RenderTreeLoader.h"
 
 Scene::Scene()
 {
-    renderTree_ = new RenderTree(0);
-    environment_ = EnvironmentLoader::CreateEnvironnement(".//Scenes//MainEnvironment.xml");
-    camera_ = new StaticCamera(glm::vec3(10.f,10.f,30.f),glm::vec3(0.f,10.f,0.f),glm::vec3(0.f,1.f,0.f),0.1,100,45,16.f/9.f);
+    renderTree_ = RenderTreeLoader::CreateRenderTree(std::string(".//Scenes//MainRenderTree.xml"));
+    environment_ = EnvironmentLoader::CreateEnvironment(std::string(".//Scenes//MainEnvironment.xml"));
+    camera_ = new StaticCamera(glm::vec3(40.f,10.f,40.f),glm::vec3(0.f,10.f,0.f),glm::vec3(0.f,1.f,0.f),1.f,1000.f,45.f,16.f/9.f);
 }
 
 

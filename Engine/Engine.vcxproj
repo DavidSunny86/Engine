@@ -153,6 +153,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Loader\NodeFactory.cpp" />
+    <ClCompile Include="src\Loader\RenderTreeLoader.cpp" />
     <ClCompile Include="src\RenderTree\Node\Plan.cpp" />
     <ClCompile Include="src\Loader\EnvironmentLoader.cpp" />
     <ClCompile Include="src\RenderTree\Scene.cpp" />
@@ -178,6 +180,8 @@
     <ClCompile Include="src\Utility\Camera\StaticCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Loader\NodeFactory.h" />
+    <ClInclude Include="src\Loader\RenderTreeLoader.h" />
     <ClInclude Include="src\RenderTree\Node\Plan.h" />
     <ClInclude Include="src\Loader\EnvironmentLoader.h" />
     <ClInclude Include="src\RenderTree\Scene.h" />

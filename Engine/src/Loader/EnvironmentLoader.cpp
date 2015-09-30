@@ -1,7 +1,7 @@
 #include "EnvironmentLoader.h"
 #include <TiniXML2/tinyxml2.h>
 
-Environment* EnvironmentLoader::CreateEnvironnement(std::string pathToFile)
+Environment* EnvironmentLoader::CreateEnvironment(std::string& pathToFile)
 {
     Environment* env = new Environment();
     tinyxml2::XMLDocument document;

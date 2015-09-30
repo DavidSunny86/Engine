@@ -57,7 +57,7 @@ void main()
 
 
 	float distance = length(DirLum);
-	float distanceSquared = distance * distance;
+	float distanceSquared = (distance * distance);
 
 	color = clamp((visibility * materialAmbient * lightAmbientColor * lightIntensity) / distanceSquared, 0.0, 1.0);
 

@@ -3,6 +3,6 @@
 class EnvironmentLoader
 {
 public:
-    static Environment* CreateEnvironnement(std::string pathToFile);
+    static Environment* CreateEnvironment(std::string& pathToFile);
 };
 

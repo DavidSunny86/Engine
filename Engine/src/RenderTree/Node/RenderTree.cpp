@@ -9,10 +9,6 @@
 
 RenderTree::RenderTree(AbstractNode* parent) : CompositeNode(parent)
 {
-    children_.push_back(new Human(this));
-    Plan* p = new Plan(this);
-    p->Position(glm::vec3(0,0,-20));
-    children_.push_back(p);
 }
 
 

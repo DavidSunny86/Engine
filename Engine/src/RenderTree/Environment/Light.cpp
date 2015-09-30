@@ -19,10 +19,10 @@ void Light::TransformPosition(const glm::mat4& modelView)
 
 void Light::Apply(glm::mat4& view, glm::mat4& projection)
 {
-    projection = glm::perspective<float>(90.f,1.f, 1,70);
+    //projection = glm::perspective<float>(90.f,1.f, 20,100);
     projection = glm::ortho<float>(-50, 50, -50, 50, 1, 100);
     projection_ = projection;
-    view = glm::lookAt(glm::vec3(position_), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
+    view = glm::lookAt(glm::vec3(position_), glm::vec3(0, 0, 0), glm::vec3(0, 1, 1));
     view_ = view;
     dephtBiasMVP_ = glm::mat4(
         0.5, 0.0, 0.0, 0.0,
@@ -47,8 +47,7 @@ void Light::GenerateDepthTexture()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
-    /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);*/
+
     glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadowMap_, 0);
     glDrawBuffer(GL_NONE);
 

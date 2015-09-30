@@ -5,7 +5,6 @@
 Plan::Plan(AbstractNode* parent) : AbstractNode(parent)
 {
     model_ = ModelManager::Instance()->GetModel(std::string("Plan"));
-    rotation_[0] = 3.1416 / 2;
 }
 
 
@@ -15,7 +14,6 @@ Plan::~Plan()
 
 void Plan::Update(double deltaT)
 {
-    //rotation_[0] += 0.6f * (float)deltaT;
 }
 
 void Plan::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
