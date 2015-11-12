@@ -13,7 +13,7 @@ StaticCamera::~StaticCamera()
 
 void StaticCamera::Apply(glm::mat4& view, glm::mat4& projection)
 {
-    position_[0] -= 0.1;
+    //position_[0] -= 0.1;
     ApplyPerspective(projection);
     view = glm::lookAt(position_, lookAt_, up_);
 }

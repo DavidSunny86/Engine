@@ -4,7 +4,7 @@
 
 Human::Human(AbstractNode* parent) : AbstractNode(parent)
 {
-    model_ = ModelManager::Instance()->GetModel(std::string("Human"));
+    model_ = ModelManager::Instance()->GetModel(std::string("SeaFloor"));
 }
 
 
@@ -14,7 +14,6 @@ Human::~Human()
 
 void Human::Update(double deltaT)
 {
-    rotation_[1] += 0.6f * (float)deltaT;
 }
 
 void Human::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
