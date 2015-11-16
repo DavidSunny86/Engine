@@ -11,7 +11,7 @@ public:
     ~ModelManager();
 
     static ModelManager* Instance();
-    Model3D* GetModel(std::string& name);
+    Model3D* GetModel(const std::string& name);
 protected:
     ModelManager();
     void LoadModels(std::string& path);

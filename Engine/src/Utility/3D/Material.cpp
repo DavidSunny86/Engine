@@ -16,8 +16,8 @@ void Material::ApplyMaterial(GLSLProgram* program)
 {
     glUniform4fv(program->GetUniformLocation("materialAmbient"), 1, glm::value_ptr(ambient_));
     glUniform4fv(program->GetUniformLocation("materialDiffuse"), 1, glm::value_ptr(diffuse_));
-    //glUniform4fv(program->GetUniformLocation("materialSpecular"), 1, glm::value_ptr(specular_));
-    glUniform4fv(program->GetUniformLocation("materialEmission"), 1, glm::value_ptr(emissive_));
+    glUniform4fv(program->GetUniformLocation("materialSpecular"), 1, glm::value_ptr(specular_));
+    //glUniform4fv(program->GetUniformLocation("materialEmission"), 1, glm::value_ptr(emissive_));
     glUniform1f(program->GetUniformLocation("shininess"), shininess_);
     ApplyTextures(program);
 }
@@ -28,7 +28,7 @@ void Material::ApplyTextures(GLSLProgram* program)
     if (it != textures_.end())
     {
         glActiveTexture(GL_TEXTURE7);
-        glBindTexture(GL_TEXTURE_2D, it->second->ID());
+        //glBindTexture(GL_TEXTURE_2D, it->second->ID());
         glUniform1i(program->GetUniformLocation("diffuseTexture"),7);
     }
     it = textures_.find(Specular);

@@ -10,7 +10,7 @@
 Model3D::Model3D(std::string pathToFile)
 {
     pathToFile_ = pathToFile;
-    LoadModel();
+    isLoaded_ = false;
 }
 
 Model3D::~Model3D()
@@ -42,7 +42,6 @@ void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p,
         glUniform4fv(program_->GetUniformLocation("lightSpecularColor"), 1, glm::value_ptr(light->specularColor_));
         glUniform4fv(program_->GetUniformLocation("lightPosition"), 1, glm::value_ptr(light->position_));
         glUniform1f(program_->GetUniformLocation("lightIntensity"), light->power_);
-
         for (auto mesh : meshes_)
         {
             mesh->Render(program_);
@@ -77,14 +76,6 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
     }
 }
 
-void Model3D::ReloadModel()
-{
-    DeleteMeshes();
-    materials_.clear();
-
-    LoadModel();
-}
-
 void Model3D::Program(GLSLProgram* program)
 {
     program_ = program;
@@ -115,6 +106,12 @@ void Model3D::LoadModel()
         meshes_.push_back(new Mesh(mesh));
         meshes_[i]->SetMaterial(materials_[mesh->mMaterialIndex]);
     }
+    isLoaded_ = true;
+}
+
+bool Model3D::IsLoaded()
+{
+    return isLoaded_;
 }
 
 void Model3D::DeleteMeshes()

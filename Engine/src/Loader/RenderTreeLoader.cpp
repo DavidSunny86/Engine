@@ -14,6 +14,7 @@ RenderTree* RenderTreeLoader::CreateRenderTree(std::string& pathToFile)
         std::string nodeType = child->Value();
         AbstractNode* newNode = NodeFactory::CreateNode(nodeType, renderTree);
 
+
         float x, y, z;
         tinyxml2::XMLElement* element = child->FirstChildElement("Position");
         x = element->FloatAttribute("x");
@@ -30,8 +31,12 @@ RenderTree* RenderTreeLoader::CreateRenderTree(std::string& pathToFile)
         y = element->FloatAttribute("y");
         z = element->FloatAttribute("z");
         newNode->Scale(glm::vec3(x, y, z));
-        renderTree->AddChild(newNode);
         
+        std::string model;
+        element = child->FirstChildElement("Model");
+        model = element->Attribute("Name");
+        newNode->Model(model);
+        renderTree->AddChild(newNode);
         child = child->NextSibling();
     }
     return renderTree;

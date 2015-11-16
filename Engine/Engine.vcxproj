@@ -179,6 +179,7 @@
     <ClCompile Include="src\Utility\3D\Texture.cpp" />
     <ClCompile Include="src\Utility\Window.cpp" />
     <ClCompile Include="src\Utility\Camera\StaticCamera.cpp" />
+    <ClCompile Include="src\RenderTree\Node\Water.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Loader\NodeFactory.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="src\Utility\3D\Texture.h" />
     <ClInclude Include="src\Utility\Window.h" />
     <ClInclude Include="src\Utility\Camera\StaticCamera.h" />
+    <ClInclude Include="src\RenderTree\Node\Water.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\FirstPassFragment.glsl" />
@@ -216,10 +218,19 @@
     <None Include="data\Shaders\RomanVertex.glsl" />
     <None Include="data\Shaders\ShadowMapFragment.glsl" />
     <None Include="data\Shaders\ShadowMapVertex.glsl" />
+    <None Include="data\Shaders\WaterFragment.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="data\Models\Models.xml" />
-    <Xml Include="data\Scenes\MainEnvironment.xml" />
+    <Xml Include="data\Models\Models.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="data\Scenes\MainEnvironment.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="data\Scenes\MainRenderTree.xml">
+      <SubType>Designer</SubType>
+    </Xml>
+    <Xml Include="data\Scenes\Scenes.xml" />
     <Xml Include="data\Shaders\Programs.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

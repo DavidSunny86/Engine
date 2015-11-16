@@ -22,7 +22,6 @@ void main()
 {
 	gl_Position = MVP * vec4(vertexPosition, 1.0);
 	shadowCoord = depthMVP * vec4(vertexPosition,1.0);
-
 	vec4 MVPosition = MV * vec4(vertexPosition,1.0);
 	Normal = normalMatrix * inNormal;
 	DirLum =  (lightPosition.xyz - (vertexPosition * lightPosition.w)).xyz;

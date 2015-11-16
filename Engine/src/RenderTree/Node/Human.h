@@ -14,6 +14,5 @@ public:
     virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
     virtual void RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
 protected:
-    Model3D* model_;
 };
 

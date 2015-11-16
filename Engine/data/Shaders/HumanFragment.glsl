@@ -23,7 +23,7 @@ in vec3 DirLum;
 in vec3 vecYeux;
 in vec2 UV;
 in vec4 shadowCoord;
-out vec4 color;
+layout(location=0) out vec4 color;
 
 uniform vec4 lightAmbientColor;
 uniform vec4 lightDiffuseColor;

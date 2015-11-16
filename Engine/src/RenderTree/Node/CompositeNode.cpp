@@ -33,6 +33,7 @@ int CompositeNode::NumberOfChildren() const
 
 void CompositeNode::AddChild(AbstractNode * child)
 {
+    child->Parent(this);
     children_.push_back(child);
 }
 

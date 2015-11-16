@@ -5,6 +5,7 @@
 #include <glm\gtc\matrix_transform.hpp>
 #include "OpenGL\GLSLProgram.h"
 #include "RenderTree\Environment\Environment.h"
+#include "Utility\3D\Model3D.h"
 
 class AbstractNode
 {
@@ -20,6 +21,7 @@ public:
 
     //Tree Functionality
     AbstractNode* Parent() const;
+    void Parent(AbstractNode* parent);
     virtual int Depth() const;
     virtual int NumberOfChildren() const;
     virtual void AddChild(AbstractNode* child);
@@ -30,15 +32,18 @@ public:
     glm::vec3& Position();
     glm::vec3& Rotation();
     glm::vec3& Scale();
+    Model3D* Model();
 
     void Position(const glm::vec3& position);
     void Rotation(const glm::vec3& rotation);
     void Scale(const glm::vec3& scale);
+    void Model(const std::string& name);
 protected:
     glm::vec3 position_;
     glm::vec3 rotation_;
     glm::vec3 scale_;
 
     AbstractNode* parent_;
+    Model3D* model_;
 };
 

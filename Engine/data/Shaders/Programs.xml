@@ -4,4 +4,5 @@
 	<Cube Vertex="HumanVertex.glsl" Fragment="HumanFragment.glsl"/>
 	<ShadowMap Vertex="ShadowMapVertex.glsl" Fragment="ShadowMapFragment.glsl"/>
 	<FirstPass Vertex="FirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
+    <Water Vertex="HumanVertex.glsl" Fragment="WaterFragment.glsl"/>
 </Programs>

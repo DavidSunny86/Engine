@@ -4,7 +4,6 @@
 
 Plan::Plan(AbstractNode* parent) : AbstractNode(parent)
 {
-    model_ = ModelManager::Instance()->GetModel(std::string("Water"));
 }
 
 

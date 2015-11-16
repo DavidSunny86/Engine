@@ -1,6 +1,6 @@
 #include "AbstractNode.h"
 #include "GL\glew.h"
-
+#include "Manager/ModelManager.h"
 
 AbstractNode::AbstractNode(AbstractNode* parent)
 {
@@ -29,6 +29,11 @@ void AbstractNode::ApplyTransformation(glm::mat4& model)
 AbstractNode * AbstractNode::Parent() const
 {
     return parent_;
+}
+
+void AbstractNode::Parent(AbstractNode* parent)
+{
+    parent_ = parent;
 }
 
 int AbstractNode::Depth() const
@@ -66,6 +71,16 @@ glm::vec3 & AbstractNode::Rotation()
 glm::vec3 & AbstractNode::Scale()
 {
     return scale_;
+}
+
+void AbstractNode::Model(const std::string& name)
+{
+    model_ = ModelManager::Instance()->GetModel(name);
+}
+
+Model3D* AbstractNode::Model()
+{
+    return model_;
 }
 
 void AbstractNode::Position(const glm::vec3 & position)

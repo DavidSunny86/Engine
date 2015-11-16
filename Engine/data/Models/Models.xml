@@ -1,5 +1,6 @@
 <Models>
 	<Human File="FinalBaseMesh.obj" Program="Human"/>
-	<IronMan File="Mark 42.obj" Program="IronMan"/>
+    <IronMan File="Mark 42.obj" Program="IronMan"/>
+	<Water File="Water.dae" Program="Water"/>
 	<Plan File="Plan.stl" Program="Human"/>
 </Models>

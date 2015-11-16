@@ -45,11 +45,16 @@ ModelManager* ModelManager::Instance()
     return instance_;
 }
 
-Model3D* ModelManager::GetModel(std::string& name)
+Model3D* ModelManager::GetModel(const std::string& name)
 {
     auto model = models_.find(name);
     if (model != models_.end())
+    {
+        if (!(*model).second->IsLoaded())
+            ((*model).second->LoadModel());
         return (*model).second;
+    }
+
     else
         return NULL;
 }
