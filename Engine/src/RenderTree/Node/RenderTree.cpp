@@ -50,3 +50,11 @@ void RenderTree::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const g
     }
     glCullFace(GL_BACK);
 }
+
+void RenderTree::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
+{
+    for (auto child : children_)
+    {
+        child->RenderReflection(model, view, projection,environnement,clipPlane);
+    }
+}

@@ -185,6 +185,7 @@
     <None Include="data\Shaders\FirstPassFragment.glsl" />
     <None Include="data\Shaders\IronManFragment.glsl" />
     <None Include="data\Shaders\WaterFragment.glsl" />
+    <None Include="data\Shaders\WaterVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Shaders\Programs.xml" />

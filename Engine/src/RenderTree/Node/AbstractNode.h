@@ -14,11 +14,12 @@ public:
     virtual ~AbstractNode();
 
     virtual void Update(double deltaT) = 0;
-    virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement) = 0;
-    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection) = 0;
-    virtual void RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection) = 0;
+    virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
+    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
+    virtual void RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
+    virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane);
     void ApplyTransformation(glm::mat4& model);
-
+    void ApplyReflectionTransformation(glm::mat4& model);
     //Tree Functionality
     AbstractNode* Parent() const;
     void Parent(AbstractNode* parent);

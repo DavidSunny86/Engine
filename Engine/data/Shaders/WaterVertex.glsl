@@ -1,5 +1,4 @@
 #version 440
-#extension GL_ARB_separate_shader_objects : enable
 
 layout(location = 0) in vec3 vertexPosition;
 layout(location = 1) in vec3 inNormal;
@@ -17,7 +16,6 @@ uniform mat4 V;
 uniform mat4 depthMVP;
 uniform mat3 normalMatrix;
 uniform vec4 lightPosition;
-uniform vec4 clipPlane;
 
 void main()
 {
@@ -28,5 +26,4 @@ void main()
 	DirLum =  (lightPosition.xyz - (vertexPosition * lightPosition.w)).xyz;
 	vecYeux = -MVPosition.xyz;
 	UV = uvCoord;
-	gl_ClipDistance[0] = dot(MVPosition,clipPlane);
 }

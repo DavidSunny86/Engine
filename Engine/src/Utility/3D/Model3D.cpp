@@ -3,6 +3,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 
 #include "Model3D.h"
 #include "RenderTree\Environment\Environment.h"
@@ -74,6 +75,43 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
     {
         mesh->RenderNoMaterial();
     }
+}
+
+void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane)
+{
+    RenderFirstPass(m, v, p);
+    glUseProgram(program_->ID());
+    glm::mat4 mv = v * m;
+    glm::mat4 mvp = p * mv;
+    glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(mv)));
+    glUniformMatrix4fv(program_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
+    glUniformMatrix4fv(program_->GetUniformLocation("MV"), 1, GL_FALSE, glm::value_ptr(mv));
+    glUniformMatrix3fv(program_->GetUniformLocation("normalMatrix"), 1, GL_FALSE, glm::value_ptr(normalMatrix));
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    for (auto light : e->lights_)
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, light->shadowMap_);
+        glUniform1i(program_->GetUniformLocation("shadowMap"), 0);
+        glm::mat4 depthMVP = light->projection_ * light->view_ * m;
+        depthMVP = light->dephtBiasMVP_ * depthMVP;
+        depthMVP = glm::scale(depthMVP, glm::vec3(1, -1, 1));
+        glUniformMatrix4fv(program_->GetUniformLocation("depthMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
+        glUniform4fv(program_->GetUniformLocation("lightAmbientColor"), 1, glm::value_ptr(light->ambientColor_));
+        glUniform4fv(program_->GetUniformLocation("lightDiffuseColor"), 1, glm::value_ptr(light->diffuseColor_));
+        glUniform4fv(program_->GetUniformLocation("lightSpecularColor"), 1, glm::value_ptr(light->specularColor_));
+        glm::vec4 lightPosition = light->position_;
+        lightPosition.y = -lightPosition.y;
+        glUniform4fv(program_->GetUniformLocation("lightPosition"), 1, glm::value_ptr(lightPosition));
+        glUniform1f(program_->GetUniformLocation("lightIntensity"), light->power_);
+        glUniform4fv(program_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
+        for (auto mesh : meshes_)
+        {
+            mesh->Render(program_);
+        }
+    }
+    glDisable(GL_BLEND);
 }
 
 void Model3D::Program(GLSLProgram* program)

@@ -219,6 +219,7 @@
     <None Include="data\Shaders\ShadowMapFragment.glsl" />
     <None Include="data\Shaders\ShadowMapVertex.glsl" />
     <None Include="data\Shaders\WaterFragment.glsl" />
+    <None Include="data\Shaders\WaterVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Models\Models.xml">

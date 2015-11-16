@@ -3,7 +3,6 @@
 #include "IL/il.h"
 Water::Water(AbstractNode* parent) : AbstractNode(parent)
 {
-    isRenderingReflection_ = false;
     width_ = 2048;
     height_ = 2048;
     CreateBuffer();
@@ -16,7 +15,7 @@ Water::~Water()
 
 void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
 {
-    if (parent_ != nullptr && !isRenderingReflection_)
+    if (parent_ != nullptr)
     {
         glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
         glViewport(0, 0, width_, height_);
@@ -24,10 +23,11 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glm::mat4 projectionReflection = glm::perspective<float>(45, 1.00001, 1,1000);
         glm::mat4 modelReflection = model;
         ApplyReflectionTransformation(modelReflection);
-        isRenderingReflection_ = true;
-        parent_->RenderFirstPass(modelReflection, view, projection);
-        parent_->Render(modelReflection, view, projection, environnement);
-        isRenderingReflection_ = false;
+        glEnable(GL_CLIP_DISTANCE0);
+        glm::vec4 clipPlane = glm::vec4(0, 0, 0, 0);
+        parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane);
+        glDisable(GL_CLIP_DISTANCE0);
+        
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, 1920, 1080);
         glActiveTexture(GL_TEXTURE7);
@@ -37,17 +37,9 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
     }
 }
 
-void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
-    if (!isRenderingReflection_)
-    {
-        ApplyTransformation(model);
-        model_->RenderFirstPass(model, view, projection);
-    }
-}
 
-void Water::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
-{
 }
 
 void Water::Update(double deltaT)
