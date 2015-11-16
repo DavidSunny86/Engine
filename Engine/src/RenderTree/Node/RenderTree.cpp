@@ -5,15 +5,18 @@
 #include "RenderTree.h"
 #include "RenderTree/Node/Human.h"
 #include "RenderTree/Node/Plan.h"
+#include "RenderTree/Node/Skybox.h"
 #include "Manager/ModelManager.h"
 
 RenderTree::RenderTree(AbstractNode* parent) : CompositeNode(parent)
 {
+    skybox_ = new Skybox(this);
 }
 
 
 RenderTree::~RenderTree()
 {
+    delete skybox_;
 }
 
 void RenderTree::Update(double deltaT)
@@ -30,6 +33,7 @@ void RenderTree::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4&
     {
         child->Render(model, view, projection, environnement);
     }
+    skybox_->Render(model, view, projection, environnement);
 }
 
 void RenderTree::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
@@ -57,4 +61,5 @@ void RenderTree::RenderReflection(glm::mat4 model, const glm::mat4& view, const 
     {
         child->RenderReflection(model, view, projection,environnement,clipPlane);
     }
+    skybox_->RenderReflection(model, view, projection, environnement, clipPlane);
 }

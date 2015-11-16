@@ -13,7 +13,7 @@ public:
     AbstractNode(AbstractNode* parent);
     virtual ~AbstractNode();
 
-    virtual void Update(double deltaT) = 0;
+    virtual void Update(double deltaT);
     virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
     virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
     virtual void RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);

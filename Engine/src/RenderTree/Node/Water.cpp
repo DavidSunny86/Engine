@@ -20,7 +20,7 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
         glViewport(0, 0, width_, height_);
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glm::mat4 projectionReflection = glm::perspective<float>(45, 1.00001, 1,1000);
+        glm::mat4 projectionReflection = glm::perspective<float>(45.f, 1.00001f, 1.f,1000.f);
         glm::mat4 modelReflection = model;
         ApplyReflectionTransformation(modelReflection);
         glEnable(GL_CLIP_DISTANCE0);

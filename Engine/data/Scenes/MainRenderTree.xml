@@ -6,12 +6,6 @@
         <Model Name="Water"/>
     </Water>
     <Human>
-        <Position x="0" y ="10" z="0"/>
-        <Rotation x="0" y="0" z="0"/>
-        <Scale x="1" y="1" z="1"/>
-        <Model Name="Human"/>
-    </Human>
-    <Human>
         <Position x="10" y ="0" z="5"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="1" y="1" z="1"/>
@@ -23,4 +17,11 @@
         <Scale x="1" y="1" z="1"/>
         <Model Name="Human"/>
     </Human>
+    <Human>
+        <Position x="0" y ="10" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Model Name="Human"/>
+    </Human>
 </RenderTree>
+

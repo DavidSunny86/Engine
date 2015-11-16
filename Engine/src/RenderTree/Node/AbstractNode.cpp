@@ -15,6 +15,11 @@ AbstractNode::~AbstractNode()
         parent_->RemoveChild(this);
 }
 
+void AbstractNode::Update(double deltaT)
+{
+
+}
+
 void AbstractNode::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
 {
     ApplyTransformation(model);

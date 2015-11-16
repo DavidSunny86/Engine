@@ -7,8 +7,6 @@ class Human :
 public:
     Human(AbstractNode* parent);
     ~Human();
-
-    virtual void Update(double deltaT);
 protected:
 };
 

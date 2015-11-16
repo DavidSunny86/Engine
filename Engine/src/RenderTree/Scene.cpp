@@ -26,7 +26,6 @@ void Scene::Render()
         light->UseFrameBuffer();
         renderTree_->RenderShadowMap(model, view, projection);
     }
-
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, 1920, 1080);
     camera_->Apply(view, projection);

@@ -96,6 +96,9 @@
     <ClCompile Include="src\RenderTree\Node\Water.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\RenderTree\Node\Skybox.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utility\Window.h">
@@ -173,6 +176,9 @@
     <ClInclude Include="src\RenderTree\Node\Water.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\RenderTree\Node\Skybox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\HumanVertex.glsl" />
@@ -186,6 +192,8 @@
     <None Include="data\Shaders\IronManFragment.glsl" />
     <None Include="data\Shaders\WaterFragment.glsl" />
     <None Include="data\Shaders\WaterVertex.glsl" />
+    <None Include="data\Shaders\SkyboxVertex.glsl" />
+    <None Include="data\Shaders\SkyboxFragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Shaders\Programs.xml" />
