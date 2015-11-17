@@ -23,8 +23,7 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glBindFramebuffer(GL_FRAMEBUFFER, fbo_);
         glViewport(0, 0, width_, height_);
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glm::mat4 projectionReflection = glm::perspective<float>(45.f, 1.00001f, 1.f,1000.f);
-        glm::mat4 modelReflection = model;
+        glm::mat4 modelReflection = glm::mat4(1);
         ApplyReflectionTransformation(modelReflection);
         glEnable(GL_CLIP_DISTANCE0);
         glm::vec4 clipPlane = glm::vec4(0, 0, 0, 0);
@@ -51,10 +50,8 @@ void Water::Update(double deltaT)
 
 void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
 {
-    glm::mat4 transformation = glm::mat4(1);
-    transformation = glm::translate(transformation, position_);
-    transformation = glm::scale(transformation, glm::vec3(-1, -1, 1));
-    modelReflection = transformation * modelReflection;
+    modelReflection = glm::translate(modelReflection, position_);
+    modelReflection = glm::scale(modelReflection, glm::vec3(1, -1, 1));
 }
 
 void Water::CreateBuffer()

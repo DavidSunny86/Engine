@@ -79,6 +79,7 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
 
 void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane)
 {
+    m = glm::scale(m, glm::vec3(-1, 1, 1));
     RenderFirstPass(m, v, p);
     glUseProgram(program_->ID());
     glm::mat4 mv = v * m;

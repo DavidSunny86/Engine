@@ -40,32 +40,17 @@ void AbstractNode::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const
 
 void AbstractNode::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
-    ApplyReflectionTransformation(model);
+    ApplyTransformation(model);
     model_->RenderReflection(model, view, projection, environnement, clipPlane);
 }
 
 void AbstractNode::ApplyTransformation(glm::mat4& model)
 {
-    glm::mat4 transformation = glm::mat4(1);
-    transformation = glm::translate(transformation, position_);
-    transformation = glm::rotate(transformation, rotation_[0], glm::vec3(1, 0, 0));
-    transformation = glm::rotate(transformation, rotation_[2], glm::vec3(0, 0, 1));
-    transformation = glm::rotate(transformation, rotation_[1], glm::vec3(0, 1, 0));
-    transformation = glm::scale(transformation, scale_);
-    model = transformation * model;
-}
-
-void AbstractNode::ApplyReflectionTransformation(glm::mat4& model)
-{
-    glm::mat4 transformation = glm::mat4(1);
-    glm::vec3 tempPosition = position_;
-    tempPosition.y = -tempPosition.y;
-    transformation = glm::translate(transformation, tempPosition);
-    transformation = glm::rotate(transformation, rotation_[0], glm::vec3(1, 0, 0));
-    transformation = glm::rotate(transformation, rotation_[2], glm::vec3(0, 0, 1));
-    transformation = glm::rotate(transformation, rotation_[1], glm::vec3(0, 1, 0));
-    transformation = glm::scale(transformation, scale_);
-    model = transformation * model;
+    model = glm::translate(model, position_);
+    model = glm::rotate(model, rotation_[0], glm::vec3(1, 0, 0));
+    model = glm::rotate(model, rotation_[2], glm::vec3(0, 0, 1));
+    model = glm::rotate(model, rotation_[1], glm::vec3(0, 1, 0));
+    model = glm::scale(model, scale_);
 }
 
 AbstractNode * AbstractNode::Parent() const
