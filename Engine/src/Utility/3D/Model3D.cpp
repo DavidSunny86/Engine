@@ -41,7 +41,7 @@ void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p,
         glUniform4fv(program_->GetUniformLocation("lightAmbientColor"), 1, glm::value_ptr(light->ambientColor_));
         glUniform4fv(program_->GetUniformLocation("lightDiffuseColor"), 1, glm::value_ptr(light->diffuseColor_));
         glUniform4fv(program_->GetUniformLocation("lightSpecularColor"), 1, glm::value_ptr(light->specularColor_));
-        glUniform4fv(program_->GetUniformLocation("lightPosition"), 1, glm::value_ptr(light->position_));
+        glUniform4fv(program_->GetUniformLocation("lightPosition"), 1, glm::value_ptr(light->transformedPosition_));
         glUniform1f(program_->GetUniformLocation("lightIntensity"), light->power_);
         for (auto mesh : meshes_)
         {
@@ -101,7 +101,7 @@ void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4&
         glUniform4fv(program_->GetUniformLocation("lightAmbientColor"), 1, glm::value_ptr(light->ambientColor_));
         glUniform4fv(program_->GetUniformLocation("lightDiffuseColor"), 1, glm::value_ptr(light->diffuseColor_));
         glUniform4fv(program_->GetUniformLocation("lightSpecularColor"), 1, glm::value_ptr(light->specularColor_));
-        glm::vec4 lightPosition = light->position_;
+        glm::vec4 lightPosition = light->transformedPosition_;
         lightPosition.y = -lightPosition.y;
         glUniform4fv(program_->GetUniformLocation("lightPosition"), 1, glm::value_ptr(lightPosition));
         glUniform1f(program_->GetUniformLocation("lightIntensity"), light->power_);
