@@ -26,7 +26,7 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glm::mat4 modelReflection = glm::mat4(1);
         ApplyReflectionTransformation(modelReflection);
         glEnable(GL_CLIP_DISTANCE0);
-        glm::vec4 clipPlane = glm::vec4(0, 0, 0, 0);
+        glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
         parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane);
         glDisable(GL_CLIP_DISTANCE0);
         
