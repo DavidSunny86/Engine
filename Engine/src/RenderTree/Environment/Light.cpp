@@ -10,6 +10,8 @@ Light::Light()
 
 Light::~Light()
 {
+    glDeleteBuffers(1, &framebuffer_);
+    glDeleteTextures(1, &shadowMap_);
 }
 
 void Light::TransformPosition(const glm::mat4& modelView)

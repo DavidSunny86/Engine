@@ -10,3 +10,7 @@ Human::Human(AbstractNode* parent) : AbstractNode(parent)
 Human::~Human()
 {
 }
+
+void Human::Update(double deltaT)
+{
+}

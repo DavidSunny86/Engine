@@ -11,6 +11,8 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
 
 Water::~Water()
 {
+    glDeleteBuffers(1, &fbo_);
+    glDeleteTextures(1, &reflectionTexture_);
 }
 
 void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)

@@ -4,7 +4,7 @@
 
 Engine::Engine()
 {
-    window_ = new Window("Engine", 1920, 1080, false, false);
+    window_ = new Window("Engine", 1920, 1080, false, true);
     scene_ = new Scene();
 }
 
