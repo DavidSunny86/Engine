@@ -7,8 +7,12 @@ CompositeNode::CompositeNode(AbstractNode* parent) : AbstractNode(parent)
 
 CompositeNode::~CompositeNode()
 {
-    for (auto child : children_)
-        delete child;
+    for (auto it = children_.begin(); it != children_.end();)
+    {
+        AbstractNode* a = *it;
+        it = children_.erase(it);
+        delete a;
+    }
 }
 
 int CompositeNode::Depth() const

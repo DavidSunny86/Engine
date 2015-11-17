@@ -13,6 +13,9 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+    delete renderTree_;
+    delete environment_;
+    delete camera_;
 }
 
 void Scene::Render()

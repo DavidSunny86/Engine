@@ -12,6 +12,7 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
 Water::~Water()
 {
     glDeleteBuffers(1, &fbo_);
+    glDeleteRenderbuffers(1, &depthBuffer_);
     glDeleteTextures(1, &reflectionTexture_);
 }
 
