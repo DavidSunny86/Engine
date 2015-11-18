@@ -67,7 +67,7 @@ Skybox::~Skybox()
 {
 }
 
-void Skybox::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
+void Skybox::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
     GLSLProgram* skyboxProgram = GLSLProgramManager::Instance()->GetProgram("Skybox");
     glUseProgram(skyboxProgram->ID());

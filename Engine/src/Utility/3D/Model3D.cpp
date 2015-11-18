@@ -19,7 +19,7 @@ Model3D::~Model3D()
     DeleteMeshes();
 } 
 
-void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e)
+void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane)
 {
     glUseProgram(program_->ID());
     glm::mat4 mv = v * m;
@@ -27,6 +27,7 @@ void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p,
     glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(mv)));
     glUniformMatrix4fv(program_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     glUniformMatrix4fv(program_->GetUniformLocation("MV"), 1, GL_FALSE, glm::value_ptr(mv));
+    glUniformMatrix4fv(program_->GetUniformLocation("M"), 1, GL_FALSE, glm::value_ptr(m));
     glUniformMatrix3fv(program_->GetUniformLocation("normalMatrix"), 1, GL_FALSE, glm::value_ptr(normalMatrix));
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);

@@ -27,11 +27,11 @@ void RenderTree::Update(double deltaT)
     }
 }
 
-void RenderTree::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
+void RenderTree::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
     for (auto child : children_)
     {
-        child->Render(model, view, projection, environnement);
+        child->Render(model, view, projection, environnement, clipPlane);
     }
     skybox_->Render(model, view, projection, environnement);
 }

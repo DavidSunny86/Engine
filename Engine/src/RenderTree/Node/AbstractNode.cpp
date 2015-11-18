@@ -20,10 +20,10 @@ void AbstractNode::Update(double deltaT)
 
 }
 
-void AbstractNode::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
+void AbstractNode::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
     ApplyTransformation(model);
-    model_->Render(model, view, projection, environnement);
+    model_->Render(model, view, projection, environnement, clipPlane);
 }
 
 void AbstractNode::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
