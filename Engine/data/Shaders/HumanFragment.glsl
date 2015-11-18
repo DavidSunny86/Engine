@@ -35,13 +35,6 @@ uniform vec4 materialSpecular;
 uniform vec4 materialEmission;
 uniform float shininess;
 
-float random(vec3 seed, int i){
-	vec4 seed4 = vec4(seed,i);
-	float dot_product = dot(seed4, vec4(12.9898,78.233,45.164,94.673));
-	return fract(sin(dot_product) * 43758.5453);
-}
-
-
 uniform sampler2DShadow shadowMap;
 void main()
 {	
@@ -51,8 +44,8 @@ void main()
 	float cosTheta = clamp( dot( N,L ), 0,1 );
 	float bias = clamp(0.005 * tan(acos(cosTheta)),0.0,0.1);
 	float visibility = 1.0;
-	for (int i=0;i<4;++i){
-		visibility -= 0.2*(1.0-texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/700.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
+	for (int i=0;i<16;++i){
+		visibility -= 0.04*(1.0-texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/1000.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
 	}
 
 

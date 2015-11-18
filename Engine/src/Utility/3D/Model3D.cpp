@@ -106,7 +106,6 @@ void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4&
         glUniform1i(programShadowMapLocation_, 0);
         glm::mat4 depthMVP = light->projection_ * light->view_ * m;
         depthMVP = light->dephtBiasMVP_ * depthMVP;
-        depthMVP = glm::scale(depthMVP, glm::vec3(1, -1, 1));
         glUniformMatrix4fv(programDepthMVPLocation_, 1, GL_FALSE, glm::value_ptr(depthMVP));
         glUniform4fv(programLightAmbientColorLocation_, 1, glm::value_ptr(light->ambientColor_));
         glUniform4fv(programLightDiffuseColorLocation_, 1, glm::value_ptr(light->diffuseColor_));

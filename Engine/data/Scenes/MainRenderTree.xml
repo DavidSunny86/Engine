@@ -8,8 +8,8 @@
     <Human>
         <Position x="10" y ="0" z="5"/>
         <Rotation x="0" y="0" z="0"/>
-        <Scale x="1" y="1" z="1"/>
-        <Model Name="Human"/>
+        <Scale x="10" y="10" z="10"/>
+        <Model Name="IronMan"/>
     </Human>
     <Human>
         <Position x="-10" y ="0" z="-5"/>
