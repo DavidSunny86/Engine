@@ -44,6 +44,9 @@ float random(vec3 seed, int i){
 
 uniform sampler2DShadow shadowMap;
 uniform sampler2D diffuseTexture;
+uniform sampler2D reflectionTexture;
+uniform sampler2D refractionTexture;
+
 void main()
 {	
 	vec3 N = normalize(Normal);
@@ -66,7 +69,9 @@ void main()
 	float lambert = dot(N,L);
 	if(lambert > 0.0)
 	{
-		color += clamp((visibility * materialDiffuse * lambert * lightDiffuseColor * lightIntensity * texture(diffuseTexture,screenSpace)) / distanceSquared,0.0,1.0);
+		vec4 diffuseFactor = visibility * materialDiffuse * lambert * lightDiffuseColor * lightIntensity / distanceSquared;
+		color += clamp((diffuseFactor * texture(diffuseTexture,UV) * texture(refractionTexture,screenSpace)),0.0,1.0);
+		color += clamp((diffuseFactor * texture(reflectionTexture,screenSpace)),0.0,1.0);
 		vec3 E = normalize(vecYeux);
 		vec3 R = reflect(-L,N);
 		float specular = pow(max(dot(R,E),0.0), shininess) * 0.5;

@@ -6,6 +6,7 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
     textureWidth_ = 2048;
     textureHeight_ = 2048;
     renderingWater_ = false;
+    waterProgram_ = GLSLProgramManager::Instance()->GetProgram("Water");
     CreateBuffers();
 }
 
@@ -45,7 +46,16 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, 1920, 1080);
         glActiveTexture(GL_TEXTURE7);
+
+        glUseProgram(waterProgram_->ID());
+        glActiveTexture(GL_TEXTURE1);
+        glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, reflectionTexture_);
+        glActiveTexture(GL_TEXTURE2);
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, refractionTexture_);
+        glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
+        glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
         ApplyTransformation(model);
         model_->Render(model, view, projection, environnement);
         renderingWater_ = false;

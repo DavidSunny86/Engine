@@ -26,7 +26,7 @@ GLint GLSLProgram::GetUniformLocation(std::string name)
     auto it = uniforms_.find(name);
     if (it == uniforms_.end())
     {
-        GLint location = glGetUniformLocation(id_, name.c_str());
+        location = glGetUniformLocation(id_, name.c_str());
         
         if (location == -1)
             std::cout << "Uniform: " + name + " doesn't exist in program" << std::endl;

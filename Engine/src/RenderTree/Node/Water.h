@@ -1,5 +1,6 @@
 #pragma once
 #include "RenderTree\Node\AbstractNode.h"
+#include "Manager\GLSLProgramManager.h"
 class Water :
     public AbstractNode
 {
@@ -26,5 +27,7 @@ private:
 
     GLuint textureWidth_;
     GLuint textureHeight_;
+
+    GLSLProgram* waterProgram_;
 };
 

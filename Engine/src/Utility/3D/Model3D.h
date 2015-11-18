@@ -23,10 +23,36 @@ public:
 protected:
     void DeleteMeshes();
 
+
     std::vector<Material*> materials_;
     std::vector<Mesh*> meshes_;
     std::string pathToFile_;
     GLSLProgram* program_;
+    GLSLProgram* firstPassProgram_;
+    GLSLProgram* shadowMapProgram_;
+
+
+
+    GLint firstPassMVPLocation_;
+    GLint firstPassMLocation_;
+    GLint firstPassClipPlaneLocation_;
+
+    GLint shadowMapDepthMVPLocation_;
+    
+    GLint programMVPLocation_;
+    GLint programMVLocation_;
+    GLint programMLocation_;
+    GLint programNormalMatrixLocation_;
+    GLint programClipPlaneLocation_;
+
+    GLint programShadowMapLocation_;
+    GLint programDepthMVPLocation_;
+    GLint programLightAmbientColorLocation_;
+    GLint programLightDiffuseColorLocation_;
+    GLint programLightSpecularColorLocation_;
+    GLint programLightPositionLocation_;
+    GLint programLightIntensityLocation_;
+
     bool isLoaded_;
 };
 

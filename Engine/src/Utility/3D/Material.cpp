@@ -28,7 +28,7 @@ void Material::ApplyTextures(GLSLProgram* program)
     if (it != textures_.end())
     {
         glActiveTexture(GL_TEXTURE7);
-        //glBindTexture(GL_TEXTURE_2D, it->second->ID());
+        glBindTexture(GL_TEXTURE_2D, it->second->ID());
         glUniform1i(program->GetUniformLocation("diffuseTexture"),7);
     }
     it = textures_.find(Specular);
