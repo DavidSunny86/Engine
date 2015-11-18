@@ -40,6 +40,7 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         modelReflection = glm::mat4(1);
         clipPlane = glm::vec4(0, 0, 0, 0);
+        parent_->RenderFirstPass(modelReflection, view, projection);
         parent_->Render(modelReflection, view, projection, environnement, clipPlane);
         glDisable(GL_CLIP_DISTANCE0);
         error = glGetError();
@@ -65,6 +66,15 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
 void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
 
+}
+
+void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+{
+    if (!renderingWater_)
+    {
+        ApplyTransformation(model);
+        model_->RenderFirstPass(model, view, projection);
+    }
 }
 
 void Water::Update(double deltaT)
