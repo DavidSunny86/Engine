@@ -123,10 +123,10 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
         switch (key)
         {
         case GLFW_KEY_RIGHT:
-            Constant::theta += DEG2RAD(2.0f);
+            Constant::theta -= DEG2RAD(2.0f);
             break;
         case GLFW_KEY_LEFT:
-            Constant::theta -= DEG2RAD(2.0f);
+            Constant::theta += DEG2RAD(2.0f);
             break;
         case GLFW_KEY_UP:
             Constant::phi -= DEG2RAD(2.0f);
