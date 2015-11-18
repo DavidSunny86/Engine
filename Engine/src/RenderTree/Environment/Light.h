@@ -23,5 +23,8 @@ public:
     float power_;
     GLuint shadowMap_;
     GLuint framebuffer_;
+protected:
+    int textureWidth_;
+    int textureHeight_;
 };
 

@@ -2,7 +2,7 @@
 #include "Utility/Camera/StaticCamera.h"
 #include "Loader\EnvironmentLoader.h"
 #include "Loader\RenderTreeLoader.h"
-
+#include "Constant.h"
 Scene::Scene()
 {
     renderTree_ = RenderTreeLoader::CreateRenderTree(std::string(".//Scenes//MainRenderTree.xml"));
@@ -30,7 +30,7 @@ void Scene::Render()
         renderTree_->RenderShadowMap(model, view, projection);
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, 1920, 1080);
+    glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
     camera_->Apply(view, projection);
     environment_->TransformLight(model, view);
     renderTree_->RenderFirstPass(model, view, projection);

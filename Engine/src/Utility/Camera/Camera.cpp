@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "GL\glew.h"
+#include "Constant.h"
 Camera::Camera(const glm::vec3& position,const glm::vec3& lookAt, const glm::vec3& up, float zNear, float zFar, float fov, float aspectRatio, AbstractNode * target)
 {
     position_ = position;
@@ -58,5 +59,5 @@ void Camera::Target(AbstractNode * target)
 
 void Camera::ApplyPerspective(glm::mat4& projection) const
 {
-    projection = glm::perspective(fov_, aspectRatio_, zNear_, zFar_);
+    projection = glm::perspective(fov_, (float)Constant::ViewportWidth / (float)Constant::ViewPortHeight, zNear_, zFar_);
 }

@@ -1,9 +1,12 @@
 #include "Light.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include "Constant.h"
 
 Light::Light()
 {
+    textureWidth_ = Constant::TextureWidth;
+    textureHeight_ = Constant::TextureHeight;
     GenerateDepthTexture();
 }
 
@@ -41,7 +44,7 @@ void Light::GenerateDepthTexture()
 
     glGenTextures(1, &shadowMap_);
     glBindTexture(GL_TEXTURE_2D, shadowMap_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, 2048, 2048, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, textureWidth_, textureHeight_, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -61,5 +64,5 @@ void Light::UseFrameBuffer()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, framebuffer_);
     glClear(GL_DEPTH_BUFFER_BIT);
-    glViewport(0, 0, 2048, 2048);
+    glViewport(0, 0, textureHeight_, textureHeight_);
 }

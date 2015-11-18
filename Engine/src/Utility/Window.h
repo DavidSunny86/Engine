@@ -25,6 +25,8 @@ public:
     void Height(unsigned int height);
     void IsFullScreen(bool isFullscreen);
     void IsVSync(bool isVSync);
+    static void Resize_CallBack(GLFWwindow* window, int width, int height);
+    static void Keyboard_Callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 protected:
     void CreateWindow();
 

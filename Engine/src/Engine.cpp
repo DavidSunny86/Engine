@@ -1,10 +1,10 @@
 #include "Engine.h"
 #include "GLFW\glfw3.h"
 #include "Utility\Camera\StaticCamera.h"
-
+#include "Constant.h"
 Engine::Engine()
 {
-    window_ = new Window("Engine", 1920, 1080, false, true);
+    window_ = new Window("Engine", Constant::ViewportWidth, Constant::ViewPortHeight, false, true);
     scene_ = new Scene();
 }
 

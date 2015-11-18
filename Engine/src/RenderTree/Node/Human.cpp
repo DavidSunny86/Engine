@@ -13,5 +13,5 @@ Human::~Human()
 
 void Human::Update(double deltaT)
 {
-    rotation_[2] += 0.1 * deltaT;
+    rotation_[0] += 0.1 * deltaT;
 }

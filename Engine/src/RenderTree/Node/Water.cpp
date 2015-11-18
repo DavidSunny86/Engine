@@ -1,10 +1,13 @@
 #include "Water.h"
 #include <iostream>
 #include "IL/il.h"
+#include "Constant.h"
+#include <glm/gtc/type_ptr.hpp>
+
 Water::Water(AbstractNode* parent) : AbstractNode(parent)
 {
-    textureWidth_ = 2048;
-    textureHeight_ = 2048;
+    textureWidth_ = Constant::TextureWidth;
+    textureHeight_ = Constant::TextureHeight;
     renderingWater_ = false;
     waterProgram_ = GLSLProgramManager::Instance()->GetProgram("Water");
     CreateBuffers();
@@ -35,18 +38,15 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
         parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane);
         
-        GLenum error = glGetError();
         glBindFramebuffer(GL_FRAMEBUFFER, refractionFbo_);
         glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
         modelReflection = glm::mat4(1);
-        clipPlane = glm::vec4(0, 0, 0, 0);
+        clipPlane = glm::vec4(0, 1, 0, 0);
         parent_->RenderFirstPass(modelReflection, view, projection);
         parent_->Render(modelReflection, view, projection, environnement, clipPlane);
         glDisable(GL_CLIP_DISTANCE0);
-        error = glGetError();
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, 1920, 1080);
-        glActiveTexture(GL_TEXTURE7);
+        glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
 
         glUseProgram(waterProgram_->ID());
         glActiveTexture(GL_TEXTURE1);
@@ -57,6 +57,8 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
         glBindTexture(GL_TEXTURE_2D, refractionTexture_);
         glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
         glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
+        glm::vec2 viewPort = glm::vec2(Constant::ViewportWidth, Constant::ViewPortHeight);
+        glUniform2i(waterProgram_->GetUniformLocation("viewPort"), Constant::ViewportWidth,Constant::ViewPortHeight);
         ApplyTransformation(model);
         model_->Render(model, view, projection, environnement);
         renderingWater_ = false;

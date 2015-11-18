@@ -47,6 +47,7 @@ uniform sampler2D diffuseTexture;
 uniform sampler2D reflectionTexture;
 uniform sampler2D refractionTexture;
 
+uniform ivec2 viewPort;
 void main()
 {	
 	vec3 N = normalize(Normal);
@@ -58,7 +59,7 @@ void main()
 	for (int i=0;i<4;++i){
 		visibility -= 0.2*(1.0-texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/700.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
 	}
-	vec2 screenSpace = vec2(gl_FragCoord.x / 1920, gl_FragCoord.y/ 1080);
+	vec2 screenSpace = vec2(gl_FragCoord.x / viewPort.x, gl_FragCoord.y/ viewPort.y);
 
 	float distance = length(DirLum);
 	float distanceSquared = distance * distance;

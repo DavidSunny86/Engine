@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Constant.cpp" />
     <ClCompile Include="src\RenderTree\Node\Skybox.cpp" />
     <ClCompile Include="src\Loader\NodeFactory.cpp" />
     <ClCompile Include="src\Loader\RenderTreeLoader.cpp" />
@@ -183,6 +184,7 @@
     <ClCompile Include="src\RenderTree\Node\Water.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Constant.h" />
     <ClInclude Include="src\RenderTree\Node\Skybox.h" />
     <ClInclude Include="src\Loader\NodeFactory.h" />
     <ClInclude Include="src\Loader\RenderTreeLoader.h" />

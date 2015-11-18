@@ -1,6 +1,11 @@
 #include "Window.h"
 #include <iostream>
+#include "Constant.h"
 
+#ifndef M_PI
+#define M_PI 3.1415926535897932385
+#endif
+#define DEG2RAD(a) (a / 180.0f) * (M_PI);
 Window::Window(std::string name, unsigned int width, unsigned int height, bool isFullscreen, bool isVSync)
 {
     name_ = name;
@@ -105,6 +110,40 @@ void Window::IsVSync(bool isVSync)
     
 }
 
+void Window::Resize_CallBack(GLFWwindow* window, int width, int height)
+{
+    Constant::ViewportWidth = width;
+    Constant::ViewPortHeight = height;
+}
+
+void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (action == GLFW_REPEAT || action == GLFW_PRESS)
+    {
+        switch (key)
+        {
+        case GLFW_KEY_RIGHT:
+            Constant::theta += DEG2RAD(2.0f);
+            break;
+        case GLFW_KEY_LEFT:
+            Constant::theta -= DEG2RAD(2.0f);
+            break;
+        case GLFW_KEY_UP:
+            Constant::phi -= DEG2RAD(2.0f);
+            break;
+        case GLFW_KEY_DOWN:
+            Constant::phi += DEG2RAD(2.0f);
+            break;
+        case GLFW_KEY_EQUAL:
+            Constant::rho -= 0.5;
+            break;
+        case GLFW_KEY_MINUS:
+            Constant::rho += 0.5;
+            break;
+        }
+    }
+}
+
 void Window::CreateWindow()
 {
     if (isFullscreen_)
@@ -128,4 +167,7 @@ void Window::CreateWindow()
     {
         glfwSwapInterval(1);
     }
+
+    glfwSetWindowSizeCallback(window_, Resize_CallBack);
+    glfwSetKeyCallback(window_, Keyboard_Callback);
 }
