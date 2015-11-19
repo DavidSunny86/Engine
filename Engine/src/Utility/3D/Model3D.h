@@ -15,7 +15,7 @@ public:
     void Render(const glm::mat4& m,const glm::mat4& v,const glm::mat4& p, Environment* e, const glm::vec4& clipPlane = glm::vec4(0));
     void RenderFirstPass(const glm::mat4& m,const glm::mat4& v,const glm::mat4& p, const glm::vec4& clipPlane = glm::vec4(0));
     void RenderShadowMap(const glm::mat4& m,const glm::mat4& v,const glm::mat4& p);
-    void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane);
+    void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel);
 
     void Program(GLSLProgram* program);
     void LoadModel();

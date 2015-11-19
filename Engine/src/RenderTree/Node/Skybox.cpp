@@ -93,7 +93,7 @@ void Skybox::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::
 
 }
 
-void Skybox::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
+void Skybox::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
     GLSLProgram* skyboxProgram = GLSLProgramManager::Instance()->GetProgram("Skybox");
     glUseProgram(skyboxProgram->ID());

@@ -38,10 +38,11 @@ void AbstractNode::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const
     model_->RenderShadowMap(model, view, projection);
 }
 
-void AbstractNode::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
+void AbstractNode::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
     ApplyTransformation(model);
-    model_->RenderReflection(model, view, projection, environnement, clipPlane);
+    ApplyTransformation(shadowModel);
+    model_->RenderReflection(model, view, projection, environnement, clipPlane,shadowModel);
 }
 
 void AbstractNode::ApplyTransformation(glm::mat4& model)

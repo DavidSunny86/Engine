@@ -85,7 +85,7 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
     }
 }
 
-void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane)
+void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
     m = glm::scale(m, glm::vec3(-1, 1, 1));
     RenderFirstPass(m, v, p, clipPlane);
@@ -104,7 +104,8 @@ void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4&
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, light->shadowMap_);
         glUniform1i(programShadowMapLocation_, 0);
-        glm::mat4 depthMVP = light->projection_ * light->view_ * m;
+        shadowModel = glm::scale(shadowModel, glm::vec3(-1, 1, 1));
+        glm::mat4 depthMVP = light->projection_ * light->view_ * shadowModel;
         depthMVP = light->dephtBiasMVP_ * depthMVP;
         glUniformMatrix4fv(programDepthMVPLocation_, 1, GL_FALSE, glm::value_ptr(depthMVP));
         glUniform4fv(programLightAmbientColorLocation_, 1, glm::value_ptr(light->ambientColor_));
