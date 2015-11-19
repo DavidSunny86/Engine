@@ -31,8 +31,6 @@ protected:
     GLSLProgram* firstPassProgram_;
     GLSLProgram* shadowMapProgram_;
 
-
-
     GLint firstPassMVPLocation_;
     GLint firstPassMLocation_;
     GLint firstPassClipPlaneLocation_;

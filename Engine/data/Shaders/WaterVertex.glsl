@@ -23,7 +23,7 @@ void main()
 	shadowCoord = depthMVP * vec4(vertexPosition,1.0);
 	vec4 MVPosition = MV * vec4(vertexPosition,1.0);
 	Normal = normalMatrix * inNormal;
-	DirLum =  (lightPosition.xyz - (vertexPosition * lightPosition.w)).xyz;
+	DirLum =  (lightPosition.xyz - (MVPosition.xyz * lightPosition.w)).xyz;
 	vecYeux = -MVPosition.xyz;
 	UV = uvCoord;
 }

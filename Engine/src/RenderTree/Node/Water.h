@@ -15,6 +15,10 @@ public:
 
     void ApplyReflectionTransformation(glm::mat4& modelReflection);
 
+    void RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane = glm::vec4(0));
+    void RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, const glm::vec4& clipPlane = glm::vec4(0));
+    
+    void LoadModel();
 private:
     bool renderingWater_;
     void CreateBuffers();
@@ -30,5 +34,10 @@ private:
     GLuint textureHeight_;
 
     GLSLProgram* waterProgram_;
+    GLSLProgram* firstPassProgram_;
+    Material* material_;
+    GLuint vao_;
+    GLuint vbo_[4];
+    unsigned int numberOfElement_;
 };
 
