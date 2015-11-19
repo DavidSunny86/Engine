@@ -35,9 +35,17 @@ private:
 
     GLSLProgram* waterProgram_;
     GLSLProgram* firstPassProgram_;
-    Material* material_;
+
     GLuint vao_;
-    GLuint vbo_[4];
-    unsigned int numberOfElement_;
+    GLuint vbo_[3];
+
+    unsigned int numberOfFaces_;
+    static int waterNumberOfVertexWidth_;
+    static int waterNumberOfVertexHeight_;
+    static float shininess_;
+    static glm::vec3 ambientMaterial_;
+    static glm::vec3 diffuseMaterial_;
+    static glm::vec3 specularMaterial_;
+
 };
 

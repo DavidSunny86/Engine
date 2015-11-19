@@ -1,7 +1,6 @@
 #version 440
 
 layout(location = 0) in vec3 vertexPosition;
-layout(location = 1) in vec3 inNormal;
 layout(location = 2) in vec2 uvCoord;
 
 out vec3 Normal;
@@ -22,7 +21,7 @@ void main()
 	gl_Position = MVP * vec4(vertexPosition, 1.0);
 	shadowCoord = depthMVP * vec4(vertexPosition,1.0);
 	vec4 MVPosition = MV * vec4(vertexPosition,1.0);
-	Normal = normalMatrix * inNormal;
+	Normal = normalMatrix * vec3(0,1,0);
 	DirLum =  (lightPosition.xyz - (MVPosition.xyz * lightPosition.w)).xyz;
 	vecYeux = -MVPosition.xyz;
 	UV = uvCoord;
