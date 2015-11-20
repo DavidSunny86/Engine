@@ -30,6 +30,8 @@ private:
     GLuint refractionTexture_;
     GLuint refractionDepthBuffer_;
 
+    GLuint heigthMapTexture_;
+
     GLuint textureWidth_;
     GLuint textureHeight_;
 
@@ -38,6 +40,11 @@ private:
 
     GLuint vao_;
     GLuint vbo_[3];
+
+    float* heightMapData_;
+    double time_;
+    float waveHeight_;
+    float reflectionPerturbationFactor_;
 
     unsigned int numberOfFaces_;
     static int waterNumberOfVertexWidth_;

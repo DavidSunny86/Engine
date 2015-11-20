@@ -11,8 +11,7 @@ Light::Light()
         0.5, 0.0, 0.0, 0.0,
         0.0, 0.5, 0.0, 0.0,
         0.0, 0.0, 0.5, 0.0,
-        0.5, 0.5, 0.5, 1.0
-        );
+        0.5, 0.5, 0.5, 1.0);
     GenerateDepthTexture();
 }
 
@@ -30,7 +29,7 @@ void Light::TransformPosition(const glm::mat4& modelView)
 
 void Light::Apply(glm::mat4& view, glm::mat4& projection)
 {
-    projection = glm::ortho<float>(-60, 60, -60, 60, 1, 100);
+    projection = glm::ortho<float>(-50, 50, -50, 50, 1, 100);
     projection_ = projection;
     view = glm::lookAt(glm::vec3(position_), glm::vec3(0, 0, 0), glm::vec3(0, 1, 0));
     view_ = view;

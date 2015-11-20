@@ -6,4 +6,5 @@
 	<FirstPass Vertex="FirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
     <Water Vertex="WaterVertex.glsl" Fragment="WaterFragment.glsl"/>
     <Skybox Vertex="SkyboxVertex.glsl" Fragment="SkyboxFragment.glsl"/>
+    <WaterFirstPass Vertex="WaterFirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
 </Programs>

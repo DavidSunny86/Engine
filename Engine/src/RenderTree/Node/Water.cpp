@@ -7,19 +7,24 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-int Water::waterNumberOfVertexWidth_ = 128;
-int Water::waterNumberOfVertexHeight_ = 128;
+int Water::waterNumberOfVertexWidth_ = 16;
+int Water::waterNumberOfVertexHeight_ = 16;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.1,0.1,0.1);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(0.3,0.3,0.6);
-glm::vec3 Water::specularMaterial_ = glm::vec3(0.2,0.2,0.2);
-float Water::shininess_ = 1000;
+glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
+float Water::shininess_ = 100;
+
+
 Water::Water(AbstractNode* parent) : AbstractNode(parent)
 {
     textureWidth_ = Constant::TextureWidth;
     textureHeight_ = Constant::TextureHeight;
     renderingWater_ = false;
     waterProgram_ = GLSLProgramManager::Instance()->GetProgram("Water");
-    firstPassProgram_ = GLSLProgramManager::Instance()->GetProgram("FirstPass");
+    firstPassProgram_ = GLSLProgramManager::Instance()->GetProgram("WaterFirstPass");
+    heightMapData_ = new float[waterNumberOfVertexHeight_ * waterNumberOfVertexWidth_];
+    waveHeight_ = 2.f;
+    reflectionPerturbationFactor_ = 0.01;
     CreateBuffers();
     LoadModel();
 }
@@ -33,6 +38,8 @@ Water::~Water()
     glDeleteBuffers(1, &refractionFbo_);
     glDeleteRenderbuffers(1, &refractionDepthBuffer_);
     glDeleteTextures(1, &refractionTexture_);
+    glDeleteBuffers(3, vbo_);
+    glDeleteVertexArrays(1, &vao_);
 }
 
 void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
@@ -81,6 +88,18 @@ void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::m
 
 void Water::Update(double deltaT)
 {
+    time_ += deltaT;
+    #pragma omp parallel for
+    for (int i = 0; i < waterNumberOfVertexWidth_; ++i)
+    {
+        for (int j = 0; j < waterNumberOfVertexHeight_; ++j)
+        {
+            heightMapData_[i * waterNumberOfVertexWidth_ + j] = waveHeight_ * sin(3.1415 * 4 * i / waterNumberOfVertexWidth_ + time_) * cos(3.1415 * 4 * j /waterNumberOfVertexHeight_);
+        }
+    }
+
+    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
 }
 
 void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
@@ -94,15 +113,20 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
 {
     glUseProgram(waterProgram_->ID());
     glActiveTexture(GL_TEXTURE1);
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, reflectionTexture_);
     glActiveTexture(GL_TEXTURE2);
-    glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, refractionTexture_);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
     glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
     glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
+    glUniform1i(waterProgram_->GetUniformLocation("heightMap"), 3);
+    glUniform1f(waterProgram_->GetUniformLocation("waveHeight"), waveHeight_);
     glm::vec2 viewPort = glm::vec2(Constant::ViewportWidth, Constant::ViewPortHeight);
     glUniform2i(waterProgram_->GetUniformLocation("viewPort"), Constant::ViewportWidth, Constant::ViewPortHeight);
+    glUniform1f(waterProgram_->GetUniformLocation("inv_textureWidth"), 1.f / waterNumberOfVertexWidth_);
+    glUniform1f(waterProgram_->GetUniformLocation("reflectionPerturbationFactor"), reflectionPerturbationFactor_);
+    glUniform3fv(waterProgram_->GetUniformLocation("scale"), 1,glm::value_ptr(scale_));
     glm::mat4 mv = v * m;
     glm::mat4 mvp = p * mv;
     glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(mv)));
@@ -117,8 +141,7 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, light->shadowMap_);
         glUniform1i(waterProgram_->GetUniformLocation("shadowMap"), 0);
-        glm::mat4 depthMVP = light->projection_ * light->view_ * m;
-        depthMVP = light->dephtBiasMVP_ * depthMVP;
+        glm::mat4 depthMVP = light->dephtBiasMVP_ * light->projection_ * light->view_ * m;
         glUniformMatrix4fv(waterProgram_->GetUniformLocation("depthMVP"), 1, GL_FALSE, glm::value_ptr(depthMVP));
         glUniform4fv(waterProgram_->GetUniformLocation("lightAmbientColor"), 1, glm::value_ptr(light->ambientColor_));
         glUniform4fv(waterProgram_->GetUniformLocation("lightDiffuseColor"), 1, glm::value_ptr(light->diffuseColor_));
@@ -145,6 +168,7 @@ void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const g
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("M"), 1, GL_FALSE, glm::value_ptr(m));
     glUniform4fv(firstPassProgram_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
+    glUniform1f(firstPassProgram_->GetUniformLocation("waveHeight"), waveHeight_);
     glDisable(GL_BLEND);
     glBindVertexArray(vao_);
     glDrawElements(GL_TRIANGLES, numberOfFaces_ * 3, GL_UNSIGNED_INT, 0);
@@ -209,7 +233,7 @@ void Water::LoadModel()
     //UVCoord
     glBindBuffer(GL_ARRAY_BUFFER, vbo_[2]);
     glBufferData(GL_ARRAY_BUFFER, 2 * waterNumberOfVertexWidth_ * waterNumberOfVertexHeight_ * sizeof(GLfloat), uvCoord, GL_STATIC_DRAW);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, NULL);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(1);
     
     glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -231,8 +255,6 @@ void Water::CreateBuffers()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, reflectionTexture_, 0);
     
     glGenRenderbuffers(1, &reflectionDepthBuffer_);
@@ -258,8 +280,6 @@ void Water::CreateBuffers()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, refractionTexture_, 0);
 
     glGenRenderbuffers(1, &refractionDepthBuffer_);
@@ -273,4 +293,12 @@ void Water::CreateBuffers()
         throw new std::exception("Water refraction fbo problem");
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    glGenTextures(1, &heigthMapTexture_);
+    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, 0);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
