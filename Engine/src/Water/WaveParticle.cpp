@@ -68,6 +68,13 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
         Subdivide();
 
     glm::vec2 position = GetPosition();
-    int index = (position.x * width) * width + position.y * height;
-    heightMap[index] += GetHeight();
+    int indexX = position.x * width;
+    int indexY = position.y * height;
+    if (indexX > width || indexY > height)
+    {
+        alive_ = false;
+        WaveParticleManager::Instance()->aliveParticle_.remove(this);
+        return;
+    }
+    heightMap[indexX * width + indexY] += GetHeight();
 }
