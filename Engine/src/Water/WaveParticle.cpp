@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.00f)
+    , minAmplitude_(0.01f)
     , alive_(false)
 {
 }
@@ -74,18 +74,45 @@ void WaveParticle::Initialize(glm::vec2 direction, glm::vec2 startPoint, float a
 void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 {
     time_ += deltaT;
-    float distanceBetweenNeighbor = dispersionAngle_ * speed_ * time_;
-    if (distanceBetweenNeighbor > radius_ / 2.f)
-        Subdivide();
 
     glm::vec2 position = GetPosition();
     int indexX = position.x * width;
     int indexY = position.y * height;
-    if (indexX >= width || indexY >= height || indexX < 0 || indexY < 0)
+
+	glm::vec2 normal;
+    if (indexX >= width)
     {
-        alive_ = false;
-        return;
+		normal = glm::vec2(1, 0);
+		direction_ = glm::reflect(direction_, normal);
+		time_ = 0.f;
+		startPoint_ = position;
     }
+	else if(indexY >= height)
+    {
+		normal = glm::vec2(0, -1);
+		direction_ = glm::reflect(direction_, normal);
+		time_ = 0.f;
+		startPoint_ = position;
+    }
+	else if(indexX <= 0)
+    {
+		normal = glm::vec2(-1, 0);
+		direction_ = glm::reflect(direction_, normal);
+		time_ = 0.f;
+		startPoint_ = position;
+    }
+	else if(indexY <= 0)
+    {
+		normal = glm::vec2(0, 1);
+		direction_ = glm::reflect(direction_, normal);
+		time_ = 0.f;
+		startPoint_ = position;
+    }
+
+    float distanceBetweenNeighbor = dispersionAngle_ * speed_ * time_;
+    if (distanceBetweenNeighbor > radius_ / 2.f)
+        Subdivide();
+
     int indexXMax = indexX + radius_ * width;
     int indexXMin = indexX - radius_ * width;
     int indexYMax = indexY + radius_ * height;
@@ -94,6 +121,10 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     {
         for (int j = indexYMin; j < indexYMax; j++)
         {
+			if((indexXMax - i) * (indexXMax - i) + (indexYMax - j) * (indexYMax - j) < radius_ * radius_) 
+			{
+				continue;
+			}
             if (i >= width || j >= height || i < 0 || j < 0)
             {
                 continue;
