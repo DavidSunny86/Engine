@@ -72,5 +72,19 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
     }
-    heightMap[indexX * width + indexY] += GetHeight();
+    int indexXMax = indexX + radius_ * width;
+    int indexXMin = indexX - radius_ * width;
+    int indexYMax = indexY + radius_ * height;
+    int indexYMin = indexY - radius_ * height;
+    for (int i = indexXMin; i < indexXMax; ++i)
+    {
+        for (int j = indexYMin; j < indexYMax; j++)
+        {
+            if (i >= width || j >= height || i < 0 || j < 0)
+            {
+                continue;
+            }
+            heightMap[i * width + j] += GetHeight();
+        }
+    }
 }
