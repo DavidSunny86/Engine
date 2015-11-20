@@ -1,7 +1,7 @@
 #include "glm/gtx/rotate_vector.hpp"
 #include "WaveParticleManager.h"
 #include "WaveParticle.h"
-
+#include <iostream>
 WaveParticleManager* WaveParticleManager::instance_ = NULL;
 
 WaveParticleManager::WaveParticleManager()
@@ -23,6 +23,23 @@ WaveParticleManager::~WaveParticleManager()
 	}
 }
 
+void WaveParticleManager::RefreshAliveParticles()
+{
+    auto it = aliveParticle_.begin();
+    while (it != aliveParticle_.end())
+    {
+        if (!(*it)->alive_)
+        {
+            it = aliveParticle_.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+    std::cout << aliveParticle_.size() << std::endl;
+}
+
 WaveParticle* WaveParticleManager::GetNextParticle()
 {
 	WaveParticle* waveParticle;
@@ -42,7 +59,7 @@ void WaveParticleManager::SpawnCircularWave(int numberOfParticles, glm::vec2 pos
 	{
 		WaveParticle* waveParticle = GetNextParticle();
 		float dispersionAngle = 2.0f * 3.14159f / numberOfParticles;
-		waveParticle->Initialize(glm::rotate(glm::vec2(1, 0), i * dispersionAngle), position, amplitude, speed, 0.f, 0.05, dispersionAngle);
+		waveParticle->Initialize(glm::rotate(glm::vec2(1, 0), i * dispersionAngle), position, amplitude, speed, 0.1f, 0.005, dispersionAngle);
 	}
 }
 

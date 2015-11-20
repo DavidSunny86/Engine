@@ -10,8 +10,9 @@ public:
 
 	glm::vec2 GetPosition();
 
-	float GetHeight();
-	void Subdivide();
+	float GetHeight(const glm::vec2& position);
+    float BlendFuction(float position);
+    void Subdivide();
 
 	void Initialize(glm::vec2 direction,
 					glm::vec2 startPoint,
@@ -22,9 +23,10 @@ public:
 					float dispersionAngle);
 
     void Update(float deltaT, float* heightMap, int width, int height);
-
+    
 	glm::vec2 direction_;
 	glm::vec2 startPoint_;
+    bool alive_;
     float time_;
 	float amplitude_;
 	float speed_;

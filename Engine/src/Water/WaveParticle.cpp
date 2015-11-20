@@ -11,7 +11,8 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.1f)
+    , minAmplitude_(0.00f)
+    , alive_(false)
 {
 }
 
@@ -24,9 +25,21 @@ glm::vec2 WaveParticle::GetPosition()
 	return startPoint_ + speed_ * direction_ * time_;
 }
 
-float WaveParticle::GetHeight()
+float WaveParticle::GetHeight(const glm::vec2& position)
 {
-	return amplitude_;
+    float distance = position.length() - GetPosition().length();
+	return amplitude_ / 2.f * (cos(3.14159f * distance / radius_)  + 1.f) * BlendFuction(distance);
+}
+
+float WaveParticle::BlendFuction(float position)
+{
+    float value = abs(position / (2 * radius_));
+    if (value < 0.5)
+        return 1.f;
+    if (value == 0.5)
+        return value;
+    else
+        return 0.f;
 }
 
 void WaveParticle::Subdivide()
@@ -34,7 +47,7 @@ void WaveParticle::Subdivide()
     amplitude_ /= 3.0f;
     if (amplitude_ < minAmplitude_)
     {
-        WaveParticleManager::Instance()->aliveParticle_.remove(this);
+        alive_ = false;
         return;
     }
     dispersionAngle_ /= 3.0f;
@@ -55,6 +68,7 @@ void WaveParticle::Initialize(glm::vec2 direction, glm::vec2 startPoint, float a
 	time_ = time;
 	radius_ = radius;
 	dispersionAngle_ = dispersionAngle;
+    alive_ = true;
 }
 
 void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
@@ -69,7 +83,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     int indexY = position.y * height;
     if (indexX >= width || indexY >= height || indexX < 0 || indexY < 0)
     {
-        WaveParticleManager::Instance()->aliveParticle_.remove(this);
+        alive_ = false;
         return;
     }
     int indexXMax = indexX + radius_ * width;
@@ -84,7 +98,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
             {
                 continue;
             }
-            heightMap[i * width + j] += GetHeight();
+            heightMap[i * width + j] += GetHeight(glm::vec2(i/width,j/height));
         }
     }
 }

@@ -82,7 +82,7 @@ void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::m
     if (!renderingWater_)
     {
         ApplyTransformation(model);
-        RenderModelFirstPass(model, view, projection);
+        //RenderModelFirstPass(model, view, projection);
     }
 }
 
@@ -100,12 +100,9 @@ void Water::Update(double deltaT)
     {
         particle->Update(deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
     }
-
-
-
-
     glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
+    WaveParticleManager::Instance()->RefreshAliveParticles();
 }
 
 void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
