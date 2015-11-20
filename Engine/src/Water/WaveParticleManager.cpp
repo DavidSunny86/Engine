@@ -29,6 +29,7 @@ WaveParticle* WaveParticleManager::GetNextParticle()
 	{
 		waveParticle = waveParticles_[index_++];
 		index_ %= numberOfWaveParticles_;
+        aliveParticle_.push_back(waveParticle);
 	}
 	mutex_.unlock();
 	return waveParticle;

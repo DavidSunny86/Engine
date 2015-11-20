@@ -2,10 +2,10 @@
 #include <iostream>
 #include "IL/il.h"
 #include "Constant.h"
+#include "Water/WaveParticleManager.h"
+#include "Water/WaveParticle.h"
 #include <glm/gtc/type_ptr.hpp>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+
 
 int Water::waterNumberOfVertexWidth_ = 256;
 int Water::waterNumberOfVertexHeight_ = 256;
@@ -27,6 +27,9 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
     reflectionPerturbationFactor_ = 0.01;
     CreateBuffers();
     LoadModel();
+
+    WaveParticle* waveParticle = WaveParticleManager::Instance()->GetNextParticle();
+    waveParticle->Initialize(glm::vec2(1, 0), glm::vec2(0), 1, 0.0001, 0, 0.4, 1.57);
 }
 
 
@@ -89,14 +92,18 @@ void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::m
 void Water::Update(double deltaT)
 {
     time_ += deltaT;
-    #pragma omp parallel for
-    for (int i = 0; i < waterNumberOfVertexWidth_; ++i)
+    
+    for (int i = 0; i < waterNumberOfVertexHeight_ * waterNumberOfVertexWidth_; ++i)
     {
-        for (int j = 0; j < waterNumberOfVertexHeight_; ++j)
-        {
-            heightMapData_[i * waterNumberOfVertexWidth_ + j] = waveHeight_ * sin(3.1415 * 4 * i / waterNumberOfVertexWidth_ + time_) * cos(3.1415 * 4 * j /waterNumberOfVertexHeight_);
-        }
+        heightMapData_[i] = 0.f;
     }
+
+    auto aliveParticles = WaveParticleManager::Instance()->aliveParticle_;
+    for (auto particle : aliveParticles)
+    {
+        particle->Update(deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
+    }
+
 
     glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
