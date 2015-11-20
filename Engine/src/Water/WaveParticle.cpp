@@ -37,7 +37,7 @@ void WaveParticle::Subdivide()
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
     }
-    dispersionAngle_ /= 6.0f;
+    dispersionAngle_ /= 3.0f;
     
     WaveParticle* leftWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
 	WaveParticle* rightWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
