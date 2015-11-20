@@ -30,7 +30,6 @@ public:
 	float speed_;
 	float radius_;
 	float dispersionAngle_;
-	bool alive_;
     float minAmplitude_;
 };
 

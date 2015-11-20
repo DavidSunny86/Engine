@@ -5,7 +5,6 @@
 
 WaveParticle::WaveParticle()
     : speed_(0.f)
-    , alive_(false)
     , direction_(glm::vec2(0))
     , startPoint_(glm::vec2(0))
     , amplitude_(0.f)
@@ -35,7 +34,6 @@ void WaveParticle::Subdivide()
     amplitude_ /= 3.0f;
     if (amplitude_ < minAmplitude_)
     {
-        alive_ = false;
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
     }
@@ -57,7 +55,6 @@ void WaveParticle::Initialize(glm::vec2 direction, glm::vec2 startPoint, float a
 	time_ = time;
 	radius_ = radius;
 	dispersionAngle_ = dispersionAngle;
-	alive_ = true;
 }
 
 void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
@@ -70,9 +67,8 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     glm::vec2 position = GetPosition();
     int indexX = position.x * width;
     int indexY = position.y * height;
-    if (indexX > width || indexY > height)
+    if (indexX > width || indexY > height || indexX < 0 || indexY < 0)
     {
-        alive_ = false;
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
     }

@@ -2,20 +2,25 @@
 #include <iostream>
 #include "Constant.h"
 #include "RenderTree/Node/RenderTree.h"
+#include "Water/WaveParticleManager.h"
+#include "RenderTree/Scene.h"
 
 #ifndef M_PI
 #define M_PI 3.1415926535897932385
 #endif
 #define DEG2RAD(a) (a / 180.0f) * (M_PI);
+
+Scene* Window::scene_ = NULL;
+
 Window::Window(std::string name, unsigned int width, unsigned int height, bool isFullscreen, bool isVSync)
+	: name_(name)
+	, width_(width)
+	, height_(height)
+	, isFullscreen_(isFullscreen)
+	, isVSync_(isVSync)
+	, monitor_(NULL)
+	, window_(NULL)
 {
-    name_ = name;
-    width_ = width;
-    height_ = height;
-    isFullscreen_ = isFullscreen;
-    isVSync_ = isVSync;
-    monitor_ = NULL;
-    window_ = NULL;
     CreateWindow();
 }
 
@@ -58,7 +63,7 @@ bool Window::IsFullscreen()
     return isFullscreen_;
 }
 
-bool Window::isVSync()
+bool Window::IsVSync()
 {
     return isVSync_;
 }
@@ -148,6 +153,35 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
     }
 }
 
+void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (action == GLFW_PRESS)
+	{
+        switch (button)
+        {
+        case GLFW_MOUSE_BUTTON_1:
+			double xpos;
+			double ypos;
+
+			glfwGetCursorPos(window, &xpos, &ypos);
+			glm::vec4 position(xpos, ypos, 0, 1);
+
+			Camera* camera = scene_->GetCamera();
+			glm::mat4 view(1);
+			glm::mat4 projection(1);
+
+			camera->Apply(view, projection);
+
+			glm::mat4 transformationMatrix = glm::inverse(projection * view);
+			position = transformationMatrix * position;
+
+			glm::vec2 worldPosition(position.x / Constant::ViewportWidth, position.y / Constant::ViewPortHeight);
+			WaveParticleManager::Instance()->SpawnCircularWave(100, worldPosition, 1.f, 0.1);
+            break;
+        }
+	}
+}
+
 void Window::CreateWindow()
 {
     if (isFullscreen_)
@@ -174,4 +208,5 @@ void Window::CreateWindow()
 
     glfwSetWindowSizeCallback(window_, Resize_CallBack);
     glfwSetKeyCallback(window_, Keyboard_Callback);
+    glfwSetMouseButtonCallback(window_, Mouse_Callback);
 }

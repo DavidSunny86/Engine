@@ -6,6 +6,7 @@ Engine::Engine()
 {
     window_ = new Window("Engine", Constant::ViewportWidth, Constant::ViewPortHeight, false, true);
     scene_ = new Scene();
+	Window::scene_ = scene_;
 }
 
 

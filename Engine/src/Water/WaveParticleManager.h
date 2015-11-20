@@ -19,7 +19,10 @@ public:
 	WaveParticleManager();
 	~WaveParticleManager();
     std::list<WaveParticle*> aliveParticle_;
+
 	WaveParticle* GetNextParticle();
+
+	void SpawnCircularWave(int numberOfParticles, glm::vec2 position, float amplitude, float speed);
 	static WaveParticleManager* Instance();
 
 };

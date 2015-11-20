@@ -3,6 +3,8 @@
 #include "GL/glew.h"
 #include "GLFW\glfw3.h"
 
+class Scene;
+
 class Window
 {
 public:
@@ -17,7 +19,7 @@ public:
     unsigned int Width();
     unsigned int Height();
     bool IsFullscreen();
-    bool isVSync();
+    bool IsVSync();
     bool ShouldClose();
 
     void Name(const std::string& name);
@@ -27,6 +29,9 @@ public:
     void IsVSync(bool isVSync);
     static void Resize_CallBack(GLFWwindow* window, int width, int height);
     static void Keyboard_Callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void Mouse_Callback(GLFWwindow* window, int button, int action, int mods);
+	static Scene* scene_;
+
 protected:
     void CreateWindow();
 

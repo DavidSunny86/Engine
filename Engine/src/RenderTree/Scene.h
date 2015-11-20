@@ -14,6 +14,8 @@ public:
 
     void SetRenderTree(RenderTree* tree);
     void SetEnvironment(Environment* environment);
+
+	Camera* GetCamera() {return camera_;}
 private:
     Environment* environment_;
     RenderTree* renderTree_;
