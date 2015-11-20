@@ -1,6 +1,7 @@
 #include "Window.h"
 #include <iostream>
 #include "Constant.h"
+#include "RenderTree/Node/RenderTree.h"
 
 #ifndef M_PI
 #define M_PI 3.1415926535897932385
@@ -139,6 +140,9 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
             break;
         case GLFW_KEY_MINUS:
             Constant::rho += 0.5;
+            break;
+        case GLFW_KEY_P:
+			RenderTree::pause_ = !RenderTree::pause_;
             break;
         }
     }

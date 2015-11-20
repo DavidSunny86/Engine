@@ -182,6 +182,8 @@
     <ClCompile Include="src\Utility\Window.cpp" />
     <ClCompile Include="src\Utility\Camera\StaticCamera.cpp" />
     <ClCompile Include="src\RenderTree\Node\Water.cpp" />
+    <ClCompile Include="src\Water\WaveParticle.cpp" />
+    <ClCompile Include="src\Water\WaveParticleManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Constant.h" />
@@ -211,6 +213,8 @@
     <ClInclude Include="src\Utility\Window.h" />
     <ClInclude Include="src\Utility\Camera\StaticCamera.h" />
     <ClInclude Include="src\RenderTree\Node\Water.h" />
+    <ClInclude Include="src\Water\WaveParticle.h" />
+    <ClInclude Include="src\Water\WaveParticleManager.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\FirstPassFragment.glsl" />

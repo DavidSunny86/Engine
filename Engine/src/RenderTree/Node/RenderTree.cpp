@@ -8,7 +8,10 @@
 #include "RenderTree/Node/Skybox.h"
 #include "Manager/ModelManager.h"
 
-RenderTree::RenderTree(AbstractNode* parent) : CompositeNode(parent)
+bool RenderTree::pause_ = false;
+
+RenderTree::RenderTree(AbstractNode* parent) 
+	: CompositeNode(parent)
 {
     skybox_ = new Skybox(this);
 }
@@ -21,10 +24,13 @@ RenderTree::~RenderTree()
 
 void RenderTree::Update(double deltaT)
 {
-    for (auto child : children_)
-    {
-        child->Update(deltaT);
-    }
+	if (!pause_)
+	{
+		for (auto child : children_)
+		{
+			child->Update(deltaT);
+		}
+	}
 }
 
 void RenderTree::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)

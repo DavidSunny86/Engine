@@ -7,8 +7,8 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-int Water::waterNumberOfVertexWidth_ = 16;
-int Water::waterNumberOfVertexHeight_ = 16;
+int Water::waterNumberOfVertexWidth_ = 256;
+int Water::waterNumberOfVertexHeight_ = 256;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.1,0.1,0.1);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(0.3,0.3,0.6);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
@@ -168,7 +168,9 @@ void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const g
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("M"), 1, GL_FALSE, glm::value_ptr(m));
     glUniform4fv(firstPassProgram_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
-    glUniform1f(firstPassProgram_->GetUniformLocation("waveHeight"), waveHeight_);
+	glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+    glUniform1i(firstPassProgram_->GetUniformLocation("heightMap"), 3);
     glDisable(GL_BLEND);
     glBindVertexArray(vao_);
     glDrawElements(GL_TRIANGLES, numberOfFaces_ * 3, GL_UNSIGNED_INT, 0);
