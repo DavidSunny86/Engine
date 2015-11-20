@@ -102,6 +102,8 @@ void Water::Update(double deltaT)
     }
 
 
+
+
     glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
 }
@@ -125,7 +127,6 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
     glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
     glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
     glUniform1i(waterProgram_->GetUniformLocation("heightMap"), 3);
-    glUniform1f(waterProgram_->GetUniformLocation("waveHeight"), waveHeight_);
     glm::vec2 viewPort = glm::vec2(Constant::ViewportWidth, Constant::ViewPortHeight);
     glUniform2i(waterProgram_->GetUniformLocation("viewPort"), Constant::ViewportWidth, Constant::ViewPortHeight);
     glUniform1f(waterProgram_->GetUniformLocation("inv_textureWidth"), 1.f / waterNumberOfVertexWidth_);

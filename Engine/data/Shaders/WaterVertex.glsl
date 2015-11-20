@@ -16,8 +16,6 @@ uniform mat4 depthMVP;
 uniform mat3 normalMatrix;
 uniform vec4 lightPosition;
 
-uniform float waveHeight;
-
 uniform sampler2D heightMap;
 
 void main()

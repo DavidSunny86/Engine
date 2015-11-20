@@ -6,7 +6,7 @@ uniform mat4 MVP;
 uniform mat4 M;
 uniform vec4 clipPlane;
 uniform sampler2D heightMap;
-uniform float waveHeight;
+
 void main()
 {
 	vec4 position = vec4(vertexPosition,1.0);
