@@ -37,7 +37,7 @@ void WaveParticle::Subdivide()
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
     }
-    dispersionAngle_ /= 6.0f;
+    dispersionAngle_ /= 3.0f;
     
     WaveParticle* leftWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
 	WaveParticle* rightWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
@@ -67,7 +67,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     glm::vec2 position = GetPosition();
     int indexX = position.x * width;
     int indexY = position.y * height;
-    if (indexX > width || indexY > height || indexX < 0 || indexY < 0)
+    if (indexX >= width || indexY >= height || indexX < 0 || indexY < 0)
     {
         WaveParticleManager::Instance()->aliveParticle_.remove(this);
         return;
