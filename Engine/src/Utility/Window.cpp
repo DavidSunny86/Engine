@@ -6,7 +6,7 @@
 #include "RenderTree/Scene.h"
 
 #ifndef M_PI
-#define M_PI 3.1415926535897932385
+#define M_PI 3.1415926535897932385f
 #endif
 #define DEG2RAD(a) (a / 180.0f) * (M_PI);
 
@@ -176,7 +176,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
 			position = transformationMatrix * position;
 
 			glm::vec2 worldPosition(position.x / Constant::ViewportWidth, position.y / Constant::ViewPortHeight);
-			//WaveParticleManager::Instance()->SpawnCircularWave(10, worldPosition, 5.f, 0.1, 0.05);
+
 			WaveParticleManager::Instance()->SpawnCircularWave(10, worldPosition, 5.f, 0.1, 0.1);
             break;;
         }

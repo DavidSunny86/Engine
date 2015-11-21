@@ -24,7 +24,7 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
     firstPassProgram_ = GLSLProgramManager::Instance()->GetProgram("WaterFirstPass");
     heightMapData_ = new float[waterNumberOfVertexHeight_ * waterNumberOfVertexWidth_];
     waveHeight_ = 2.f;
-    reflectionPerturbationFactor_ = 0.01;
+    reflectionPerturbationFactor_ = 0.01f;
     CreateBuffers();
     LoadModel();
 }
@@ -47,29 +47,39 @@ void Water::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& proj
     if (parent_ != nullptr && !renderingWater_)
     {
         renderingWater_ = true;
-        glBindFramebuffer(GL_FRAMEBUFFER, reflectionFbo_);
-        glViewport(0, 0, textureWidth_, textureHeight_);
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        glEnable(GL_CLIP_DISTANCE0);
-        glm::mat4 modelReflection = glm::mat4(1);
-        ApplyReflectionTransformation(modelReflection);
-        glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
-        parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane, glm::mat4(1));
-        
-        glBindFramebuffer(GL_FRAMEBUFFER, refractionFbo_);
-        glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-        modelReflection = glm::mat4(1);
-        clipPlane = glm::vec4(0, 1, 0, 0);
-        parent_->RenderFirstPass(modelReflection, view, projection);
-        parent_->Render(modelReflection, view, projection, environnement, clipPlane);
-        glDisable(GL_CLIP_DISTANCE0);
+        RenderWaterReflection(model,view,projection,environnement);
+        RenderWaterRefraction(model,view,projection,environnement);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
-
         ApplyTransformation(model);
         RenderModel(model, view, projection, environnement);
         renderingWater_ = false;
     }
+}
+
+
+
+void Water::RenderWaterReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, reflectionFbo_);
+    glViewport(0, 0, textureWidth_, textureHeight_);
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    glEnable(GL_CLIP_DISTANCE0);
+    glm::mat4 modelReflection = glm::mat4(1);
+    ApplyReflectionTransformation(modelReflection);
+    glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
+    parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane, glm::mat4(1));
+}
+
+void Water::RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
+{
+    glBindFramebuffer(GL_FRAMEBUFFER, refractionFbo_);
+    glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    glm::mat4 modelReflection = glm::mat4(1);
+    glm::vec4 clipPlane = glm::vec4(0, 1, 0, 0);
+    parent_->RenderFirstPass(modelReflection, view, projection);
+    parent_->Render(modelReflection, view, projection, environnement, clipPlane);
+    glDisable(GL_CLIP_DISTANCE0);
 }
 
 void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
@@ -95,10 +105,11 @@ void Water::Update(double deltaT)
         heightMapData_[i] = 0.f;
     }
 
-    auto aliveParticles = WaveParticleManager::Instance()->aliveParticle_;
-    for (auto particle : aliveParticles)
+    auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
+    #pragma omp parallel for
+    for (int i = 0; i < (int)aliveParticles.size(); ++i)
     {
-        particle->Update(deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
+        aliveParticles[i]->Update((float)deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
     }
     glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);

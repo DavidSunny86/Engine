@@ -96,7 +96,7 @@ void main()
 	if(lambert > 0.0)
 	{
 		vec4 diffuseFactor = visibility * materialDiffuse * lambert * lightDiffuseColor * lightIntensity / distanceSquared;
-		color += clamp((diffuseFactor *  texture(refractionTexture,screenSpace)),0.0,1.0);
+		color += clamp((diffuseFactor *  texture(refractionTexture,screenSpace - N.xy * 0.1)),0.0,1.0);
 		color += clamp((diffuseFactor * texture(reflectionTexture,screenSpace - normal.xz * reflectionPerturbationFactor)),0.0,1.0);
 		vec3 E = normalize(vecYeux);
 		vec3 R = reflect(-L,N);

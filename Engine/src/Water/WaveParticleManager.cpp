@@ -2,7 +2,16 @@
 #include "WaveParticleManager.h"
 #include "WaveParticle.h"
 #include <iostream>
+
 WaveParticleManager* WaveParticleManager::instance_ = NULL;
+
+std::vector<WaveParticle*>& WaveParticleManager::GetAliveParticles()
+{
+    if (useFirstBuffer_)
+        return firstAliveParticle_;
+    else
+        return secondAliveParicles_;
+}
 
 WaveParticleManager::WaveParticleManager()
 	: index_(0)
@@ -25,41 +34,55 @@ WaveParticleManager::~WaveParticleManager()
 
 void WaveParticleManager::RefreshAliveParticles()
 {
-    auto it = aliveParticle_.begin();
-    while (it != aliveParticle_.end())
+    if (useFirstBuffer_)
     {
-        if (!(*it)->alive_)
+        for (unsigned int i = 0; i < firstAliveParticle_.size(); ++i)
         {
-            it = aliveParticle_.erase(it);
+            if (firstAliveParticle_[i]->alive_)
+            {
+                secondAliveParicles_.push_back(firstAliveParticle_[i]);
+            }
         }
-        else
-        {
-            it++;
-        }
+        firstAliveParticle_.clear();
     }
-    std::cout << aliveParticle_.size() << std::endl;
+    else
+    {
+        for (unsigned int i = 0; i < secondAliveParicles_.size(); ++i)
+        {
+            if (secondAliveParicles_[i]->alive_)
+            {
+                firstAliveParticle_.push_back(secondAliveParicles_[i]);
+            }
+        }
+        secondAliveParicles_.clear();
+    }
+    useFirstBuffer_ = !useFirstBuffer_;
 }
 
 WaveParticle* WaveParticleManager::GetNextParticle()
 {
 	WaveParticle* waveParticle;
-	mutex_.lock();
+    #pragma omp critical
 	{
 		waveParticle = waveParticles_[index_++];
 		index_ %= numberOfWaveParticles_;
-        aliveParticle_.push_back(waveParticle);
+        if (!useFirstBuffer_)
+            firstAliveParticle_.push_back(waveParticle);
+        else
+            secondAliveParicles_.push_back(waveParticle);
 	}
-	mutex_.unlock();
 	return waveParticle;
 }
 
 void WaveParticleManager::SpawnCircularWave(int numberOfParticles, glm::vec2 position, float amplitude, float speed, float radius)
 {
+    float dispersionAngle = 2.0f * 3.14159f / numberOfParticles;
+    float initializationTime = 1.f;
 	for (int i = 0; i < numberOfParticles; ++i)
 	{
 		WaveParticle* waveParticle = GetNextParticle();
 		float dispersionAngle = 2.0f * 3.14159f / numberOfParticles;
-		waveParticle->Initialize(glm::rotate(glm::vec2(1, 0), i * dispersionAngle), position, amplitude, speed, 0.1f, radius, dispersionAngle);
+		waveParticle->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, amplitude, speed, initializationTime, radius, dispersionAngle);
 	}
 }
 

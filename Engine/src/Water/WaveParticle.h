@@ -10,7 +10,7 @@ public:
 
 	glm::vec2 GetPosition();
 
-	float GetHeight(const glm::vec2& position);
+	float GetHeight(const glm::vec2& center, const glm::vec2& position);
     float BlendFuction(float position);
     void Subdivide();
 

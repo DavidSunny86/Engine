@@ -25,9 +25,9 @@ glm::vec2 WaveParticle::GetPosition()
 	return startPoint_ + speed_ * direction_ * time_;
 }
 
-float WaveParticle::GetHeight(const glm::vec2& position)
+float WaveParticle::GetHeight(const glm::vec2& center, const glm::vec2& position)
 {
-    float distance = glm::length(position - GetPosition());
+    float distance = glm::length(position - center);
 	return amplitude_ / 2.f * (cos(3.14159f * distance / radius_)  + 1.f) * BlendFuction(distance);
 }
 
@@ -45,11 +45,6 @@ float WaveParticle::BlendFuction(float position)
 void WaveParticle::Subdivide()
 {
     amplitude_ /= 3.0f;
-    if (amplitude_ < minAmplitude_)
-    {
-        alive_ = false;
-        return;
-    }
     dispersionAngle_ /= 3.0f;
     
     WaveParticle* leftWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
@@ -74,49 +69,55 @@ void WaveParticle::Initialize(glm::vec2 direction, glm::vec2 startPoint, float a
 void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 {
     time_ += deltaT;
-
+    amplitude_ -= amplitude_ * 0.05 * deltaT;
+    if (amplitude_ < minAmplitude_)
+    {
+        alive_ = false;
+        return;
+    }
     glm::vec2 position = GetPosition();
 
     glm::vec2 normal;
-    if (position.x >= 1.0)
+    if (position.x >= 1.0f)
     {
 		normal = glm::vec2(1, 0);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.x = 1.0f;
 		startPoint_ = position;
     }
-	else if(position.y >= 1.0)
+	if(position.y >= 1.0f)
     {
 		normal = glm::vec2(0, -1);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.y = 1.0f;
 		startPoint_ = position;
     }
-	else if(position.x <= 0)
+	if(position.x <= 0.0f)
     {
 		normal = glm::vec2(-1, 0);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.x = 0.0f;
 		startPoint_ = position;
     }
-	else if(position.y <= 0)
+	if(position.y <= 0.0f)
     {
 		normal = glm::vec2(0, 1);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.y = 0.0f;
 		startPoint_ = position;
     }
-
-    float distanceBetweenNeighbor = dispersionAngle_ * speed_ * time_;
-    if (distanceBetweenNeighbor > radius_ / 2.f)
-        Subdivide();
-    
-    int indexX = position.x * width;
-    int indexY = position.y * height;
-    int indexXMax = indexX + radius_ * width;
-    int indexXMin = indexX - radius_ * width;
-    int indexYMax = indexY + radius_ * height;
-    int indexYMin = indexY - radius_ * height;
+ 
+    int indexX = (int)(position.x * width);
+    int indexY = (int)(position.y * height);
+    int indexXMax = indexX + (int)(radius_ * width);
+    int indexXMin = indexX - (int)(radius_ * width);
+    int indexYMax = indexY + (int)(radius_ * height);
+    int indexYMin = indexY - (int)(radius_ * height);
+    float inv_width = 1.f / width;
     for (int i = indexXMin; i < indexXMax; ++i)
     {
         for (int j = indexYMin; j < indexYMax; j++)
@@ -125,7 +126,18 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
             {
                 continue;
             }
-            heightMap[i * width + j] += GetHeight(glm::vec2((float)i/width,(float)j/height));
+            float waveHeight = GetHeight(position,glm::vec2((float)i * inv_width, (float)j * inv_width));
+            #pragma omp critical
+            {
+                heightMap[i * width + j] += waveHeight;
+            }
+            
         }
+    }
+
+    float distanceBetweenNeighbor = 2.f*sin(dispersionAngle_) * speed_ * time_;
+    if (distanceBetweenNeighbor > radius_ / 2.f)
+    {
+        Subdivide();
     }
 }
