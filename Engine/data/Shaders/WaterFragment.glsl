@@ -75,7 +75,7 @@ vec3 ComputeNormal()
 void main()
 {	
 	vec3 normal = ComputeNormal();
-	vec3 N = normalMatrix * normal;
+	vec3 N = normalize(normalMatrix * normal);
 	vec3 L = normalize(DirLum);
 
 	float cosTheta = clamp( dot( N,L ), 0,1 );
@@ -96,7 +96,7 @@ void main()
 	if(lambert > 0.0)
 	{
 		vec4 diffuseFactor = visibility * materialDiffuse * lambert * lightDiffuseColor * lightIntensity / distanceSquared;
-		color += clamp((diffuseFactor *  texture(refractionTexture,screenSpace - N.xy * 0.1)),0.0,1.0);
+		color += clamp((diffuseFactor *  texture(refractionTexture,screenSpace + N.yz * 0.05)),0.0,1.0);
 		color += clamp((diffuseFactor * texture(reflectionTexture,screenSpace - normal.xz * reflectionPerturbationFactor)),0.0,1.0);
 		vec3 E = normalize(vecYeux);
 		vec3 R = reflect(-L,N);

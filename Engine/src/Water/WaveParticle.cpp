@@ -74,7 +74,7 @@ void WaveParticle::Initialize(glm::vec2 direction, glm::vec2 startPoint, float a
 void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 {
     time_ += deltaT;
-    amplitude_ -= amplitude_ * 0.05 * deltaT;
+    amplitude_ -= amplitude_ * 0.05f * deltaT;
     if (amplitude_ < minAmplitude_)
     {
         alive_ = false;
@@ -106,9 +106,6 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
         startPoint_ = position;
 		normal = glm::vec2(-1, 0);
 		direction_ = glm::reflect(direction_, normal);
-
-
-
     }
 	else if(position.y <= 0.0f)
     {

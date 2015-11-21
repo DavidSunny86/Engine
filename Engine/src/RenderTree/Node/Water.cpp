@@ -9,8 +9,8 @@
 
 int Water::waterNumberOfVertexWidth_ = 32;
 int Water::waterNumberOfVertexHeight_ = 32;
-glm::vec3 Water::ambientMaterial_ = glm::vec3(0.1,0.1,0.1);
-glm::vec3 Water::diffuseMaterial_ = glm::vec3(0.3,0.3,0.6);
+glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
+glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
 float Water::shininess_ = 100;
 
