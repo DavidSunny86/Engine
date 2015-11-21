@@ -9,6 +9,8 @@ public:
     virtual ~Water();
 
     virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane = glm::vec4(0));
+    void RenderWaterReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
+    void RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
     virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel);
     virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
     virtual void Update(double deltaT);

@@ -78,38 +78,45 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     glm::vec2 position = GetPosition();
 
     glm::vec2 normal;
-    if (position.x >= 1.0)
+    if (position.x >= 1.0f)
     {
 		normal = glm::vec2(1, 0);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.x = 1.0f;
 		startPoint_ = position;
     }
-	else if(position.y >= 1.0)
+	if(position.y >= 1.0f)
     {
 		normal = glm::vec2(0, -1);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.y = 1.0f;
 		startPoint_ = position;
     }
-	else if(position.x <= 0)
+	if(position.x <= 0.0f)
     {
 		normal = glm::vec2(-1, 0);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.x = 0.0f;
 		startPoint_ = position;
     }
-	else if(position.y <= 0)
+	if(position.y <= 0.0f)
     {
 		normal = glm::vec2(0, 1);
 		direction_ = glm::reflect(direction_, normal);
 		time_ = 0.f;
+        position.y = 0.0f;
 		startPoint_ = position;
     }
 
     float distanceBetweenNeighbor = dispersionAngle_ * speed_ * time_;
     if (distanceBetweenNeighbor > radius_ / 2.f)
+    {
         Subdivide();
+    }
+
     
     int indexX = (int)(position.x * width);
     int indexY = (int)(position.y * height);
