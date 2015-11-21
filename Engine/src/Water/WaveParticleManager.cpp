@@ -66,7 +66,7 @@ WaveParticle* WaveParticleManager::GetNextParticle()
 	{
 		waveParticle = waveParticles_[index_++];
 		index_ %= numberOfWaveParticles_;
-        if (useFirstBuffer_)
+        if (!useFirstBuffer_)
             firstAliveParticle_.push_back(waveParticle);
         else
             secondAliveParicles_.push_back(waveParticle);

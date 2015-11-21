@@ -110,14 +110,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
         position.y = 0.0f;
 		startPoint_ = position;
     }
-
-    float distanceBetweenNeighbor = dispersionAngle_ * speed_ * time_;
-    if (distanceBetweenNeighbor > radius_ / 2.f)
-    {
-        Subdivide();
-    }
-
-    
+ 
     int indexX = (int)(position.x * width);
     int indexY = (int)(position.y * height);
     int indexXMax = indexX + (int)(radius_ * width);
@@ -140,5 +133,11 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
             }
             
         }
+    }
+
+    float distanceBetweenNeighbor = 2.f*sin(dispersionAngle_) * speed_ * time_;
+    if (distanceBetweenNeighbor > radius_ / 2.f)
+    {
+        Subdivide();
     }
 }
