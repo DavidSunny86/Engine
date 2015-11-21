@@ -9,9 +9,11 @@ public:
 	~WaveParticle();
 
 	glm::vec2 GetPosition();
-
+    
+    void Update(float deltaT, float* heightMap, int width, int height);
 	float GetHeight(const glm::vec2& center, const glm::vec2& position);
     float BlendFuction(float position);
+    float FindTimeSinceCollision(float position, float speed, float startPoint);
     void Subdivide();
 
 	void Initialize(glm::vec2 direction,
@@ -22,7 +24,7 @@ public:
 					float radius,
 					float dispersionAngle);
 
-    void Update(float deltaT, float* heightMap, int width, int height);
+
     
 	glm::vec2 direction_;
 	glm::vec2 startPoint_;

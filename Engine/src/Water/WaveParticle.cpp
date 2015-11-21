@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.02f)
+    , minAmplitude_(0.005f)
     , alive_(false)
 {
 }
@@ -40,6 +40,11 @@ float WaveParticle::BlendFuction(float position)
         return value;
     else
         return 0.f;
+}
+
+float WaveParticle::FindTimeSinceCollision(float position, float speed, float startPoint)
+{
+    return time_ - (position - startPoint) / speed;
 }
 
 void WaveParticle::Subdivide()
@@ -80,35 +85,38 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     glm::vec2 normal;
     if (position.x >= 1.0f)
     {
+        position.x = 1.0f;
+        time_ = FindTimeSinceCollision(position.x, direction_.x * speed_, startPoint_.x);
+        startPoint_ = position;
 		normal = glm::vec2(1, 0);
 		direction_ = glm::reflect(direction_, normal);
-		time_ = 0.f;
-        position.x = 1.0f;
-		startPoint_ = position;
     }
-	if(position.y >= 1.0f)
+	else if(position.y >= 1.0f)
     {
+        position.y = 1.0f;
+        time_ = FindTimeSinceCollision(position.y, direction_.y * speed_, startPoint_.y);
+        startPoint_ = position;
 		normal = glm::vec2(0, -1);
 		direction_ = glm::reflect(direction_, normal);
-		time_ = 0.f;
-        position.y = 1.0f;
-		startPoint_ = position;
     }
-	if(position.x <= 0.0f)
+	else if(position.x <= 0.0f)
     {
+        position.x = 0.0f;
+        time_ = FindTimeSinceCollision(position.x, direction_.x * speed_, startPoint_.x);
+        startPoint_ = position;
 		normal = glm::vec2(-1, 0);
 		direction_ = glm::reflect(direction_, normal);
-		time_ = 0.f;
-        position.x = 0.0f;
-		startPoint_ = position;
+
+
+
     }
-	if(position.y <= 0.0f)
+	else if(position.y <= 0.0f)
     {
+        position.y = 0.0f;
+        time_ = FindTimeSinceCollision(position.y, direction_.y * speed_, startPoint_.y);
+        startPoint_ = position;
 		normal = glm::vec2(0, 1);
 		direction_ = glm::reflect(direction_, normal);
-		time_ = 0.f;
-        position.y = 0.0f;
-		startPoint_ = position;
     }
  
     int indexX = (int)(position.x * width);
