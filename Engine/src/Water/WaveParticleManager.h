@@ -23,7 +23,7 @@ public:
     void RefreshAliveParticles();
 	WaveParticle* GetNextParticle();
 
-	void SpawnCircularWave(int numberOfParticles, glm::vec2 position, float amplitude, float speed);
+	void SpawnCircularWave(int numberOfParticles, glm::vec2 position, float amplitude, float speed, float radius);
 	static WaveParticleManager* Instance();
 
 };

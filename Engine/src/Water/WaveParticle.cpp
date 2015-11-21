@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.05f)
+    , minAmplitude_(0.001f)
     , alive_(false)
 {
 }
@@ -121,10 +121,6 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     {
         for (int j = indexYMin; j < indexYMax; j++)
         {
-			if((indexXMax - i) * (indexXMax - i) + (indexYMax - j) * (indexYMax - j) < radius_ * radius_) 
-			{
-				continue;
-			}
             if (i >= width || j >= height || i < 0 || j < 0)
             {
                 continue;

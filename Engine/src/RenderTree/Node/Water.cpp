@@ -7,8 +7,8 @@
 #include <glm/gtc/type_ptr.hpp>
 
 
-int Water::waterNumberOfVertexWidth_ = 64;
-int Water::waterNumberOfVertexHeight_ = 64;
+int Water::waterNumberOfVertexWidth_ = 32;
+int Water::waterNumberOfVertexHeight_ = 32;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.1,0.1,0.1);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(0.3,0.3,0.6);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
