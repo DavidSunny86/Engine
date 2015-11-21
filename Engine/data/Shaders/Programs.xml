@@ -7,4 +7,5 @@
     <Water Vertex="WaterVertex.glsl" Fragment="WaterFragment.glsl"/>
     <Skybox Vertex="SkyboxVertex.glsl" Fragment="SkyboxFragment.glsl"/>
     <WaterFirstPass Vertex="WaterFirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
+    <ComputeWaterHeight Compute="ComputeWaterHeightMap.glsl"/>
 </Programs>

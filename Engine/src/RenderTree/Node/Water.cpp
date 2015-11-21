@@ -5,7 +5,8 @@
 #include "Water/WaveParticleManager.h"
 #include "Water/WaveParticle.h"
 #include <glm/gtc/type_ptr.hpp>
-
+#include <chrono>
+#include <thread>
 
 int Water::waterNumberOfVertexWidth_ = 32;
 int Water::waterNumberOfVertexHeight_ = 32;
@@ -106,13 +107,18 @@ void Water::Update(double deltaT)
     }
 
     auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
-    #pragma omp parallel for
+    /*#pragma omp parallel for
     for (int i = 0; i < (int)aliveParticles.size(); ++i)
     {
         aliveParticles[i]->Update((float)deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
-    }
+    }*/
+    GLSLProgram* computeProgram = GLSLProgramManager::Instance()->GetProgram("ComputeWaterHeight");
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
+    glBindImageTexture(0, heigthMapTexture_, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
+    glUseProgram(computeProgram->ID());
+    glUniform1i(computeProgram->GetUniformLocation("outputTex"), 0);
+    glDispatchCompute(32, 32, 1);
     WaveParticleManager::Instance()->RefreshAliveParticles();
 }
 

@@ -18,10 +18,22 @@ void GLSLProgramManager::LoadPrograms(std::string& path)
     tinyxml2::XMLElement* element = root->FirstChildElement();
     do
     {
+        GLSLProgram* program = NULL;
         std::string name = element->Name();
-        std::string vertex = element->Attribute("Vertex");
-        std::string fragment = element->Attribute("Fragment");
-        GLSLProgram* program = new GLSLProgram(std::string(".\\Shaders\\" + vertex), std::string(".\\Shaders\\" + fragment));
+        if (name.find("Compute") != std::string::npos)
+        {
+            std::string compute = element->Attribute("Compute");
+            GLSLShader* shader = new GLSLShader(GLSLShaderType::Compute, ".\\Shaders\\" + compute);
+            std::vector<GLSLShader*> shaders;
+            shaders.push_back(shader);
+            program = new GLSLProgram(shaders);
+        }
+        else
+        {
+            std::string vertex = element->Attribute("Vertex");
+            std::string fragment = element->Attribute("Fragment");
+            program = new GLSLProgram(std::string(".\\Shaders\\" + vertex), std::string(".\\Shaders\\" + fragment));
+        }
         programs_.insert(std::pair<std::string, GLSLProgram*>(name, program));
     } while (element = element->NextSiblingElement());
 }

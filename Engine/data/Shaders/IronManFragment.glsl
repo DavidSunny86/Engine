@@ -53,8 +53,8 @@ void main()
 	float cosTheta = clamp( dot( N,L ), 0,1 );
 	float bias = clamp(0.005 * tan(acos(cosTheta)),0.0,0.1);
 	float visibility = 1.0;
-	for (int i=0;i<4;++i){
-		visibility -= 0.2*(1.0-texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/700.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
+	for (int i=0;i<16;++i){
+		visibility -= 0.04*(1.0-texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/1000.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
 	}
 
 

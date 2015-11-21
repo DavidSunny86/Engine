@@ -116,7 +116,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 		direction_ = glm::reflect(direction_, normal);
     }
  
-    int indexX = (int)(position.x * width);
+    /*int indexX = (int)(position.x * width);
     int indexY = (int)(position.y * height);
     int indexXMax = indexX + (int)(radius_ * width);
     int indexXMin = indexX - (int)(radius_ * width);
@@ -136,9 +136,8 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
             {
                 heightMap[i * width + j] += waveHeight;
             }
-            
         }
-    }
+    }*/
 
     float distanceBetweenNeighbor = 2.f*sin(dispersionAngle_) * speed_ * time_;
     if (distanceBetweenNeighbor > radius_ / 2.f)
