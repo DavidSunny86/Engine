@@ -1,6 +1,5 @@
 #pragma once
 
-#include <mutex>
 #include <vector>
 #include <list>
 
@@ -12,14 +11,16 @@ private:
 	const int numberOfWaveParticles_;
 	static WaveParticleManager* instance_;
 	std::vector<WaveParticle*> waveParticles_;
-    std::mutex mutex_;
-	int index_;
 
+	int index_;
+    std::vector<WaveParticle*> firstAliveParticle_;
+    std::vector<WaveParticle*> secondAliveParicles_;
 public:
 	WaveParticleManager();
 	~WaveParticleManager();
-    std::list<WaveParticle*> aliveParticle_;
 
+    std::vector<WaveParticle*>& GetAliveParticles();
+    bool useFirstBuffer_;
     void RefreshAliveParticles();
 	WaveParticle* GetNextParticle();
 
