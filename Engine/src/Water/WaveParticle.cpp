@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.01f)
+    , minAmplitude_(0.05f)
     , alive_(false)
 {
 }
@@ -27,7 +27,7 @@ glm::vec2 WaveParticle::GetPosition()
 
 float WaveParticle::GetHeight(const glm::vec2& position)
 {
-    float distance = position.length() - GetPosition().length();
+    float distance = glm::length(position - GetPosition());
 	return amplitude_ / 2.f * (cos(3.14159f * distance / radius_)  + 1.f) * BlendFuction(distance);
 }
 
@@ -129,7 +129,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
             {
                 continue;
             }
-            heightMap[i * width + j] += GetHeight(glm::vec2(i/width,j/height));
+            heightMap[i * width + j] += GetHeight(glm::vec2((float)i/width,(float)j/height));
         }
     }
 }
