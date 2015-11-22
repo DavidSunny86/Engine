@@ -61,9 +61,6 @@ void main()
 	float distance = length(DirLum);
 	float distanceSquared = distance * distance;
 
-	color = clamp((visibility * materialAmbient * lightAmbientColor * lightIntensity * texture(ambientTexture,vec2(UV.x,1 - UV.y))) / distanceSquared, 0.0, 1.0);
-
-
 	float lambert = dot(N,L);
 	if(lambert > 0.0)
 	{
