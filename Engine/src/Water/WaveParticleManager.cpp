@@ -54,6 +54,7 @@ void WaveParticleManager::RefreshAliveParticles()
                 firstAliveParticle_.push_back(secondAliveParicles_[i]);
             }
         }
+        std::cout << secondAliveParicles_.size() << std::endl;
         secondAliveParicles_.clear();
     }
     useFirstBuffer_ = !useFirstBuffer_;
@@ -66,7 +67,7 @@ WaveParticle* WaveParticleManager::GetNextParticle()
 	{
 		waveParticle = waveParticles_[index_++];
 		index_ %= numberOfWaveParticles_;
-        if (!useFirstBuffer_)
+        if (useFirstBuffer_)
             firstAliveParticle_.push_back(waveParticle);
         else
             secondAliveParicles_.push_back(waveParticle);

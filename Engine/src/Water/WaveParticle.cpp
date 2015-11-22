@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.001f)
+    , minAmplitude_(0.05f)
     , alive_(false)
 {
 }
@@ -115,29 +115,6 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 		normal = glm::vec2(0, 1);
 		direction_ = glm::reflect(direction_, normal);
     }
- 
-    /*int indexX = (int)(position.x * width);
-    int indexY = (int)(position.y * height);
-    int indexXMax = indexX + (int)(radius_ * width);
-    int indexXMin = indexX - (int)(radius_ * width);
-    int indexYMax = indexY + (int)(radius_ * height);
-    int indexYMin = indexY - (int)(radius_ * height);
-    float inv_width = 1.f / width;
-    for (int i = indexXMin; i < indexXMax; ++i)
-    {
-        for (int j = indexYMin; j < indexYMax; j++)
-        {
-            if (i >= width || j >= height || i < 0 || j < 0)
-            {
-                continue;
-            }
-            float waveHeight = GetHeight(position,glm::vec2((float)i * inv_width, (float)j * inv_width));
-            #pragma omp critical
-            {
-                heightMap[i * width + j] += waveHeight;
-            }
-        }
-    }*/
 
     float distanceBetweenNeighbor = 2.f*sin(dispersionAngle_) * speed_ * time_;
     if (distanceBetweenNeighbor > radius_ / 2.f)

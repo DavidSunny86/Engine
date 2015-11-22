@@ -8,8 +8,8 @@
 #include <chrono>
 #include <thread>
 
-int Water::waterNumberOfVertexWidth_ = 32;
-int Water::waterNumberOfVertexHeight_ = 32;
+int Water::waterNumberOfVertexWidth_ = 256;
+int Water::waterNumberOfVertexHeight_ = 256;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
@@ -105,21 +105,56 @@ void Water::Update(double deltaT)
     {
         heightMapData_[i] = 0.f;
     }
-
     auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
-    /*#pragma omp parallel for
-    for (int i = 0; i < (int)aliveParticles.size(); ++i)
+    if (aliveParticles.size() != 0)
     {
-        aliveParticles[i]->Update((float)deltaT, heightMapData_, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
-    }*/
-    GLSLProgram* computeProgram = GLSLProgramManager::Instance()->GetProgram("ComputeWaterHeight");
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
-    glBindImageTexture(0, heigthMapTexture_, 0, GL_FALSE, 0, GL_WRITE_ONLY, GL_R32F);
-    glUseProgram(computeProgram->ID());
-    glUniform1i(computeProgram->GetUniformLocation("outputTex"), 0);
-    glDispatchCompute(32, 32, 1);
-    WaveParticleManager::Instance()->RefreshAliveParticles();
+        for (auto particule : aliveParticles)
+        {
+            particule->Update(deltaT, NULL, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
+        }
+        FillTexturesWithWaveParticle();
+        GLSLProgram* computeProgram = GLSLProgramManager::Instance()->GetProgram("ComputeWaterHeight");
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
+        glBindImageTexture(0, heigthMapTexture_, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32F);
+        
+        glUseProgram(computeProgram->ID());
+        glUniform1i(computeProgram->GetUniformLocation("heightMap"), 0);
+        glUniform1i(computeProgram->GetUniformLocation("StartPoint_Direction_Texture"), 1);
+        glUniform1i(computeProgram->GetUniformLocation("Speed_Time_Amplitude_Radius_Texture"), 3);
+        glUniform2iv(computeProgram->GetUniformLocation("HeightMapSize"), 1, glm::value_ptr(glm::ivec2(waterNumberOfVertexWidth_, waterNumberOfVertexHeight_)));
+        glDispatchCompute(aliveParticles.size(), 1, 1);
+        WaveParticleManager::Instance()->RefreshAliveParticles();
+    }
+}
+
+void Water::FillTexturesWithWaveParticle()
+{
+    auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
+    float* StartPointDirectionData = new float[aliveParticles.size() * 4];
+    float* SpeedTimeAmplitudeRadiusData = new float[aliveParticles.size() * 4];
+    for (int i = 0; i < aliveParticles.size(); ++i)
+    {
+        StartPointDirectionData[i * 4 + 0] = aliveParticles[i]->startPoint_.x;
+        StartPointDirectionData[i * 4 + 1] = aliveParticles[i]->startPoint_.y;
+        StartPointDirectionData[i * 4 + 2] = aliveParticles[i]->direction_.x;
+        StartPointDirectionData[i * 4 + 3] = aliveParticles[i]->direction_.y;
+
+        SpeedTimeAmplitudeRadiusData[i * 4 + 0] = aliveParticles[i]->speed_;
+        SpeedTimeAmplitudeRadiusData[i * 4 + 1] = aliveParticles[i]->time_;
+        SpeedTimeAmplitudeRadiusData[i * 4 + 2] = aliveParticles[i]->amplitude_;
+        SpeedTimeAmplitudeRadiusData[i * 4 + 3] = aliveParticles[i]->radius_;
+    }
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, aliveParticles.size(), 1, 0, GL_RGBA, GL_FLOAT, StartPointDirectionData);
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, aliveParticles.size(), 1, 0, GL_RGBA, GL_FLOAT, SpeedTimeAmplitudeRadiusData);
+
+    delete[] StartPointDirectionData;
+    delete[] SpeedTimeAmplitudeRadiusData;
 }
 
 void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
@@ -322,4 +357,19 @@ void Water::CreateBuffers()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+
+    glGenTextures(1, &waveStartPointDirectionTexture_);
+    glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glGenTextures(1, &waveSpeedTimeAmplitudeRadiusTexture_);
+    glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
