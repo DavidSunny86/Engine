@@ -2,7 +2,7 @@
 #include "WaveParticleManager.h"
 #include "WaveParticle.h"
 #include <iostream>
-
+#include "Constant.h"
 WaveParticleManager* WaveParticleManager::instance_ = NULL;
 
 std::vector<WaveParticle*>& WaveParticleManager::GetAliveParticles()
@@ -15,8 +15,8 @@ std::vector<WaveParticle*>& WaveParticleManager::GetAliveParticles()
 
 WaveParticleManager::WaveParticleManager()
 	: index_(0)
-	, numberOfWaveParticles_(1024 * 1024)
 {
+    numberOfWaveParticles_ = Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight;
 	waveParticles_.resize(numberOfWaveParticles_);
 	for (int i = 0; i < numberOfWaveParticles_; ++i)
 	{

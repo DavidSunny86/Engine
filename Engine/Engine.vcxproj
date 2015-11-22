@@ -184,6 +184,7 @@
     <ClCompile Include="src\RenderTree\Node\Water.cpp" />
     <ClCompile Include="src\Water\WaveParticle.cpp" />
     <ClCompile Include="src\Water\WaveParticleManager.cpp" />
+    <ClCompile Include="src\Water\WaterWaveParticles.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Constant.h" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\RenderTree\Node\Water.h" />
     <ClInclude Include="src\Water\WaveParticle.h" />
     <ClInclude Include="src\Water\WaveParticleManager.h" />
+    <ClInclude Include="src\Water\WaterWaveParticles.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\ComputeWaterHeightMap.glsl" />
@@ -232,6 +234,8 @@
     <None Include="data\Shaders\WaterFirstPassVertex.glsl" />
     <None Include="data\Shaders\WaterFragment.glsl" />
     <None Include="data\Shaders\WaterVertex.glsl" />
+    <None Include="data\Shaders\WaveFragment.glsl" />
+    <None Include="data\Shaders\WaveVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Models\Models.xml">

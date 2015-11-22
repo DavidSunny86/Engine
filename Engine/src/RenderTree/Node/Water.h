@@ -1,6 +1,8 @@
 #pragma once
 #include "RenderTree\Node\AbstractNode.h"
 #include "Manager\GLSLProgramManager.h"
+#include "Water\WaterWaveParticles.h"
+
 class Water :
     public AbstractNode
 {
@@ -14,7 +16,7 @@ public:
     virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel);
     virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
     virtual void Update(double deltaT);
-    void UpdateWaveParticule(double deltaT);
+    void UpdateWaveParticules(double deltaT);
     void ApplyReflectionTransformation(glm::mat4& modelReflection);
 
     void RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane = glm::vec4(0));
@@ -32,8 +34,6 @@ private:
     GLuint refractionTexture_;
     GLuint refractionDepthBuffer_;
 
-    GLuint heigthMapTexture_;
-
     GLuint textureWidth_;
     GLuint textureHeight_;
 
@@ -43,12 +43,11 @@ private:
     GLuint vao_;
     GLuint vbo_[3];
 
-    float* heightMapData_;
     double time_;
     float waveHeight_;
     float reflectionPerturbationFactor_;
 
-
+    GLuint WaveParticleFbo_;
     GLuint waveStartPointDirectionTexture_;
     GLuint waveSpeedTimeAmplitudeRadiusTexture_;
 
@@ -59,6 +58,6 @@ private:
     static glm::vec3 ambientMaterial_;
     static glm::vec3 diffuseMaterial_;
     static glm::vec3 specularMaterial_;
-
+    WaterWaveParticles* particles_;
 };
 

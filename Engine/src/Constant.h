@@ -10,4 +10,7 @@ public:
     static float rho;
     static float theta;
     static float phi;
+
+    static int maxNumberOfWaveParticleWidth;
+    static int maxNumberOfWaveParticleHeight;
 };

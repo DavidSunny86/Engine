@@ -8,7 +8,7 @@ class WaveParticle;
 class WaveParticleManager
 {
 private:
-	const int numberOfWaveParticles_;
+	int numberOfWaveParticles_;
 	static WaveParticleManager* instance_;
 	std::vector<WaveParticle*> waveParticles_;
 

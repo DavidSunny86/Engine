@@ -8,8 +8,8 @@
 #include <chrono>
 #include <thread>
 
-int Water::waterNumberOfVertexWidth_ = 64;
-int Water::waterNumberOfVertexHeight_ = 64;
+int Water::waterNumberOfVertexWidth_ = 1024;
+int Water::waterNumberOfVertexHeight_ = 1024;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
@@ -25,12 +25,7 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
     firstPassProgram_ = GLSLProgramManager::Instance()->GetProgram("WaterFirstPass");
     waveHeight_ = 2.f;
     reflectionPerturbationFactor_ = 0.01f;
-
-    heightMapData_ = new float[waterNumberOfVertexHeight_ * waterNumberOfVertexWidth_];
-    for (int i = 0; i < waterNumberOfVertexHeight_ * waterNumberOfVertexWidth_; ++i)
-    {
-        heightMapData_[i] = 0.f;
-    }
+    particles_ = new WaterWaveParticles(waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
     CreateBuffers();
     LoadModel();
 }
@@ -105,58 +100,9 @@ void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::m
 void Water::Update(double deltaT)
 {
     time_ += deltaT;
-    UpdateWaveParticules(deltaT);
-
+    particles_->Update(deltaT);
 }
 
-void Water::UpdateWaveParticules(double deltaT)
-{
-    auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
-    if (aliveParticles.size() != 0)
-    {
-        for (auto particule : aliveParticles)
-        {
-            particule->Update(deltaT, NULL, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
-        }
-        GLSLProgram* computeProgram = GLSLProgramManager::Instance()->GetProgram("ComputeWaterHeight");
-        float* StartPointDirectionData = new float[aliveParticles.size() * 4];
-        float* SpeedTimeAmplitudeRadiusData = new float[aliveParticles.size() * 4];
-        for (int i = 0; i < aliveParticles.size(); ++i)
-        {
-            StartPointDirectionData[i * 4 + 0] = aliveParticles[i]->startPoint_.x;
-            StartPointDirectionData[i * 4 + 1] = aliveParticles[i]->startPoint_.y;
-            StartPointDirectionData[i * 4 + 2] = aliveParticles[i]->direction_.x;
-            StartPointDirectionData[i * 4 + 3] = aliveParticles[i]->direction_.y;
-
-            SpeedTimeAmplitudeRadiusData[i * 4 + 0] = aliveParticles[i]->speed_;
-            SpeedTimeAmplitudeRadiusData[i * 4 + 1] = aliveParticles[i]->time_;
-            SpeedTimeAmplitudeRadiusData[i * 4 + 2] = aliveParticles[i]->amplitude_;
-            SpeedTimeAmplitudeRadiusData[i * 4 + 3] = aliveParticles[i]->radius_;
-        }
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, heightMapData_);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, aliveParticles.size(), 1, 0, GL_RGBA, GL_FLOAT, StartPointDirectionData);
-        glActiveTexture(GL_TEXTURE2);
-        glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, aliveParticles.size(), 1, 0, GL_RGBA, GL_FLOAT, SpeedTimeAmplitudeRadiusData);
-
-
-        glBindImageTexture(0, heigthMapTexture_, 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32F);
-        glUseProgram(computeProgram->ID());
-        glUniform1i(computeProgram->GetUniformLocation("heightMap"), 0);
-        glUniform1i(computeProgram->GetUniformLocation("StartPoint_Direction_Texture"), 1);
-        glUniform1i(computeProgram->GetUniformLocation("Speed_Time_Amplitude_Radius_Texture"), 2);
-        glUniform2iv(computeProgram->GetUniformLocation("HeightMapSize"), 1, glm::value_ptr(glm::ivec2(waterNumberOfVertexWidth_, waterNumberOfVertexHeight_)));
-        glDispatchCompute(aliveParticles.size(), 1, 1);
-        auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
-
-        delete[] StartPointDirectionData;
-        delete[] SpeedTimeAmplitudeRadiusData;
-    }
-}
 
 void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
 {
@@ -173,7 +119,7 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, refractionTexture_);
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+    glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
     glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
     glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
     glUniform1i(waterProgram_->GetUniformLocation("heightMap"), 3);
@@ -224,7 +170,7 @@ void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const g
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("M"), 1, GL_FALSE, glm::value_ptr(m));
     glUniform4fv(firstPassProgram_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
 	glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
+    glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
     glUniform1i(firstPassProgram_->GetUniformLocation("heightMap"), 3);
     glDisable(GL_BLEND);
     glBindVertexArray(vao_);
@@ -348,28 +294,4 @@ void Water::CreateBuffers()
     glReadBuffer(GL_NONE);
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
         throw new std::exception("Water refraction fbo problem");
-
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-    glGenTextures(1, &heigthMapTexture_);
-    glBindTexture(GL_TEXTURE_2D, heigthMapTexture_);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, waterNumberOfVertexWidth_, waterNumberOfVertexHeight_, 0, GL_RED, GL_FLOAT, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    glGenTextures(1, &waveStartPointDirectionTexture_);
-    glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    
-    glGenTextures(1, &waveSpeedTimeAmplitudeRadiusTexture_);
-    glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }

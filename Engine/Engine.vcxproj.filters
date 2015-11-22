@@ -108,6 +108,9 @@
     <ClCompile Include="src\Water\WaveParticleManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Water\WaterWaveParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Utility\Window.h">
@@ -197,6 +200,9 @@
     <ClInclude Include="src\Water\WaveParticleManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Water\WaterWaveParticles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\HumanVertex.glsl" />
@@ -214,6 +220,8 @@
     <None Include="data\Shaders\SkyboxFragment.glsl" />
     <None Include="data\Shaders\WaterFirstPassVertex.glsl" />
     <None Include="data\Shaders\ComputeWaterHeightMap.glsl" />
+    <None Include="data\Shaders\WaveVertex.glsl" />
+    <None Include="data\Shaders\WaveFragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Shaders\Programs.xml" />
