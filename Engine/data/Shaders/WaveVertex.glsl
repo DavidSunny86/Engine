@@ -28,6 +28,6 @@ void main()
 	vec2 position = startPoint + direction * speed * time;
 	centerPosition = position;
 	position = position * 2 - vec2(1.0,1.0);
-	gl_PointSize = radius * heightMapSize.x;
+	gl_PointSize =  2 * radius * heightMapSize.x;
 	gl_Position = vec4(position,0,1);
 }

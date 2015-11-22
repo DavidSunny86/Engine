@@ -64,8 +64,6 @@ void WaterWaveParticles::Update(double deltaT)
     glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
     error = glGetError();
     glEnable(GL_BLEND);
-    glEnable(GL_POINT_SMOOTH);
-    glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);
     glBlendFunc(GL_ONE, GL_ONE);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
@@ -80,6 +78,7 @@ void WaterWaveParticles::Update(double deltaT)
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
     glDisable(GL_POINT_SMOOTH);
+
     glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
