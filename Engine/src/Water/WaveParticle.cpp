@@ -75,7 +75,7 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
 {
     time_ += deltaT;
     amplitude_ -= amplitude_ * 0.01f * deltaT;
-    if (amplitude_ < minAmplitude_)
+    if (abs(amplitude_) < minAmplitude_)
     {
         alive_ = false;
         return;

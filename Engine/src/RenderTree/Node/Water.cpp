@@ -169,6 +169,7 @@ void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const g
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("M"), 1, GL_FALSE, glm::value_ptr(m));
     glUniform4fv(firstPassProgram_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
+    glUniform3fv(firstPassProgram_->GetUniformLocation("scale"), 1, glm::value_ptr(scale_));
 	glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
     glUniform1i(firstPassProgram_->GetUniformLocation("heightMap"), 3);

@@ -177,7 +177,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
 
 			glm::vec2 worldPosition(position.x / Constant::ViewportWidth, position.y / Constant::ViewPortHeight);
 
-			WaveParticleManager::Instance()->SpawnCircularWave(10, worldPosition, 5.f, 0.1f, 0.1f);
+			WaveParticleManager::Instance()->SpawnCircularWave(10, worldPosition, 2.f, 0.1f, 0.1f);
             break;;
         }
 	}

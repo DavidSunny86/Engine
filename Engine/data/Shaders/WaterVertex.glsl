@@ -16,12 +16,16 @@ uniform mat4 depthMVP;
 uniform mat3 normalMatrix;
 uniform vec4 lightPosition;
 
+uniform vec3 scale;
 uniform sampler2D heightMap;
 
 void main()
 {
 	vec4 position = vec4(vertexPosition,1.0);
-	position.y = texture(heightMap,uvCoord).r;
+	vec3 heightMapValue = texture(heightMap,uvCoord).rgb;
+	position.x += heightMapValue.g / scale.x;
+	position.y = heightMapValue.r;
+	position.z += heightMapValue.b / scale.z;
 	gl_Position = MVP * position;
 	shadowCoord = depthMVP * position;
 	vec4 MVPosition = MV * position;

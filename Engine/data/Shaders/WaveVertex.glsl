@@ -9,7 +9,7 @@ uniform sampler2D speedTimeAmplitudeRadiusTexture;
 out float amplitude;
 out float radius;
 out vec2 centerPosition;
-
+out vec2 direction;
 uniform ivec2 heightMapSize;
 
 void main()
@@ -18,7 +18,7 @@ void main()
 	vec4 speedTimeAmplitudeRadius = texture(speedTimeAmplitudeRadiusTexture, uvCoord);
 
 	vec2 startPoint = startPointDirection.xy;
-	vec2 direction = startPointDirection.zw;
+	direction = startPointDirection.zw;
 
 	float speed = speedTimeAmplitudeRadius.x;
 	float time = speedTimeAmplitudeRadius.y;
