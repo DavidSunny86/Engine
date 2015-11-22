@@ -66,9 +66,7 @@ void main()
                 continue;
             }
             float height = ComputeHeight(position,vec2(float(i) / HeightMapSize.x, float(j) / HeightMapSize.y), amplitude, radius);
-			barrier();
 			height += imageLoad(heightMap,ivec2(i,j)).r;
-			barrier();
 			imageStore(heightMap, ivec2(i,j),vec4(height,0,0,0));
         }
 	}

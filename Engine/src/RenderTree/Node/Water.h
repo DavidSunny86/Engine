@@ -14,7 +14,7 @@ public:
     virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel);
     virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
     virtual void Update(double deltaT);
-    void FillTexturesWithWaveParticle();
+    void UpdateWaveParticule(double deltaT);
     void ApplyReflectionTransformation(glm::mat4& modelReflection);
 
     void RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane = glm::vec4(0));
