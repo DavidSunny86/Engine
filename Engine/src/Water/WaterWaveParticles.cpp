@@ -27,10 +27,6 @@ void WaterWaveParticles::Update(double deltaT)
     auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
     if (aliveParticles.size() > 0)
     {
-        for (auto particule : aliveParticles)
-        {
-            particule->Update((float)deltaT, NULL, heightMapWidth_, heightMapHeight_);
-        }
         for (int i = 0; i < (int)aliveParticles.size(); ++i)
         {
             StartPointDirectionData_[i * 4 + 0] = aliveParticles[i]->startPoint_.x;
@@ -47,10 +43,12 @@ void WaterWaveParticles::Update(double deltaT)
         int height = (aliveParticles.size() / Constant::maxNumberOfWaveParticleWidth) + 1;
         glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, StartPointDirectionData_);
-        error = glGetError();
         glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
         glTexSubImage2D(GL_TEXTURE_2D, 0,0,0, width, height, GL_RGBA, GL_FLOAT, SpeedTimeAmplitudeRadiusData_);
-        error = glGetError();
+        for (auto particule : aliveParticles)
+        {
+            particule->Update((float)deltaT, NULL, heightMapWidth_, heightMapHeight_);
+        }
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, WaveParticleFbo_);
