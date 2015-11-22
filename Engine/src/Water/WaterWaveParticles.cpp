@@ -55,23 +55,19 @@ void WaterWaveParticles::Update(double deltaT)
     glViewport(0, 0, heightMapWidth_, heightMapHeight_);
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(waveProgram_->ID());
-    error = glGetError();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
-    error = glGetError();
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-    error = glGetError();
     glUniform1i(waveProgram_->GetUniformLocation("startPointDirectionTexture"), 0);
     glUniform1i(waveProgram_->GetUniformLocation("speedTimeAmplitudeRadiusTexture"), 1);
     glUniform2iv(waveProgram_->GetUniformLocation("heightMapSize"), 1, glm::value_ptr(glm::ivec2(heightMapWidth_, heightMapHeight_)));
     glBindVertexArray(vao_);
     glDrawElements(GL_POINTS, aliveParticles.size(), GL_UNSIGNED_INT, 0);
-    error = glGetError();
     glBindVertexArray(0);
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
@@ -80,7 +76,7 @@ void WaterWaveParticles::Update(double deltaT)
     glDisable(GL_VERTEX_PROGRAM_POINT_SIZE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
-    error = glGetError();
+    WaveParticleManager::Instance()->RefreshAliveParticles();
 }
 
 GLuint WaterWaveParticles::GetHeightMapTexture()
