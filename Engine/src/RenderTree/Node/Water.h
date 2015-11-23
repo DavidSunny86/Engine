@@ -23,8 +23,16 @@ public:
     
     void LoadModel();
 private:
+    static int waterNumberOfVertexWidth_;
+    static int waterNumberOfVertexHeight_;
+    static float shininess_;
+    static glm::vec3 ambientMaterial_;
+    static glm::vec3 diffuseMaterial_;
+    static glm::vec3 specularMaterial_;
+    
     bool renderingWater_;
     void CreateBuffers();
+    
     GLuint reflectionFbo_;
     GLuint reflectionTexture_;
     GLuint reflectionDepthBuffer_;
@@ -51,13 +59,7 @@ private:
     GLuint waveSpeedTimeAmplitudeRadiusTexture_;
 
     unsigned int numberOfFaces_;
-    static int waterNumberOfVertexWidth_;
-    static int waterNumberOfVertexHeight_;
-    static float shininess_;
-    static glm::vec3 ambientMaterial_;
-    static glm::vec3 diffuseMaterial_;
-    static glm::vec3 specularMaterial_;
-    WaterWaveParticles* particles_;
 
+    WaterWaveParticles* particles_;
 };
 

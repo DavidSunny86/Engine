@@ -149,6 +149,9 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
         case GLFW_KEY_P:
 			RenderTree::pause_ = !RenderTree::pause_;
             break;
+        case GLFW_KEY_N:
+            std::cout << "Number of particles: " << WaveParticleManager::Instance()->GetAliveParticles().size() << std::endl;
+            break;
         }
     }
 }
