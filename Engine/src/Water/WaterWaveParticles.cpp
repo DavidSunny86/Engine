@@ -32,6 +32,7 @@ void WaterWaveParticles::Update(double deltaT)
     auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
     if (aliveParticles.size() > 0)
     {
+        #pragma omp parallel for
         for (int i = 0; i < (int)aliveParticles.size(); ++i)
         {
             StartPointDirectionData_[i * 4 + 0] = aliveParticles[i]->startPoint_.x;
@@ -43,6 +44,8 @@ void WaterWaveParticles::Update(double deltaT)
             SpeedTimeAmplitudeRadiusData_[i * 4 + 1] = aliveParticles[i]->time_;
             SpeedTimeAmplitudeRadiusData_[i * 4 + 2] = aliveParticles[i]->amplitude_;
             SpeedTimeAmplitudeRadiusData_[i * 4 + 3] = aliveParticles[i]->radius_;
+
+            aliveParticles[i]->Update((float)deltaT, NULL, heightMapWidth_, heightMapHeight_);
         }
         int width = Constant::maxNumberOfWaveParticleWidth;
         int height = (aliveParticles.size() / Constant::maxNumberOfWaveParticleWidth) + 1;
@@ -50,10 +53,6 @@ void WaterWaveParticles::Update(double deltaT)
         glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, width, height, GL_RGBA, GL_FLOAT, StartPointDirectionData_);
         glBindTexture(GL_TEXTURE_2D, waveSpeedTimeAmplitudeRadiusTexture_);
         glTexSubImage2D(GL_TEXTURE_2D, 0,0,0, width, height, GL_RGBA, GL_FLOAT, SpeedTimeAmplitudeRadiusData_);
-        for (auto particule : aliveParticles)
-        {
-            particule->Update((float)deltaT, NULL, heightMapWidth_, heightMapHeight_);
-        }
     }
 
     glBindFramebuffer(GL_FRAMEBUFFER, WaveParticleFbo_);
