@@ -22,22 +22,7 @@ GLSLProgram::~GLSLProgram()
 
 GLint GLSLProgram::GetUniformLocation(std::string name)
 {
-    GLint location = 0;
-    auto it = uniforms_.find(name);
-    if (it == uniforms_.end())
-    {
-        location = glGetUniformLocation(id_, name.c_str());
-        
-        if (location == -1)
-            std::cout << "Uniform: " + name + " doesn't exist in program" << std::endl;
-        
-        uniforms_.insert(std::pair<std::string, GLint>(name, location));
-    }
-    else
-    {
-        location = (*it).second;
-    }
-    return location;
+    return glGetUniformLocation(id_, name.c_str());
 }
 
 void GLSLProgram::RecompileProgram()

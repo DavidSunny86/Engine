@@ -11,6 +11,11 @@ WaterWaveParticles::WaterWaveParticles(int heightMapWidth, int heightMapHeight)
     StartPointDirectionData_ = new float[Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight * 4];
     SpeedTimeAmplitudeRadiusData_ = new float[Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight * 4];
     waveProgram_ = GLSLProgramManager::Instance()->GetProgram("WaveParticle");
+   
+    uniformStartPointDirectionTexture_ = waveProgram_->GetUniformLocation("startPointDirectionTexture");
+    uniformSpeedTimeAmplitudeRadiusTexture_ = waveProgram_->GetUniformLocation("speedTimeAmplitudeRadiusTexture");
+    uniformHeightMapSize_ = waveProgram_->GetUniformLocation("heightMapSize");
+    
     CreateRenderBuffer();
     CreateVertexArrayObject();
 }
@@ -63,9 +68,9 @@ void WaterWaveParticles::Update(double deltaT)
     glBlendFunc(GL_ONE, GL_ONE);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_VERTEX_PROGRAM_POINT_SIZE);
-    glUniform1i(waveProgram_->GetUniformLocation("startPointDirectionTexture"), 0);
-    glUniform1i(waveProgram_->GetUniformLocation("speedTimeAmplitudeRadiusTexture"), 1);
-    glUniform2iv(waveProgram_->GetUniformLocation("heightMapSize"), 1, glm::value_ptr(glm::ivec2(heightMapWidth_, heightMapHeight_)));
+    glUniform1i(uniformStartPointDirectionTexture_, 0);
+    glUniform1i(uniformSpeedTimeAmplitudeRadiusTexture_, 1);
+    glUniform2iv(uniformHeightMapSize_, 1, glm::value_ptr(glm::ivec2(heightMapWidth_, heightMapHeight_)));
     glBindVertexArray(vao_);
     glDrawElements(GL_POINTS, aliveParticles.size(), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);

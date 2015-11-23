@@ -28,5 +28,11 @@ protected:
 
     GLuint vao_;
     GLuint vbo_[3];
+
+
+    //Uniform
+    GLint uniformStartPointDirectionTexture_;
+    GLint uniformSpeedTimeAmplitudeRadiusTexture_;
+    GLint uniformHeightMapSize_;
 };
 

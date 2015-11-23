@@ -18,6 +18,5 @@ protected:
     void CompileProgram();
     GLuint id_;
     std::vector<GLSLShader*> shaders_;
-    std::map<std::string, GLint> uniforms_;
 };
 
