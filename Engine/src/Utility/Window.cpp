@@ -158,30 +158,32 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
 
 void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods)
 {
-	if (action == GLFW_PRESS || action == GLFW_REPEAT)
+	if (action == GLFW_PRESS)
 	{
         switch (button)
         {
         case GLFW_MOUSE_BUTTON_1:
 			double xpos;
 			double ypos;
-
-			glfwGetCursorPos(window, &xpos, &ypos);
-			glm::vec4 position(xpos, ypos, 0, 1);
-
-			Camera* camera = scene_->GetCamera();
-			glm::mat4 view(1);
+            float depth;
+			
+            glfwGetCursorPos(window, &xpos, &ypos);
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glReadPixels(xpos, ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+			
+            Camera* camera = scene_->GetCamera();
+			
+            glm::mat4 view(1);
 			glm::mat4 projection(1);
-
 			camera->Apply(view, projection);
 
-			glm::mat4 transformationMatrix = glm::inverse(projection * view);
-			position = transformationMatrix * position;
-
-			glm::vec2 worldPosition(position.x / Constant::ViewportWidth, position.y / Constant::ViewPortHeight);
-
-			WaveParticleManager::Instance()->SpawnCircularWave(10, worldPosition, 2.f, 0.1f, 0.1f);
-            break;;
+            glm::vec3 position = glm::unProject(glm::vec3(xpos, ypos, depth), view, projection, glm::vec4(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight));
+            if (position.x <= 30.f && position.x >= -30.f && position.z <= 30.f && position.z >= -30.f)
+            {
+                glm::vec2 waterPosition((-position.x + 30.f) / 60.f, (position.z + 30.f) / 60.f);
+                WaveParticleManager::Instance()->SpawnCircularWave(10, waterPosition, 2.f, 0.1f, 0.1f);
+            }
+            break;
         }
 	}
 }
