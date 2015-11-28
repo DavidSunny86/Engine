@@ -222,6 +222,7 @@
     <None Include="data\Shaders\ComputeWaterHeightMap.glsl" />
     <None Include="data\Shaders\WaveVertex.glsl" />
     <None Include="data\Shaders\WaveFragment.glsl" />
+    <None Include="data\Shaders\ComputeHeightMapNormal.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Shaders\Programs.xml" />

@@ -8,8 +8,8 @@
 #include <chrono>
 #include <thread>
 
-int Water::waterNumberOfVertexWidth_ = 64;
-int Water::waterNumberOfVertexHeight_ = 64;
+int Water::waterNumberOfVertexWidth_ = 128;
+int Water::waterNumberOfVertexHeight_ = 128;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
@@ -120,10 +120,15 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
     glBindTexture(GL_TEXTURE_2D, refractionTexture_);
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
+    glActiveTexture(GL_TEXTURE4);
+    glBindTexture(GL_TEXTURE_2D, particles_->GetNormalHeightMapTexture());
     glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
     glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
     glUniform1i(waterProgram_->GetUniformLocation("heightMap"), 3);
+    glUniform1i(waterProgram_->GetUniformLocation("normalMap"), 4);
+
     glm::vec2 viewPort = glm::vec2(Constant::ViewportWidth, Constant::ViewPortHeight);
+
     glUniform2i(waterProgram_->GetUniformLocation("viewPort"), Constant::ViewportWidth, Constant::ViewPortHeight);
     glUniform1f(waterProgram_->GetUniformLocation("inv_textureWidth"), 1.f / waterNumberOfVertexWidth_);
     glUniform1f(waterProgram_->GetUniformLocation("reflectionPerturbationFactor"), reflectionPerturbationFactor_);

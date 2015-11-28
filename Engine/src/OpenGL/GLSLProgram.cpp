@@ -22,7 +22,8 @@ GLSLProgram::~GLSLProgram()
 
 GLint GLSLProgram::GetUniformLocation(std::string name)
 {
-    return glGetUniformLocation(id_, name.c_str());
+    GLint location = glGetUniformLocation(id_, name.c_str());
+    return location;
 }
 
 void GLSLProgram::RecompileProgram()

@@ -224,6 +224,7 @@
     <ClInclude Include="src\Water\WaterWaveParticles.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Shaders\ComputeHeightMapNormal.glsl" />
     <None Include="data\Shaders\ComputeWaterHeightMap.glsl" />
     <None Include="data\Shaders\FirstPassFragment.glsl" />
     <None Include="data\Shaders\FirstPassVertex.glsl" />
