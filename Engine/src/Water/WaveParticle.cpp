@@ -11,7 +11,7 @@ WaveParticle::WaveParticle()
     , time_(0.f)
     , radius_(0.f)
     , dispersionAngle_(0.f)
-    , minAmplitude_(0.05f)
+    , minAmplitude_(0.001f)
     , alive_(false)
 {
 }

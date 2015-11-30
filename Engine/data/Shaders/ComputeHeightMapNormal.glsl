@@ -28,7 +28,7 @@ void main()
 	h[7] = texelFetch(heightMap, UV + offset.zz, 0).r;
 	float sobelX = -h[0] + h[2] + 2 * (-h[3] + h[4]) - h[5] + h[7];
 	float sobelZ = -h[0] + h[5] + 2 * (-h[1] + h[6]) - h[2] + h[7];
-	vec3 normal = vec3(sobelX/scale.x, 2.0 * inv_textureWidth / scale.y, sobelZ/scale.z);
+	vec3 normal = vec3(sobelX/scale.x, 8.0 * inv_textureWidth / scale.y, sobelZ/scale.z);
 	normal = normalize(normal);
 	imageStore(normalMap, UV, vec4(normal,0.0));
 }

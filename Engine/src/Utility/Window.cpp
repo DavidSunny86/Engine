@@ -169,7 +169,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
 			
             glfwGetCursorPos(window, &xpos, &ypos);
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-            glReadPixels(xpos, ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+            glReadPixels((GLint)xpos, (GLint)ypos, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
 			
             Camera* camera = scene_->GetCamera();
 			
@@ -181,7 +181,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
             if (position.x <= 30.f && position.x >= -30.f && position.z <= 30.f && position.z >= -30.f)
             {
                 glm::vec2 waterPosition((-position.x + 30.f) / 60.f, (position.z + 30.f) / 60.f);
-                WaveParticleManager::Instance()->SpawnCircularWave(10, waterPosition, 2.f, 0.1f, 0.1f);
+                WaveParticleManager::Instance()->SpawnCircularWave(10, waterPosition, 1.2f, 0.1f, 0.1f);
             }
             break;
         }
