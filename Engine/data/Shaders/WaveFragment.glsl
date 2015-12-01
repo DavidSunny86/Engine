@@ -27,7 +27,7 @@ float ComputeHeight(float distanceFromCenter)
 vec2 ComputeHorizontalDisplacement(float distanceFromCenter)
 {
 	float u = length(direction * distanceFromCenter);
-	return -sin(3.14159 * u / radius) * BlendFunction(u) * direction; 
+	return -sin(2 * 3.14159 * u / radius) * BlendFunction(u) * direction; 
 }
 
 void main()
