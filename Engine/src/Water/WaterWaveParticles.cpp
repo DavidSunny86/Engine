@@ -59,7 +59,7 @@ void WaterWaveParticles::Update(double deltaT)
     glViewport(0, 0, heightMapWidth_, heightMapHeight_);
     glClear(GL_COLOR_BUFFER_BIT);
     glUseProgram(waveProgram_->ID());
-    
+    glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
     glActiveTexture(GL_TEXTURE1);
@@ -126,8 +126,8 @@ void WaterWaveParticles::CreateRenderBuffer()
     glGenTextures(1, &normalHeightMapTexture_);
     glBindTexture(GL_TEXTURE_2D, normalHeightMapTexture_);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, heightMapWidth_, heightMapHeight_, 0, GL_RED, GL_FLOAT, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     

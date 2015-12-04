@@ -8,8 +8,8 @@
 #include <chrono>
 #include <thread>
 
-int Water::waterNumberOfVertexWidth_ = 128;
-int Water::waterNumberOfVertexHeight_ = 128;
+int Water::waterNumberOfVertexWidth_ = 124;
+int Water::waterNumberOfVertexHeight_ = 124;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);

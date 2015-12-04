@@ -26,9 +26,7 @@ void main()
 	vec3 heightMapValue = texture(heightMap,uvCoord).rgb;
 	modelNormal = texture(normalMap,uvCoord).rgb;
 	normal = normalMatrix * modelNormal;
-	position.x += heightMapValue.g / scale.x;
-	position.y = heightMapValue.r;
-	position.z += heightMapValue.b / scale.z;
+	position = vec4(position.xyz + heightMapValue.grb / scale,1.0);
 	gl_Position = MVP * position;
 	shadowCoord = depthMVP * position;
 	vec4 MVPosition = MV * position;

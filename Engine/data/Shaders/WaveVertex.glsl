@@ -8,8 +8,8 @@ uniform sampler2D speedTimeAmplitudeRadiusTexture;
 
 out float amplitude;
 out float radius;
-out vec2 centerPosition;
 out vec2 direction;
+
 uniform ivec2 heightMapSize;
 
 void main()
@@ -26,7 +26,6 @@ void main()
 	radius = speedTimeAmplitudeRadius.w;
 
 	vec2 position = startPoint + direction * speed * time;
-	centerPosition = position;
 	position = position * 2 - vec2(1.0,1.0);
 	gl_PointSize =  2 * radius * heightMapSize.x;
 	gl_Position = vec4(position,0,1);

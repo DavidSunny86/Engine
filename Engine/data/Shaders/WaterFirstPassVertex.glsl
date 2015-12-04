@@ -11,9 +11,7 @@ void main()
 {
 	vec4 position = vec4(vertexPosition,1.0);
 	vec3 heightMapValue = texture(heightMap,uvCoord).rgb;
-	position.x += heightMapValue.g / scale.x;
-	position.y = heightMapValue.r;
-	position.z += heightMapValue.b / scale.z;
+	position = vec4(position.xyz + heightMapValue.grb / scale,1.0);
 	vec4 MPosition = M * position;
 	gl_Position = MVP * position;
 	gl_ClipDistance[0] = dot(MPosition,clipPlane);

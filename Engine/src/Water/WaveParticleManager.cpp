@@ -81,10 +81,10 @@ void WaveParticleManager::SpawnCircularWave(int numberOfParticles, glm::vec2 pos
 	for (int i = 0; i < numberOfParticles; ++i)
 	{
 		WaveParticle* waveParticle = GetNextParticle();
-        WaveParticle* waveParticle2 = GetNextParticle();
+        //WaveParticle* waveParticle2 = GetNextParticle();
 		float dispersionAngle = 2.0f * 3.14159f / numberOfParticles;
 		waveParticle->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, amplitude, speed, initializationTime, radius, dispersionAngle);
-        waveParticle2->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, -amplitude, speed, initializationTime - 0.5f, radius, dispersionAngle);
+        //waveParticle2->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, -amplitude, speed, initializationTime - 0.5f, radius, dispersionAngle);
     }
 }
 
