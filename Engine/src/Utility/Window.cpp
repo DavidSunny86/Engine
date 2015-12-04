@@ -181,7 +181,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
             if (position.x <= 30.f && position.x >= -30.f && position.z <= 30.f && position.z >= -30.f)
             {
                 glm::vec2 waterPosition((-position.x + 30.f) / 60.f, (position.z + 30.f) / 60.f);
-                WaveParticleManager::Instance()->SpawnCircularWave(10, waterPosition, 5.f, 0.1f, 0.1f);
+                WaveParticleManager::Instance()->SpawnCircularWave(10, waterPosition, 2.f, 0.15f, 0.05f);
             }
             break;
         }

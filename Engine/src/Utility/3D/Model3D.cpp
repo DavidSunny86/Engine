@@ -87,7 +87,6 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
 
 void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
-    m = glm::scale(m, glm::vec3(-1, 1, 1));
     RenderFirstPass(m, v, p, clipPlane);
     glUseProgram(program_->ID());
     glm::mat4 mv = v * m;
@@ -111,9 +110,7 @@ void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4&
         glUniform4fv(programLightAmbientColorLocation_, 1, glm::value_ptr(light->ambientColor_));
         glUniform4fv(programLightDiffuseColorLocation_, 1, glm::value_ptr(light->diffuseColor_));
         glUniform4fv(programLightSpecularColorLocation_, 1, glm::value_ptr(light->specularColor_));
-        glm::vec4 lightPosition = light->transformedPosition_;
-        lightPosition.y = -lightPosition.y;
-        glUniform4fv(programLightPositionLocation_, 1, glm::value_ptr(lightPosition));
+        glUniform4fv(programLightPositionLocation_, 1, glm::value_ptr(light->transformedPosition_));
         glUniform1f(programLightIntensityLocation_, light->power_);
         glUniform4fv(programClipPlaneLocation_, 1, glm::value_ptr(clipPlane));
         for (auto mesh : meshes_)

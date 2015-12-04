@@ -8,8 +8,8 @@
 #include <chrono>
 #include <thread>
 
-int Water::waterNumberOfVertexWidth_ = 124;
-int Water::waterNumberOfVertexHeight_ = 124;
+int Water::waterNumberOfVertexWidth_ = 256;
+int Water::waterNumberOfVertexHeight_ = 256;
 glm::vec3 Water::ambientMaterial_ = glm::vec3(0.2,0.2,0.2);
 glm::vec3 Water::diffuseMaterial_ = glm::vec3(1.0,1.0,1.0);
 glm::vec3 Water::specularMaterial_ = glm::vec3(1.0,1.0,1.0);
@@ -66,10 +66,13 @@ void Water::RenderWaterReflection(glm::mat4 model, const glm::mat4& view, const 
     glViewport(0, 0, textureWidth_, textureHeight_);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     glEnable(GL_CLIP_DISTANCE0);
+    glDisable(GL_CULL_FACE);
     glm::mat4 modelReflection = glm::mat4(1);
     ApplyReflectionTransformation(modelReflection);
     glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
     parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane, glm::mat4(1));
+    glEnable(GL_CULL_FACE);
+    glDisable(GL_CLIP_DISTANCE0);
 }
 
 void Water::RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement)
@@ -78,7 +81,7 @@ void Water::RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const 
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     glm::mat4 modelReflection = glm::mat4(1);
     glm::vec4 clipPlane = glm::vec4(0, 1, 0, 0);
-    glDisable(GL_CLIP_DISTANCE0);
+
     parent_->RenderFirstPass(modelReflection, view, projection);
     parent_->Render(modelReflection, view, projection, environnement);
 

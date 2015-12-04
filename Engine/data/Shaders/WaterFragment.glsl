@@ -57,7 +57,6 @@ void main()
 		visibility -= 0.04*(1.0 - texture( shadowMap, vec3(shadowCoord.xy + poissonDisk[i]/1000.0,  (shadowCoord.z-bias)/shadowCoord.w) ));
 	}
 	vec2 screenSpace = vec2(gl_FragCoord.x / viewPort.x, gl_FragCoord.y/ viewPort.y);
-
 	float distance = length(DirLum);
 	float distanceSquared = distance * distance;
 
