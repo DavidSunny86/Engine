@@ -1,6 +1,8 @@
-#include "RenderTreeLoader.h"
 #include <TiniXML2/tinyxml2.h>
+
+#include "RenderTreeLoader.h"
 #include "Loader/NodeFactory.h"
+#include "RenderTree/Node/RenderTree.h"
 
 RenderTree* RenderTreeLoader::CreateRenderTree(std::string& pathToFile)
 {

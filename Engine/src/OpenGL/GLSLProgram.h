@@ -3,7 +3,8 @@
 #include <map>
 #include "GL\glew.h"
 
-#include "GLSLShader.h"
+class GLSLShader;
+
 class GLSLProgram
 {
 public:

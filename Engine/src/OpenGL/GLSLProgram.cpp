@@ -1,5 +1,7 @@
-#include "GLSLProgram.h"
 #include <iostream>
+
+#include "GLSLProgram.h"
+#include "GLSLShader.h"
 
 GLSLProgram::GLSLProgram(const std::vector<GLSLShader*>& shaders)
 {

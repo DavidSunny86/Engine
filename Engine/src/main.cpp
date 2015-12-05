@@ -1,6 +1,6 @@
-#include "GL\glew.h"
-#include "GLFW\glfw3.h"
-#include "IL\il.h"
+#include <GL\glew.h>
+#include <GLFW\glfw3.h>
+#include <IL\il.h>
 
 #include "Engine.h"
 int main()
@@ -8,8 +8,7 @@ int main()
     glfwInit();
     ilInit();
 
-    Engine* e = new Engine();
+    Engine* e = Engine::Instance();
     e->Loop();
-    delete e;
     return 0;
 }

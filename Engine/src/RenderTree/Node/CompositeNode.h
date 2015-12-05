@@ -1,6 +1,5 @@
 #pragma once
 #include <list>
-
 #include "RenderTree\Node\AbstractNode.h"
 
 class CompositeNode :

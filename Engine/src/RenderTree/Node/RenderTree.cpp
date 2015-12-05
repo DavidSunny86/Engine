@@ -1,14 +1,14 @@
 #include <GL\glew.h>
 #include <glm/gtx/transform.hpp>
 #include <iostream>
+#include <GLFW/glfw3.h>
 
 #include "RenderTree.h"
 #include "RenderTree/Node/Human.h"
 #include "RenderTree/Node/Plan.h"
 #include "RenderTree/Node/Skybox.h"
 #include "Manager/ModelManager.h"
-
-bool RenderTree::pause_ = false;
+#include "RenderTree/Node/Skybox.h"
 
 RenderTree::RenderTree(AbstractNode* parent) 
 	: CompositeNode(parent)
@@ -68,4 +68,17 @@ void RenderTree::RenderReflection(glm::mat4 model, const glm::mat4& view, const 
         child->RenderReflection(model, view, projection,environnement,clipPlane, shadowModel);
     }
     skybox_->RenderReflection(model, view, projection, environnement, clipPlane, shadowModel);
+}
+
+void RenderTree::HandleKeyboardKey(int key, int action, int modifier)
+{
+    if (action == GLFW_PRESS)
+    {
+        switch (key)
+        {
+        case GLFW_KEY_P:
+            pause_ = !RenderTree::pause_;
+            break;
+        }
+    }
 }

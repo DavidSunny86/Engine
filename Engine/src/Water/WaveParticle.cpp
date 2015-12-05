@@ -1,9 +1,10 @@
+#include <glm/gtx/rotate_vector.hpp>
+
 #include "WaveParticle.h"
 #include "Water/WaveParticleManager.h"
-#include "glm/gtx/rotate_vector.hpp"
 
 
-WaveParticle::WaveParticle()
+WaveParticle::WaveParticle(WaveParticleManager* manager)
     : speed_(0.f)
     , direction_(glm::vec2(0))
     , startPoint_(glm::vec2(0))
@@ -13,6 +14,7 @@ WaveParticle::WaveParticle()
     , dispersionAngle_(0.f)
     , minAmplitude_(0.001f)
     , alive_(false)
+    , manager_(manager)
 {
 }
 
@@ -52,8 +54,8 @@ void WaveParticle::Subdivide()
     amplitude_ /= 3.0f;
     dispersionAngle_ /= 3.0f;
     
-    WaveParticle* leftWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
-	WaveParticle* rightWaveParticle = WaveParticleManager::Instance()->GetNextParticle();
+    WaveParticle* leftWaveParticle = manager_->GetNextParticle();
+	WaveParticle* rightWaveParticle = manager_->GetNextParticle();
 
 	leftWaveParticle->Initialize(glm::rotate(direction_, dispersionAngle_), startPoint_, amplitude_, speed_, time_, radius_, dispersionAngle_);
 	rightWaveParticle->Initialize(glm::rotate(direction_, -dispersionAngle_), startPoint_, amplitude_, speed_, time_, radius_, dispersionAngle_);

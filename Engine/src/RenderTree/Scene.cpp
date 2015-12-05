@@ -1,8 +1,13 @@
+#include <GL/glew.h>
+
 #include "Scene.h"
-#include "Utility/Camera/StaticCamera.h"
+#include "Environment\Environment.h"
+#include "Environment\Light.h"
+#include "Utility\Camera\StaticCamera.h"
 #include "Loader\EnvironmentLoader.h"
 #include "Loader\RenderTreeLoader.h"
 #include "Constant.h"
+
 Scene::Scene()
 {
     renderTree_ = RenderTreeLoader::CreateRenderTree(std::string(".//Scenes//MainRenderTree.xml"));

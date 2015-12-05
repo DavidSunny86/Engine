@@ -2,7 +2,8 @@
 #include <map>
 #include <string>
 
-#include "OpenGL/GLSLProgram.h"
+class GLSLProgram;
+
 class GLSLProgramManager
 {
 public:

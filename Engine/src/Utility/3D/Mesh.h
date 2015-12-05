@@ -3,10 +3,9 @@
 #include <GL\glew.h>
 #include <assimp\mesh.h>
 
-#include "OpenGL\GLSLProgram.h"
-#include "Texture.h"
-#include "Material.h"
-
+class GLSLProgram;
+class Texture;
+class Material;
 
 enum VBOType {
     Position = 0,

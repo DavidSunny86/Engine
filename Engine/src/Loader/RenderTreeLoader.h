@@ -1,6 +1,8 @@
 #pragma once
-#include "RenderTree/Node/RenderTree.h"
 #include <string>
+
+class RenderTree;
+
 class RenderTreeLoader
 {
 public:

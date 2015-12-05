@@ -1,7 +1,10 @@
-#include "Light.h"
 #include <iostream>
 #include <glm/gtc/matrix_transform.hpp>
+#include <GL/glew.h>
+
+#include "Light.h"
 #include "Constant.h"
+
 
 Light::Light()
 {

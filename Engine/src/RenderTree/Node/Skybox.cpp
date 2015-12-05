@@ -1,8 +1,12 @@
-#include "Skybox.h"
-#include "IL\il.h"
-#include "Manager\GLSLProgramManager.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>
+#include <GL/glew.h>
+#include <IL\il.h>
+
+#include "Skybox.h"
+#include "Manager\GLSLProgramManager.h"
+#include "OpenGL\GLSLProgram.h"
+
 GLfloat points[] = {
     // Positions          
     -1.0f,  1.0f, -1.0f,

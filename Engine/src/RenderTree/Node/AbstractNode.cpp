@@ -1,6 +1,10 @@
+#include <GL\glew.h>
+
 #include "AbstractNode.h"
-#include "GL\glew.h"
-#include "Manager/ModelManager.h"
+#include "Manager\ModelManager.h"
+#include "OpenGL\GLSLProgram.h"
+#include "RenderTree\Environment\Environment.h"
+#include "Utility\3D\Model3D.h"
 
 AbstractNode::AbstractNode(AbstractNode* parent)
 {

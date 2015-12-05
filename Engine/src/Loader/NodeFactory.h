@@ -1,6 +1,6 @@
 #pragma once
 #include <string.h>
-#include "RenderTree/Node/AbstractNode.h"
+class AbstractNode;
 class NodeFactory
 {
 public:

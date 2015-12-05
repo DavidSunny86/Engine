@@ -1,7 +1,14 @@
+#include <GL\glew.h>
+#include <GLFW\glfw3.h>
+
 #include "Engine.h"
-#include "GLFW\glfw3.h"
+#include "Utility\Window.h"
+#include "RenderTree\Scene.h"
 #include "Utility\Camera\StaticCamera.h"
 #include "Constant.h"
+
+Engine* Engine::instance_ = nullptr;
+
 Engine::Engine()
 {
     window_ = new Window("Engine", Constant::ViewportWidth, Constant::ViewPortHeight, false, true);
@@ -30,6 +37,23 @@ void Engine::Loop()
         scene_->Render();
         window_->SwapBuffer();
     }
+}
+
+Engine* Engine::Instance()
+{
+    if (instance_ == nullptr)
+        instance_ = new Engine();
+    return instance_;
+}
+
+Scene* Engine::GetScene()
+{
+    return scene_;
+}
+
+Window* Engine::GetWindow()
+{
+    return window_;
 }
 
 void Engine::ApplyOpenGLOptions()

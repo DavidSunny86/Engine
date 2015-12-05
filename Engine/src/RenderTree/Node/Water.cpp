@@ -1,12 +1,17 @@
-#include "Water.h"
 #include <iostream>
-#include "IL/il.h"
+#include <glm\gtc\type_ptr.hpp>
+#include <GL\glew.h>
+
+#include "Water.h"
 #include "Constant.h"
-#include "Water/WaveParticleManager.h"
-#include "Water/WaveParticle.h"
-#include <glm/gtc/type_ptr.hpp>
-#include <chrono>
-#include <thread>
+#include "Water\WaveParticleManager.h"
+#include "Water\WaveParticle.h"
+#include "Manager\GLSLProgramManager.h"
+#include "OpenGL\GLSLProgram.h"
+#include "Water\WaveParticleRenderer.h"
+#include "RenderTree\Environment\Environment.h"
+#include "RenderTree\Environment\Light.h"
+#include "Water\WaveParticleManager.h"
 
 int Water::waterNumberOfVertexWidth_ = 256;
 int Water::waterNumberOfVertexHeight_ = 256;
@@ -25,7 +30,7 @@ Water::Water(AbstractNode* parent) : AbstractNode(parent)
     firstPassProgram_ = GLSLProgramManager::Instance()->GetProgram("WaterFirstPass");
     waveHeight_ = 2.f;
     reflectionPerturbationFactor_ = 0.01f;
-    particles_ = new WaterWaveParticles(waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
+    particleManager_ = new WaveParticleManager(waterNumberOfVertexWidth_, waterNumberOfVertexHeight_);
     CreateBuffers();
     LoadModel();
 }
@@ -69,7 +74,7 @@ void Water::RenderWaterReflection(glm::mat4 model, const glm::mat4& view, const 
     glDisable(GL_CULL_FACE);
     glm::mat4 modelReflection = glm::mat4(1);
     ApplyReflectionTransformation(modelReflection);
-    glm::vec4 clipPlane = glm::vec4(0, -1, 0, 0);
+    glm::vec4 clipPlane = glm::vec4(0, -1, 0, 2);
     parent_->RenderReflection(modelReflection, view, projection, environnement, clipPlane, glm::mat4(1));
     glEnable(GL_CULL_FACE);
     glDisable(GL_CLIP_DISTANCE0);
@@ -80,11 +85,8 @@ void Water::RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const 
     glBindFramebuffer(GL_FRAMEBUFFER, refractionFbo_);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
     glm::mat4 modelReflection = glm::mat4(1);
-    glm::vec4 clipPlane = glm::vec4(0, 1, 0, 0);
-
     parent_->RenderFirstPass(modelReflection, view, projection);
     parent_->Render(modelReflection, view, projection, environnement);
-
 }
 
 void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
@@ -104,7 +106,7 @@ void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::m
 void Water::Update(double deltaT)
 {
     time_ += deltaT;
-    particles_->Update(deltaT);
+    particleManager_->Update(deltaT);
 }
 
 
@@ -123,9 +125,9 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
     glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, refractionTexture_);
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
+    glBindTexture(GL_TEXTURE_2D, particleManager_->GetHeightMapTexture());
     glActiveTexture(GL_TEXTURE4);
-    glBindTexture(GL_TEXTURE_2D, particles_->GetNormalHeightMapTexture());
+    glBindTexture(GL_TEXTURE_2D, particleManager_->GetNormalHeightMapTexture());
     glUniform1i(waterProgram_->GetUniformLocation("reflectionTexture"), 1);
     glUniform1i(waterProgram_->GetUniformLocation("refractionTexture"), 2);
     glUniform1i(waterProgram_->GetUniformLocation("heightMap"), 3);
@@ -180,7 +182,7 @@ void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const g
     glUniform4fv(firstPassProgram_->GetUniformLocation("clipPlane"), 1, glm::value_ptr(clipPlane));
     glUniform3fv(firstPassProgram_->GetUniformLocation("scale"), 1, glm::value_ptr(scale_));
 	glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, particles_->GetHeightMapTexture());
+    glBindTexture(GL_TEXTURE_2D, particleManager_->GetHeightMapTexture());
     glUniform1i(firstPassProgram_->GetUniformLocation("heightMap"), 3);
     glDisable(GL_BLEND);
     glBindVertexArray(vao_);

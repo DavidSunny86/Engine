@@ -4,11 +4,9 @@
 #include "RenderTree/Node/RenderTree.h"
 #include "Water/WaveParticleManager.h"
 #include "RenderTree/Scene.h"
-
-#ifndef M_PI
-#define M_PI 3.1415926535897932385f
-#endif
-#define DEG2RAD(a) (a / 180.0f) * (M_PI);
+#include "Input/Manager/KeyboardKeyManager.h"
+#include "Input/Manager/MouseButtonManager.h"
+#include "Input/Manager/MousePositionManager.h"
 
 Scene* Window::scene_ = NULL;
 
@@ -128,35 +126,12 @@ void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int ac
     {
         switch (key)
         {
-        case GLFW_KEY_RIGHT:
-            Constant::theta -= DEG2RAD(2.0f);
-            break;
-        case GLFW_KEY_LEFT:
-            Constant::theta += DEG2RAD(2.0f);
-            break;
-        case GLFW_KEY_UP:
-            Constant::phi -= DEG2RAD(2.0f);
-            break;
-        case GLFW_KEY_DOWN:
-            Constant::phi += DEG2RAD(2.0f);
-            break;
-        case GLFW_KEY_EQUAL:
-            Constant::rho -= 0.5;
-            break;
-        case GLFW_KEY_MINUS:
-            Constant::rho += 0.5;
-            break;
-        case GLFW_KEY_P:
-			RenderTree::pause_ = !RenderTree::pause_;
-            break;
-        case GLFW_KEY_N:
-            std::cout << "Number of particles: " << WaveParticleManager::Instance()->GetAliveParticles().size() << std::endl;
-            break;
+
         }
     }
 }
 
-void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods)
+/*void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods)
 {
 	if (action == GLFW_PRESS)
 	{
@@ -186,7 +161,7 @@ void Window::Mouse_Callback(GLFWwindow* window, int button, int action, int mods
             break;
         }
 	}
-}
+}*/
 
 void Window::CreateWindow()
 {
@@ -213,6 +188,7 @@ void Window::CreateWindow()
     }
 
     glfwSetWindowSizeCallback(window_, Resize_CallBack);
-    glfwSetKeyCallback(window_, Keyboard_Callback);
-    glfwSetMouseButtonCallback(window_, Mouse_Callback);
+    glfwSetKeyCallback(window_, KeyboardKeyManager::KeyboardKeyCallback);
+    glfwSetMouseButtonCallback(window_, MouseButtonManager::MouseButtonCallback);
+    glfwSetCursorPosCallback(window_, MousePositionManager::MousePositionCallback);
 }

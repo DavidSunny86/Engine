@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
+#include <glm/common.hpp>
 
-#include "Light.h"
+class Light;
+
 class Environment
 {
 public:

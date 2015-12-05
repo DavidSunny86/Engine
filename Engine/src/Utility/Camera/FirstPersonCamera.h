@@ -1,5 +1,6 @@
 #pragma once
 #include "Utility\Camera\Camera.h"
+
 class FirstPersonCamera :
     public Camera
 {

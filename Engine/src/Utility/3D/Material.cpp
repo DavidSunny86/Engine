@@ -1,5 +1,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Material.h"
+#include "OpenGL/GLSLProgram.h"
 
 Material::Material(aiMaterial* mtl)
 {
@@ -17,7 +18,6 @@ void Material::ApplyMaterial(GLSLProgram* program)
     glUniform4fv(program->GetUniformLocation("materialAmbient"), 1, glm::value_ptr(ambient_));
     glUniform4fv(program->GetUniformLocation("materialDiffuse"), 1, glm::value_ptr(diffuse_));
     glUniform4fv(program->GetUniformLocation("materialSpecular"), 1, glm::value_ptr(specular_));
-    //glUniform4fv(program->GetUniformLocation("materialEmission"), 1, glm::value_ptr(emissive_));
     glUniform1f(program->GetUniformLocation("shininess"), shininess_);
     ApplyTextures(program);
 }

@@ -1,6 +1,6 @@
+#include <GL\glew.h>
+#include <glm/common.hpp>
 #include "FirstPersonCamera.h"
-#include "GL\glew.h"
-
 
 FirstPersonCamera::FirstPersonCamera( float zNear, float zFar, float fov, float aspectRatio, AbstractNode * target) :
     Camera(glm::vec3(0,0,0), glm::vec3(0,0,0), glm::vec3(0,0,0),zNear,zFar,fov,aspectRatio,target)

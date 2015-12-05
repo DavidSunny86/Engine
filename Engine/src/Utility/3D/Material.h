@@ -1,8 +1,12 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "OpenGL/GLSLProgram.h"
-#include "Texture.h"
 #include <assimp/material.h>
+#include <map>
+
+#include "Texture.h"
+
+class GLSLProgram;
+class Texture;
 
 class Material
 {

@@ -1,7 +1,8 @@
 #pragma once
 #include "RenderTree\Node\AbstractNode.h"
-#include "Manager\GLSLProgramManager.h"
-#include "Water\WaterWaveParticles.h"
+
+class WaveParticleRenderer;
+class WaveParticleManager;
 
 class Water :
     public AbstractNode
@@ -10,17 +11,16 @@ public:
     Water(AbstractNode* parent);
     virtual ~Water();
 
-    virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane = glm::vec4(0));
+    virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane = glm::vec4(0)) override;
+    virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel) override;
+    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection) override;
+    virtual void Update(double deltaT) override;
+    
     void RenderWaterReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
     void RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement);
-    virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel);
-    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection);
-    virtual void Update(double deltaT);
     void ApplyReflectionTransformation(glm::mat4& modelReflection);
-
     void RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane = glm::vec4(0));
     void RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, const glm::vec4& clipPlane = glm::vec4(0));
-    
     void LoadModel();
 private:
     static int waterNumberOfVertexWidth_;
@@ -60,6 +60,6 @@ private:
 
     unsigned int numberOfFaces_;
 
-    WaterWaveParticles* particles_;
+    WaveParticleManager* particleManager_;
 };
 

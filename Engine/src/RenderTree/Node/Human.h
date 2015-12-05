@@ -8,7 +8,7 @@ public:
     Human(AbstractNode* parent);
     ~Human();
 
-    virtual void Update(double deltaT);
+    virtual void Update(double deltaT) override;
 protected:
 };
 

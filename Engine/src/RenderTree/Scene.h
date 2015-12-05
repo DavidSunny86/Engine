@@ -1,8 +1,11 @@
 #pragma once
 #include "RenderTree/Environment/Environment.h"
 #include "RenderTree/Node/RenderTree.h"
-#include "Utility/Camera/Camera.h"
-#include "RenderTree/Node/Skybox.h"
+
+
+class Camera;
+class Environment;
+
 class Scene
 {
 public:

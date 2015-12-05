@@ -2,6 +2,8 @@
 #include <iostream>
 
 #include "GLSLProgramManager.h"
+#include "OpenGL/GLSLProgram.h"
+#include "OpenGL/GLSLShader.h"
 
 #ifndef XMLCheckResult
 #define XMLCheckResult(result) if (result != tinyxml2::XML_SUCCESS){ std::cerr << "Unable to open ModelManager file: " << path << std::endl; return;}

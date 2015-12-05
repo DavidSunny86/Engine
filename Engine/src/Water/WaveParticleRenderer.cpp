@@ -1,12 +1,18 @@
-#include "WaterWaveParticles.h"
+#include <GL/glew.h>
+#include <glm/gtc/type_ptr.hpp>
+
+#include "WaveParticleRenderer.h"
 #include "WaveParticleManager.h"
 #include "WaveParticle.h"
-#include <glm/gtc/type_ptr.hpp>
+#include "OpenGL/GLSLProgram.h"
 #include "Constant.h"
+#include "Manager/GLSLProgramManager.h"
 
-WaterWaveParticles::WaterWaveParticles(int heightMapWidth, int heightMapHeight) 
+
+WaveParticleRenderer::WaveParticleRenderer(int heightMapWidth, int heightMapHeight, WaveParticleManager* manager)
     : heightMapWidth_(heightMapWidth)
     , heightMapHeight_(heightMapHeight)
+    , manager_(manager)
 {
     StartPointDirectionData_ = new float[Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight * 4];
     SpeedTimeAmplitudeRadiusData_ = new float[Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight * 4];
@@ -22,15 +28,15 @@ WaterWaveParticles::WaterWaveParticles(int heightMapWidth, int heightMapHeight)
     CreateVertexArrayObject();
 }
 
-WaterWaveParticles::~WaterWaveParticles()
+WaveParticleRenderer::~WaveParticleRenderer()
 {
     delete[] StartPointDirectionData_;
     delete[] SpeedTimeAmplitudeRadiusData_;
 }
 
-void WaterWaveParticles::Update(double deltaT)
+void WaveParticleRenderer::Update(double deltaT)
 {
-    auto aliveParticles = WaveParticleManager::Instance()->GetAliveParticles();
+    auto aliveParticles = manager_->GetAliveParticles();
     if (aliveParticles.size() > 0)
     {
         #pragma omp parallel for
@@ -84,21 +90,19 @@ void WaterWaveParticles::Update(double deltaT)
     ComputeNormalMap();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glViewport(0, 0, Constant::ViewportWidth, Constant::ViewPortHeight);
-
-    WaveParticleManager::Instance()->RefreshAliveParticles();
 }
 
-GLuint WaterWaveParticles::GetHeightMapTexture()
+GLuint WaveParticleRenderer::GetHeightMapTexture()
 {
     return heightMapTexture_;
 }
 
-GLuint WaterWaveParticles::GetNormalHeightMapTexture()
+GLuint WaveParticleRenderer::GetNormalHeightMapTexture()
 {
     return normalHeightMapTexture_;
 }
 
-void WaterWaveParticles::CreateRenderBuffer()
+void WaveParticleRenderer::CreateRenderBuffer()
 {
     glGenFramebuffers(1, &WaveParticleFbo_);
     glBindFramebuffer(GL_FRAMEBUFFER, WaveParticleFbo_);
@@ -148,7 +152,7 @@ void WaterWaveParticles::CreateRenderBuffer()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 }
 
-void WaterWaveParticles::CreateVertexArrayObject()
+void WaveParticleRenderer::CreateVertexArrayObject()
 {
     const int maxNumberOfParticles = Constant::maxNumberOfWaveParticleWidth * Constant::maxNumberOfWaveParticleHeight;
     GLfloat* vertices = new GLfloat[maxNumberOfParticles * 3];
@@ -199,7 +203,7 @@ void WaterWaveParticles::CreateVertexArrayObject()
     delete[] uvCoord;
 }
 
-void WaterWaveParticles::ComputeNormalMap()
+void WaveParticleRenderer::ComputeNormalMap()
 {
     glUseProgram(normalComputeProgram_->ID());
 

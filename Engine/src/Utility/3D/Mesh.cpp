@@ -1,4 +1,7 @@
 #include "Mesh.h"
+#include "OpenGL\GLSLProgram.h"
+#include "Texture.h"
+#include "Material.h"
 
 Mesh::Mesh(const aiMesh* mesh)
 {

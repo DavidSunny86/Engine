@@ -1,5 +1,8 @@
-#include "EnvironmentLoader.h"
 #include <TiniXML2/tinyxml2.h>
+
+#include "EnvironmentLoader.h"
+#include "RenderTree/Environment/Environment.h"
+#include "RenderTree/Environment/Light.h"
 
 Environment* EnvironmentLoader::CreateEnvironment(std::string& pathToFile)
 {

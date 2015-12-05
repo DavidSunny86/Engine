@@ -1,6 +1,9 @@
+#include <GL\glew.h>
+
 #include "Camera.h"
-#include "GL\glew.h"
 #include "Constant.h"
+#include "RenderTree\Node\AbstractNode.h"
+
 Camera::Camera(const glm::vec3& position,const glm::vec3& lookAt, const glm::vec3& up, float zNear, float zFar, float fov, float aspectRatio, AbstractNode * target)
 {
     position_ = position;

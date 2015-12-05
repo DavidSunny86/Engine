@@ -1,5 +1,7 @@
 #pragma once
-#include "RenderTree\Node\AbstractNode.h"
+#include <glm/common.hpp>
+
+class AbstractNode;
 
 class Camera
 {

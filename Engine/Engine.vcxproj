@@ -159,6 +159,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Input\Manager\KeyboardKeyManager.cpp" />
+    <ClCompile Include="src\Input\Manager\MouseButtonManager.cpp" />
+    <ClCompile Include="src\Input\Manager\MousePositionManager.cpp" />
+    <ClCompile Include="src\Input\Handler\IKeyboardKeyHandler.cpp" />
+    <ClCompile Include="src\Input\Handler\IMousePositionHandler.cpp" />
+    <ClCompile Include="src\Input\Handler\IMouseButtonHandler.cpp" />
     <ClCompile Include="src\Constant.cpp" />
     <ClCompile Include="src\RenderTree\Node\Skybox.cpp" />
     <ClCompile Include="src\Loader\NodeFactory.cpp" />
@@ -189,9 +195,15 @@
     <ClCompile Include="src\RenderTree\Node\Water.cpp" />
     <ClCompile Include="src\Water\WaveParticle.cpp" />
     <ClCompile Include="src\Water\WaveParticleManager.cpp" />
-    <ClCompile Include="src\Water\WaterWaveParticles.cpp" />
+    <ClCompile Include="src\Water\WaveParticleRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Input\Manager\KeyboardKeyManager.h" />
+    <ClInclude Include="src\Input\Manager\MouseButtonManager.h" />
+    <ClInclude Include="src\Input\Manager\MousePositionManager.h" />
+    <ClInclude Include="src\Input\Handler\IKeyboardKeyHandler.h" />
+    <ClInclude Include="src\Input\Handler\IMousePositionHandler.h" />
+    <ClInclude Include="src\Input\Handler\IMouseButtonHandler.h" />
     <ClInclude Include="src\Constant.h" />
     <ClInclude Include="src\RenderTree\Node\Skybox.h" />
     <ClInclude Include="src\Loader\NodeFactory.h" />
@@ -221,7 +233,7 @@
     <ClInclude Include="src\RenderTree\Node\Water.h" />
     <ClInclude Include="src\Water\WaveParticle.h" />
     <ClInclude Include="src\Water\WaveParticleManager.h" />
-    <ClInclude Include="src\Water\WaterWaveParticles.h" />
+    <ClInclude Include="src\Water\WaveParticleRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\ComputeHeightMapNormal.glsl" />

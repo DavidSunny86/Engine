@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "NodeFactory.h"
+#include "RenderTree/Node/AbstractNode.h"
 #include "RenderTree/Node/Human.h"
 #include "RenderTree/Node/Plan.h"
 #include "RenderTree/Node/Water.h"

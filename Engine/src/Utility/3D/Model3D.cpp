@@ -6,8 +6,15 @@
 #include <glm\gtc\matrix_transform.hpp>
 
 #include "Model3D.h"
-#include "RenderTree\Environment\Environment.h"
+#include "Mesh.h"
+#include "Material.h"
 #include "Manager\GLSLProgramManager.h"
+#include "OpenGL\GLSLProgram.h"
+#include "RenderTree\Environment\Light.h"
+#include "RenderTree\Environment\Environment.h"
+#include "OpenGL\GLSLProgram.h"
+
+
 Model3D::Model3D(std::string pathToFile)
 {
     pathToFile_ = pathToFile;

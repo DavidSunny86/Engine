@@ -7,10 +7,6 @@ public:
     static int TextureWidth;
     static int TextureHeight;
 
-    static float rho;
-    static float theta;
-    static float phi;
-
     static int maxNumberOfWaveParticleWidth;
     static int maxNumberOfWaveParticleHeight;
 };

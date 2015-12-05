@@ -1,11 +1,12 @@
 #pragma once
-#include <glm\glm.hpp>
-#include <glm\vec3.hpp>
-#include <glm\mat4x4.hpp>
+#include <string>
+#include <glm\common.hpp>
 #include <glm\gtc\matrix_transform.hpp>
-#include "OpenGL\GLSLProgram.h"
-#include "RenderTree\Environment\Environment.h"
-#include "Utility\3D\Model3D.h"
+#include <GL/glew.h>
+
+class GLSLProgram;
+class Environment;
+class Model3D;
 
 class AbstractNode
 {

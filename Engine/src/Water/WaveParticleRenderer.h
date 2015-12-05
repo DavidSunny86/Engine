@@ -1,12 +1,16 @@
 #pragma once
-#include "glm/glm.hpp"
-#include "Manager/GLSLProgramManager.h"
+#include <glm/common.hpp>
+#include <vector>
 
-class WaterWaveParticles
+class GLSLProgram;
+class WaveParticle;
+class WaveParticleManager;
+
+class WaveParticleRenderer
 {
 public:
-    WaterWaveParticles(int heightMapWidth, int heightMapHeight);
-    ~WaterWaveParticles();
+    WaveParticleRenderer(int heightMapWidth, int heightMapHeight, WaveParticleManager* manager); 
+    ~WaveParticleRenderer();
 
     void Update(double deltaT);
     GLuint GetHeightMapTexture();
@@ -33,10 +37,11 @@ protected:
     GLuint vao_;
     GLuint vbo_[3];
 
-
     //Uniform
     GLint uniformStartPointDirectionTexture_;
     GLint uniformSpeedTimeAmplitudeRadiusTexture_;
     GLint uniformHeightMapSize_;
+
+    WaveParticleManager* manager_;
 };
 

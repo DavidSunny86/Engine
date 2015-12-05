@@ -2,8 +2,7 @@
 #include <map>
 #include <string>
 
-#include "Utility/3D/Model3D.h"
-
+class Model3D;
 
 class ModelManager
 {

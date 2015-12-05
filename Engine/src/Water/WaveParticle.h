@@ -1,11 +1,13 @@
 #pragma once
-#include "glm/glm.hpp"
+#include <glm/glm.hpp>
+
+class WaveParticleManager;
 
 class WaveParticle
 {
 
 public:
-	WaveParticle();
+	WaveParticle(WaveParticleManager* manager);
 	~WaveParticle();
 
 	glm::vec2 GetPosition();
@@ -35,5 +37,7 @@ public:
 	float radius_;
 	float dispersionAngle_;
     float minAmplitude_;
+
+    WaveParticleManager* manager_;
 };
 

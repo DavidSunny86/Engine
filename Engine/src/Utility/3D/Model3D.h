@@ -1,10 +1,13 @@
 #pragma once
 #include <vector>
 #include <string>
+#include <glm/common.hpp>
+#include <GL/glew.h>
 
-#include "Mesh.h"
-#include "OpenGL/GLSLProgram.h"
-#include "RenderTree/Environment/Environment.h"
+class Mesh;
+class Material;
+class GLSLProgram;
+class Environment;
 
 class Model3D
 {

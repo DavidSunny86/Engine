@@ -1,5 +1,7 @@
 #pragma once
-#include "RenderTree/Environment/Environment.h"
+#include <string>
+class Environment;
+
 class EnvironmentLoader
 {
 public:
