@@ -91,7 +91,7 @@ Dans le cadre du cours
 %	TITLE
 %----------------------------------------------------------------------------------------
 
-\title{Rapport final: Génération de vagues à l'aide de particule} 
+\title{Rapport final: Génération de vagues à l'aide de particules} 
 
 \author{\textsc{Guillaume Arruda 1635805\\Raphael Lapierre 1644671} % Author
 \vspace{10pt}
@@ -375,13 +375,31 @@ Dans le cadre du cours
 	\caption{Effet de réfraction sur la surface d'eau}
 	\label{Refraction}
 \end{figure}
-\section{Conclusion}
-Pour conclure, l 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
-	\caption{Rendu final de l'application}
-	\label{EffetFinal}
-\end{figure}
+
+	\section{Conclusion}
+	\paragraph{}
+	Pour conclure, en suivant la théorie physique et en utilisant plusieurs techniques d'implémentation qui utilise autant le CPU que le GPU, nous avons pu 
+	réaliser un rendu réalistique d'un plan d'eau sur lequel il est possible de simuler des vagues. Les différentes parties théoriques qui ont dûes
+	être maitrisé sont la théorie des \textit{wave-particle} et la réflexion et réfraction de la lumière. Les différentes techniques de rendus utilisées sont 
+	le \textit{render to texture}, les nuanceurs de sommets, fragments et de computation. Pour la hauteur du plan d'eau nous avons utilisé la technique du 
+	\textit{height map} dans le nuanceur de sommets.
+
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
+		\caption{Rendu final de l'application}
+		\label{EffetFinal}
+	\end{figure}
+
+	\paragraph{}
+	Le plus grand manque à notre rendu en ce moment sont les caustiques de lumières qui ne sont pas implémentés. Il s'agit d'un des effets principal observable
+	dans un bassin d'eau puisqu'il est manquant dans notre simulation, l'immersion n'est pas total. L'implémentation de ces derniers était discutés dans la littérature
+	mais par manque de temps nous n'avons pu les implémenter. Il s'agit d'une amélioration certaine à notre projet qui viendrait bien compléter le rendu.
+
+\pagebreak[4]
+\bibliographystyle{plain}
+\bibliography{sample}
+
 %----------------------------------------------------------------------------------------
 \end{document}
