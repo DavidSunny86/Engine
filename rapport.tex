@@ -59,7 +59,7 @@
    breakatwhitespace=true
    tabsize=3
 }
-\linespread{1.00} % Change line spacing here, Palatino benefits from a slight increase by default
+\linespread{1.24} % Change line spacing here, Palatino benefits from a slight increase by default
 
 \makeatletter
 \renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
@@ -106,7 +106,9 @@ Dans le cadre du cours
 \thispagestyle{empty}
 \clearpage\maketitle % Print the title section
 \pagebreak[4]
-%----------------------------------------------------------------------------------------
+\tableofcontents
+\pagebreak[4]
+%------------------------------------------------------------------------------------- ---
 %	En tête et pieds de page 
 %----------------------------------------------------------------------------------------
 
@@ -124,11 +126,42 @@ Dans le cadre du cours
 \section*{Théorie}
 \section*{Implémentation}
 \subsection{Introduction au moteur graphique}
+Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. 
 \subsection*{Génération et gestion des particules}
 \subsection*{Création de la carte de hauteurs}
 \subsection*{Réflection}
 \subsection*{Réfraction}
 \section*{Conclusion}
 \section*{Références}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
+	\caption{Effet final}
+	\label{EffetFinal}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/NoSubdivide.png}
+	\caption{Sans subdivision}
+	\label{NoSubdivide}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Reflection.png}
+	\caption{Reflection}
+	\label{Reflection}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Refraction.png}
+	\caption{Refraction}
+	\label{Refractopm}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
+	\caption{Conservation d'eau}
+	\label{WaterConservation}
+\end{figure}
 %----------------------------------------------------------------------------------------
 \end{document}

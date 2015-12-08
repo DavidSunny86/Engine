@@ -21,6 +21,7 @@ public:
     virtual void HandleKeyboardKey(int key, int action, int modifier) override;
 private:
     bool pause_;
+    double timeFactor_;
     Skybox* skybox_;
 };
 

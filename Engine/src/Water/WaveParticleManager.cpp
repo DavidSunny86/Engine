@@ -88,10 +88,10 @@ void WaveParticleManager::SpawnCircularWave(int numberOfParticles, glm::vec2 pos
 	for (int i = 0; i < numberOfParticles; ++i)
 	{
 		WaveParticle* waveParticle = GetNextParticle();
-        WaveParticle* waveParticle2 = GetNextParticle();
+        //WaveParticle* waveParticle2 = GetNextParticle();
 		float dispersionAngle = 2.0f * 3.14159f / numberOfParticles;
 		waveParticle->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, amplitude, speed, initializationTime, radius, dispersionAngle);
-        waveParticle2->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, -amplitude, speed, 0.f , radius, dispersionAngle);
+        //waveParticle2->Initialize(glm::rotate(glm::vec2(1.f, 0.f), i * dispersionAngle), position, -amplitude, speed, 0.f , radius, dispersionAngle);
     }
 }
 
@@ -146,7 +146,7 @@ void WaveParticleManager::HandleMouseKey(int button, int action, int modifier)
             if (position.x <= 30.f && position.x >= -30.f && position.z <= 30.f && position.z >= -30.f)
             {
                 glm::vec2 waterPosition((-position.x + 30.f) / 60.f, (position.z + 30.f) / 60.f);
-                SpawnCircularWave(10, waterPosition, 2.f, 0.15f, 0.05f);
+                SpawnCircularWave(10, waterPosition, 6.f, 0.15f, 0.05f);
             }
             break;
         }

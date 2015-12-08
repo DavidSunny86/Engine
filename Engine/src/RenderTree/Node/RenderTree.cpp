@@ -10,8 +10,9 @@
 #include "Manager/ModelManager.h"
 #include "RenderTree/Node/Skybox.h"
 
-RenderTree::RenderTree(AbstractNode* parent) 
-	: CompositeNode(parent)
+RenderTree::RenderTree(AbstractNode* parent)
+    : CompositeNode(parent)
+    , timeFactor_(1.0)
 {
     skybox_ = new Skybox(this);
 }
@@ -28,7 +29,7 @@ void RenderTree::Update(double deltaT)
 	{
 		for (auto child : children_)
 		{
-			child->Update(deltaT);
+			child->Update(deltaT * timeFactor_);
 		}
 	}
 }
@@ -78,6 +79,12 @@ void RenderTree::HandleKeyboardKey(int key, int action, int modifier)
         {
         case GLFW_KEY_P:
             pause_ = !RenderTree::pause_;
+            break;
+        case GLFW_KEY_PAGE_UP:
+            timeFactor_ += 0.05;
+            break;
+        case GLFW_KEY_PAGE_DOWN:
+            timeFactor_ -= 0.05;
             break;
         }
     }
