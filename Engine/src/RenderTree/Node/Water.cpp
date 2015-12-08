@@ -84,9 +84,11 @@ void Water::RenderWaterRefraction(glm::mat4 model, const glm::mat4& view, const 
 {
     glBindFramebuffer(GL_FRAMEBUFFER, refractionFbo_);
     glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+    glEnable(GL_CLIP_DISTANCE0);
     glm::mat4 modelReflection = glm::mat4(1);
-    parent_->RenderFirstPass(modelReflection, view, projection);
-    parent_->Render(modelReflection, view, projection, environnement);
+    glm::vec4 clipPlane = glm::vec4(0.0, 1.0, 0.0, 0.0);
+    parent_->Render(modelReflection, view, projection, environnement, clipPlane);
+    glDisable(GL_CLIP_DISTANCE0);
 }
 
 void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
@@ -94,7 +96,7 @@ void Water::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::
 
 }
 
-void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void Water::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, glm::vec4& clipPlane)
 {
     if (!renderingWater_)
     {

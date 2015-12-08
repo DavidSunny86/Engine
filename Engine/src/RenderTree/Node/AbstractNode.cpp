@@ -30,10 +30,10 @@ void AbstractNode::Render(glm::mat4 model, const glm::mat4& view, const glm::mat
     model_->Render(model, view, projection, environnement, clipPlane);
 }
 
-void AbstractNode::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void AbstractNode::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, glm::vec4& clipPlane)
 {
     ApplyTransformation(model);
-    model_->RenderFirstPass(model, view, projection);
+    model_->RenderFirstPass(model, view, projection, clipPlane);
 }
 
 void AbstractNode::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)

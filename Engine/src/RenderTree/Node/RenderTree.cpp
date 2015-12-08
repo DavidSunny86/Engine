@@ -43,11 +43,11 @@ void RenderTree::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4&
     skybox_->Render(model, view, projection, environnement);
 }
 
-void RenderTree::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void RenderTree::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, glm::vec4& clipPlane)
 {
     for (auto child : children_)
     {
-        child->RenderFirstPass(model, view, projection);
+        child->RenderFirstPass(model, view, projection, clipPlane);
     }
 }
 

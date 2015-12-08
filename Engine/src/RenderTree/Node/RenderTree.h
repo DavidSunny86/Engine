@@ -14,7 +14,7 @@ public:
 
     virtual void Update(double deltaT);
     virtual void Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane = glm::vec4(0)) override;
-    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection) override;
+    virtual void RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, glm::vec4& clipPlane = glm::vec4(0.0)) override;
     virtual void RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection) override;
     virtual void RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel) override;
 	

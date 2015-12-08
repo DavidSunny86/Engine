@@ -121,6 +121,6 @@ void WaveParticle::Update(float deltaT, float* heightMap, int width, int height)
     float distanceBetweenNeighbor = 2.f*sin(dispersionAngle_) * speed_ * time_;
     if (distanceBetweenNeighbor > radius_ / 2.f)
     {
-        //Subdivide();
+        Subdivide();
     }
 }

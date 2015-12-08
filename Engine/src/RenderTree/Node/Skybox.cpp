@@ -87,7 +87,7 @@ void Skybox::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& pro
     glBindVertexArray(0);
 }
 
-void Skybox::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void Skybox::RenderFirstPass(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, glm::vec4& clipPlane)
 {
 
 }
