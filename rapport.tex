@@ -91,7 +91,7 @@ Dans le cadre du cours
 %	TITLE
 %----------------------------------------------------------------------------------------
 
-\title{Rapport final: Génération de vague à l'aide de particule} 
+\title{Rapport final: Génération de vagues à l'aide de particule} 
 
 \author{\textsc{Guillaume Arruda 1635805\\Raphael Lapierre 1644671} % Author
 \vspace{10pt}
@@ -223,13 +223,71 @@ Dans le cadre du cours
 	Par contre, il manque encore quelques détails pour permettre à nos vagues d'être plus réalistes.
 
 	\subsubsection{Ajustement horizontal}
-	Une limitation de la méthode utilisé pour simuler les particules se trouve dans le fait que notre simulation se passe 
-	entièrement en deux dimensions. Bien évidemment, l'eau est un fluide qui, lorsqu'elle fait des vagues, s'étend dans trois dimensions.
-	Pour simuler le déplacement horizontal du dessus d'une vague sur le point de casser, un dernier déplacement doit être appliqué
-	par les particules.
+	    \paragraph{}
+	    Une limitation de la méthode utilisée pour simuler les particules se trouve dans le fait que notre simulation se passe 
+	    entièrement en deux dimensions. Bien évidemment, l'eau est un fluide qui, lorsqu'elle fait des vagues, s'étend dans trois dimensions.
+	    Pour simuler le déplacement horizontal du dessus d'une vague sur le point de casser, un dernier déplacement doit être appliqué
+	    par les particules. L'équation utilisée pour ce dernier est celle-ci :
+
+	    \begin{equation}
+	        D_{i}(x) = \cos(\pi {(x_{i} - x)} \cdot {d_{i}}) {(x_{i} - x)}
+	    \end{equation}
 
 	\subsubsection{Subdivision des particules}
+	    \paragraph{}
+	    Dans le but de garder une front d'onde qui semble continue même s'il est composé de particules discrètes, ces dernières
+	    doivent être subdivisé. En effet, lorsqu'on front d'onde s'éloigne de son origine, la distance point à point augmente.
+	    Ce phénomène est démontré à la figure \ref{subdivision}. La technique utilisé dans notre implémentation est de 
+	    séparer chaque particule qui s'est éloigné de ses voisines par plus de la moitié de son rayon d'influence est trois particules.
+	    Encore une fois ce phénomène est montré à la figure \ref{subdivision}. Il est important de noter que par souci de conservation
+	    d'énergie, l'amplitude de la particule doit être redistribuée aux nouvelles en parties égales.
+
+		\begin{figure}
+			\centering
+			\includegraphics[width=0.9\textwidth]{./PhotoRapport/subdivision.png}
+			\caption{La subdivision des particules}
+			\label{subdivision}
+		\end{figure}
+
+
 	\subsubsection{Réflection des particules}
+	    \paragraph{}
+	    Le dernier détail pour avoir des particules qui bougent de façon satisfaisante est de les réfléchir lorsqu'elles
+	    frappent une parois de leur contenant. Il s'agit, dans le cadre de notre implémentation, une réflexion dure effectuée
+	    à l'aide de l'équation suivante :
+
+	    \begin{equation}
+	    	\vec{r} = \vec{d} - 2 (\vec{d} \cdot \vec{n}) \vec{n}
+	    \end{equation}
+
+	\subsubsection{Génération d'une vague}
+	    \paragraph{}
+	    Une fois toutes ces parties implémentés, la génération d'une vague est assez simple. Il suffit de générer des particules à partir
+	    d'un point d'origine ayant toutes des directions vers l'extérieur de celui-ci pour avoir une vague de forme circulaire. Si la 
+	    subdivision est bien implémentée, même un nombre très faible de particules initiales fonctionnera car la subdivision s'occupera
+	    de bien répartir les particules pour avoir un front d'onde qui semble continue. Encore une fois, puisque l'énergie dans notre système
+	    doit être conservée ainsi que le volume d'eau, il est important de générer une onde d'amplitude négative suivant l'onde d'amplitude
+	    positive. Sinon, un résultat non physiquement réaliste se produira comme montré à la figure \ref{WaterConservation}.
+
+       	    \begin{figure}
+       	    	\centering
+       	    	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
+       	    	\caption{Importance de respecter la conservation du volume d'eau}
+       	    	\label{WaterConservation}
+       	    \end{figure}
+
+    \subsection{Réflexion de la lumière}
+        \paragraph{}
+	La lumière est une onde qui est réfléchie par la matière. Cette réflection est une partie majeure de ce que l'humain s'attend à
+	voir lorsqu'il regarde des objets ou des phénomènes physiques. La théorie utilisée pour notre simulation est celle d'optique
+	géométrique plutôt que de traité la lumière comme une onde. L'optique géométrique est une approximation de la réalité physique 
+	de la lumière mais celle-ci donne un résultat plus que satisfaisant à des échelles macroscopiques. La réflexion implémentée ici 
+	dans notre travail suit donc les lois de l'optique géométrique. Les détails d'implémentation seront discuté plus tard.
+
+    \subsection{Réfraction de la lumière}
+        \paragraph{}
+	L'autre phénomène lumineux qui est facilement observable autour de nous est la réfraction de la lumière. La réfraction est 
+	le phénomène physique qui implique que lorsque la lumière change de milieux de propagation, elle est dévié 
 
 
 \section{Implémentation}
