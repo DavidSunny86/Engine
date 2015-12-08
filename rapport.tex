@@ -59,7 +59,7 @@
    breakatwhitespace=true
    tabsize=3
 }
-\linespread{1.24} % Change line spacing here, Palatino benefits from a slight increase by default
+\linespread{1.00} % Change line spacing here, Palatino benefits from a slight increase by default
 
 \makeatletter
 \renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
@@ -106,9 +106,7 @@ Dans le cadre du cours
 \thispagestyle{empty}
 \clearpage\maketitle % Print the title section
 \pagebreak[4]
-\tableofcontents
-\pagebreak[4]
-%------------------------------------------------------------------------------------- ---
+%----------------------------------------------------------------------------------------
 %	En tête et pieds de page 
 %----------------------------------------------------------------------------------------
 
@@ -122,46 +120,36 @@ Dans le cadre du cours
 %----------------------------------------------------------------------------------------
 %	ESSAY BODY
 %----------------------------------------------------------------------------------------
-\section*{Problématique}
-\section*{Théorie}
-\section*{Implémentation}
+\section{Introduction}
+    \paragraph{}
+    Dans le cadre du cours d'infographie avancée, un projet final au choix de l'étudiant 
+    devait être réalisé. Lors des dernières semaines, ce dernier a donc été choisi et implémenté.
+    Le but du présent travail est donc de présenter, sous forme de rapport, le fruit de notre
+    travail des dernières semaines.
+
+\subsection{Problématique}
+    \paragraph{}
+    De manière très générale, nous désirions, pour notre travail de session, implémenter 
+    le rendu d'une surface d'eau de façon réaliste et de simuler des vagues sur celle-ci.
+    Pour réussir à atteindre ce but, plusieurs éléments se devaient d'être présents pour notre
+    simulation. Niveau lumière, il est impératif de pouvoir compter sur des effets de réflexion
+    et de réfraction. En effet, une surface d'eau laissera pénétrer une partie de la lumière
+    ce qui causera de la réfraction et une partie de la lumière sera réfléchie ce qui donnera
+    la réflexion.
+
+    \paragraph{}
+    L'autre partie importante est d'avoir une simulation de vagues sur l'eau qui est assez
+    proche de la réalité physique de la situation pour que l'illusion soit complète pour 
+    l'humain. 
+
+\section{Théorie}
+\section{Implémentation}
 \subsection{Introduction au moteur graphique}
-Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. 
-\subsection*{Génération et gestion des particules}
-\subsection*{Création de la carte de hauteurs}
-\subsection*{Réflection}
-\subsection*{Réfraction}
-\section*{Conclusion}
-\section*{Références}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
-	\caption{Effet final}
-	\label{EffetFinal}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/NoSubdivide.png}
-	\caption{Sans subdivision}
-	\label{NoSubdivide}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Reflection.png}
-	\caption{Reflection}
-	\label{Reflection}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Refraction.png}
-	\caption{Refraction}
-	\label{Refractopm}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
-	\caption{Conservation d'eau}
-	\label{WaterConservation}
-\end{figure}
+\subsection{Génération et gestion des particules}
+\subsection{Création de la carte de hauteurs}
+\subsection{Réflection}
+\subsection{Réfraction}
+\section{Conclusion}
+\section{Références}
 %----------------------------------------------------------------------------------------
 \end{document}
