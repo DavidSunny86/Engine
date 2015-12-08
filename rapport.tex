@@ -182,9 +182,18 @@ Dans le cadre du cours
 
 	\paragraph{}
 	Avec la position initial, le temps de vie, la direction et la vitesse, il est possible de 
-	déterminer à tout instant la position d'une de nos particules. Pour que le front d'onde simulé
-	ait l'air de se propager bel et bien comme une vague sur l'eau, les particules doivent se déplacer
-	suivant une équation mathématique respectant l'équation d'onde (équation différentielle) suivante.
+	déterminer à tout instant la position d'une de nos particules. On peut voir un exemple des particules
+	isolés pour pouvoir mieux observer leurs différentes caractéristiques à la figure \ref{NoSubdivide}.
+	Pour que le front d'onde simulé ait l'air de se propager bel et bien comme une vague
+	sur l'eau, les particules doivent se déplacer suivant une équation mathématique respectant
+	l'équation d'onde (équation différentielle) suivante.
+
+	\begin{figure}
+		\centering
+		\includegraphics[width=0.9\textwidth]{./PhotoRapport/NoSubdivide.png}
+		\caption{Sans subdivision}
+		\label{NoSubdivide}
+	\end{figure}
 
 	\begin{equation}
 	    \frac{\partial^{2}u}{\partial t^{2}} = c^{2} \frac {\partial^{2}u} {\partial x^{2}}
@@ -205,6 +214,22 @@ Dans le cadre du cours
 	    D_{i}(x, t) = \frac{a_{i}}{2} \left( \cos\left( \frac{\pi |x - x_{i}(t)|}{r_{i}}\right) + 1\right)
 	    \Pi \left( \frac{|x - x_{i}(t)|} {2 r_{i}}\right)
 	\end{equation}
+
+	\paragraph{}
+	Dans cette équation, l'indice $i$ dénote la \textit{ième} particule, $a_{i}$ l'amplitude, $x_{i}$ la position de la particule,
+	$x$ le point de la surface ou la hauteur est affectée,
+	$r_{i}$ le rayon de la particule et $\Pi$ la fonction rectangle. Finalement, en combinant le déplacement horizontal et vertical des particules sur 
+	les points de la surface de l'eau faisant partie de leurs rayons d'influence, il est possible de simuler une vague sur l'eau.
+	Par contre, il manque encore quelques détails pour permettre à nos vagues d'être plus réalistes.
+
+	\subsubsection{Ajustement horizontal}
+	Une limitation de la méthode utilisé pour simuler les particules se trouve dans le fait que notre simulation se passe 
+	entièrement en deux dimensions. Bien évidemment, l'eau est un fluide qui, lorsqu'elle fait des vagues, s'étend dans trois dimensions.
+	Pour simuler le déplacement horizontal du dessus d'une vague sur le point de casser, un dernier déplacement doit être appliqué
+	par les particules.
+
+	\subsubsection{Subdivision des particules}
+	\subsubsection{Réflection des particules}
 
 
 \section{Implémentation}
@@ -253,12 +278,6 @@ Dans le cadre du cours
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
 	\caption{Effet final}
 	\label{EffetFinal}
-\end{figure}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/NoSubdivide.png}
-	\caption{Sans subdivision}
-	\label{NoSubdivide}
 \end{figure}
 \begin{figure}
 	\centering
