@@ -148,18 +148,68 @@ Dans le cadre du cours
     suivante du rapport.
 
 \section{Théorie}
+    \paragraph{}
     Il est naturel dans cette section de séparer la théorie en trois parties.
     On parle ici de la théorie des \textit{wave-particle}, de la réflexion et finalement,
     de la réfraction.
 
     \subsection{Wave-Particle}
-    	Dans ce travail, la simulation des vagues a été réalisé à l'aide d'une technique
+        \paragraph{}
+    	Dans ce travail, la simulation des vagues a été réalisée à l'aide d'une technique
 	qui se nomme \textit{Wave-Particle}. Cette dernière a été mise au point par Cem
 	Yuskel lors de son doctorat à l'université de Bogazici en Turquie.\cite{Yuskel}
-	
+	Il s'agit d'une technique qui peut sembler assez complexe à première vue mais elle
+	s'avère assez simple une fois que l'on comprend bien les différentes parties.
+
+        \paragraph{}
+	L'idée générale est de simuler des particules qui se déplacent sur la surface de l'eau.
+	À chacune des ces particules est confié un rayon d'influence ainsi qu'une amplitude.
+	La hauteur de l'eau en chaque point où une particule est située est donc ajustée 
+	suivant une fonction qui sera présentée plus tard, pour arriver à un front d'onde
+	qui semblera continue dû au grand nombre de particules et leurs rayons d'influence.
+	Voici donc sous forme de listes toutes les caractéristiques que nous avons attribuées
+	à nos particules.
+
+	\begin{itemize}
+	    \item Position initial
+	    \item Vitesse
+	    \item Direction
+	    \item Temps de vie total
+	    \item Rayon d'influence
+	    \item Amplitude
+	    \item Angle de dispersion
+	\end{itemize}
+
+	\paragraph{}
+	Avec la position initial, le temps de vie, la direction et la vitesse, il est possible de 
+	déterminer à tout instant la position d'une de nos particules. Pour que le front d'onde simulé
+	ait l'air de se propager bel et bien comme une vague sur l'eau, les particules doivent se déplacer
+	suivant une équation mathématique respectant l'équation d'onde (équation différentielle) suivante.
+
+	\begin{equation}
+	    \frac{\partial^{2}u}{\partial t^{2}} = c^{2} \frac {\partial^{2}u} {\partial x^{2}}
+	\end{equation}
+
+	\paragraph{}
+	On comprend donc maintenant pourquoi le temps de vie total de chaque particule est conservée.
+	Cette équation dépend, pour déterminer la position d'une particule, du temps et aussi de sa position.
+	Il y a donc deux déplacements pour nos particules à prendre en compte lorsqu'on cherche une solution à
+	l'équation d'onde. Le premier est le déplacement horizontale de nos particules, celui dans le plan.
+	Pour respecter l'équation d'onde une vitesse constante de déplacement est le requis, un peu à la façon
+	où la lumière se déplace toujours à $c$ peu importe la situation. C'est donc de cette façon que nos particules
+	se déplaçait. En ce qui a trait à la hauteur des particules, une autre équation, déterminée par Cem Yuskel,
+	a été utilisée. Celle-ci respecte, encore une fois, l'équation d'onde et donne une forme et un résultat satisfaisant
+	aux vagues. La voici :
+
+	\begin{equation}
+	    D_{i}(x, t) = \frac{a_{i}}{2} \left( \cos\left( \frac{\pi |x - x_{i}(t)|}{r_{i}}\right) + 1\right)
+	    \Pi \left( \frac{|x - x_{i}(t)|} {2 r_{i}}\right)
+	\end{equation}
+
 
 \section{Implémentation}
 \subsection{Introduction au moteur graphique}
+\paragraph{}
 Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. Il utilise les librairies suivantes:
 \begin{description}
 	\item[Assimp] pour le chargement des modèles 3D
@@ -173,6 +223,7 @@ Son fonctionnement est simple. Il utilise un arbre de rendu qui appelle la fonct
 L'arbre de rendu appelle ensuite les fonctions "Render*" qui affiche les noeuds à l'écran. L'arbre de rendu est créé à l'aide du
 fichier "MainRenderTree.xml" et l'environnement qui décrit les lumières est dans le fichier "MainEnvironnement.xml". Il est donc
 simple de déplacer et de rajouter des éléments dans la scène.
+
 \paragraph{}
 La majorité des fonctionnalités implémentées pour ce projet se retrouve dans les fichiers du dossier "./src/Water/". Le noeud 
 "Water" décrit dans le fichier "./src/RenderTree/Node/Water.h" représente la surface d'eau dans l'arbre de rendu.
