@@ -259,6 +259,7 @@ Dans le cadre du cours
 	le diminuant respectivement.
 
 \subsection{Génération et gestion des particules}
+	\paragraph{}
 	La génération et la gestion des particules sont prises en charge par la classe WaveParticleManager. Cette classe contient 3 vecteur de particles.
 	Le premier contient toutes les particules que le programme peut utiliser. À la création de l'objet, celui-ci créé 1024 * 1024 particules inactive 
 	qu'il place dans ce vecteur. Les 2 autres servent à contenir les particules présentement en action. Nous utilisons deux vecteurs pour pouvoir 
@@ -269,28 +270,44 @@ Dans le cadre du cours
 	Cette décision a été prise pour faciliter la gestion des particules, mais aussi pour éviter la création d'objet sur le monceau lors de l'exécution. La 
 	fonction est protégé des appels concurrents pour permettre la mise à jour des particules en parallèle.
 \subsection{Création de la carte de hauteurs}
+	\paragraph{}
+	La création de la carte des hauteurs est prise en charge par la classe WaveParticleRenderer. Cette classe contient plusieurs tampons et textures requis
+	pour la création de la carte des hauteurs et celle des normales.
+	
+	\paragraph{}
+	La carte des hauteurs est créée à l'aide d'un rendu sur texture de primitive "GL_POINTS". Chaque point représente une particule en vie et à un texel réservé
+	dans deux textures qui contiennent les informations des particules. Le nuanceur de sommets "WaveVertex.glsl" récupère les informations dans les textures, 
+	placent le point au bon endroit et passe l'information nécessaire au nuanceur de fragment "WaveFragment.glsl". Celui-ci recupère l'information et calcule 
+	le déplacement occasionné par la particule en ce fragment telle qu'expliqué dans la section Théorie. La fonction de mélange est mise à "GL_ONE, GL_ONE" ce
+	qui permet d'additionner les contributions de toutes les particules sur un fragment de la carte des hauteurs.
+
+	\paragraph{}
+	La carte des normales est calculée dans un nuanceur de calcul. Elle utilise la carte des hauteurs et des filtres de sobels pour déterminer la normale en
+	un point de la carte. Cette technique n'est pas idéal, car elle ne prend pas en compte le déplacement horizontal dans la carte de hauteur, mais elle donne
+	une approximation suffisante et nous n'avons pas eu le temps de la remplacer. 
 \subsection{Réflection}
-\subsection{Réfraction}
-\section{Conclusion}
-\section{Références}
-\begin{figure}
-	\centering
-	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
-	\caption{Effet final}
-	\label{EffetFinal}
-\end{figure}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Reflection.png}
 	\caption{Reflection}
 	\label{Reflection}
 \end{figure}
+\subsection{Réfraction}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Refraction.png}
 	\caption{Refraction}
 	\label{Refractopm}
 \end{figure}
+\section{Conclusion}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
+	\caption{Effet final}
+	\label{EffetFinal}
+\end{figure}
+\section{Références}
+
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
