@@ -349,18 +349,18 @@ Dans le cadre du cours
 	La carte des normales est calculée dans un nuanceur de calcul. Elle utilise la carte des hauteurs et des filtres de sobels pour déterminer la normale en
 	un point de la carte. Cette technique n'est pas idéale, car elle ne prend pas en compte le déplacement horizontal dans la carte de hauteur, mais elle donne
 	une approximation suffisante et nous n'avons pas eu le temps de la remplacer. 
-\subsection{Réflection}
+\subsection{Réflexion}
 	\paragraph{}
-	L'effet de réflection dans la scène est pris en charge par la classe Water et le nuanceur de fragment "WaterFragment.glsl". L'effet utilise un rendu sur 
-	texture de la scène avec une échelle de -1 en Y. Cela a pour effet d'inverser la scène et la mise en l'envers créer un effet de réflection. Un plan de 
+	L'effet de réflexion dans la scène est pris en charge par la classe Water et le nuanceur de fragment "WaterFragment.glsl". L'effet utilise un rendu sur 
+	texture de la scène avec une échelle de -1 en Y. Cela a pour effet d'inverser la scène et la mise en l'envers créer un effet de réflexion. Un plan de 
 	coupe est utilisé pour éviter de rendre visible des primitives qui sont normalement sous l'eau et qui ne dévraient pas être réfléchies par l'eau. Pour améliorer
 	la visibilité de la surface, nous déplaçons les coordonnées de texture par la normale en espace modèle multiplié par un petit nombre. Cela a pour effet de 
 	créer un effet de mirroir courbé lorsque la surface de l'eau est perturbée par des vagues.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Reflection.png}
-	\caption{Effet de réflection sur la surface d'eau}
-	\label{Reflection}
+	\caption{Effet de réflexion sur la surface d'eau}
+	\label{Reflexion}
 \end{figure}
 \subsection{Réfraction}
 	\paragraph{}
@@ -373,9 +373,10 @@ Dans le cadre du cours
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Refraction.png}
 	\caption{Effet de réfraction sur la surface d'eau}
-	\label{Refractopm}
+	\label{Refraction}
 \end{figure}
 \section{Conclusion}
+Pour conclure, l 
 \begin{figure}
 	\centering
 	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
@@ -383,5 +384,11 @@ Dans le cadre du cours
 	\label{EffetFinal}
 \end{figure}
 \section{Références}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
+	\caption{Importance de respecter la conservation du volume d'eau}
+	\label{WaterConservation}
+\end{figure}
 %----------------------------------------------------------------------------------------
 \end{document}
