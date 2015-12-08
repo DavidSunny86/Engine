@@ -160,13 +160,22 @@ Dans le cadre du cours
 
 \section{Implémentation}
 \subsection{Introduction au moteur graphique}
-Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4.
-\begin{itemize}
-	\item Assimp pour le chargement des modèles 3D
-	\item DevIL pour le chargement des textures
-	\item glfw3 pour la création des fenêtre
-\end{itemize}
-
+Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. Il utilise les librairies suivantes:
+\begin{description}
+	\item[Assimp] pour le chargement des modèles 3D
+	\item[DevIL] pour le chargement des textures
+	\item[glfw3] pour la création des fenêtre
+	\item[tinyxml2] pour la lecture des fichiers xml
+	\item[glew] pour faciliter l'utilisation de OpenGL
+\end{description}
+\paragraph{}
+Son fonctionnement est simple. Il utilise un arbre de rendu qui appelle la fonction "Update" qui met à jour les noeuds de l'arbre.
+L'arbre de rendu appelle ensuite les fonctions "Render*" qui affiche les noeuds à l'écran. L'arbre de rendu est créé à l'aide du
+fichier "MainRenderTree.xml" et l'environnement qui décrit les lumières est dans le fichier "MainEnvironnement.xml". Il est donc
+simple de déplacer et de rajouter des éléments dans la scène.
+\paragraph{}
+La majorité des fonctionnalités implémentées pour ce projet se retrouve dans les fichiers du dossier "./src/Water/". Le noeud 
+"Water" décrit dans le fichier "./src/RenderTree/Node/Water.h" représente la surface d'eau dans l'arbre de rendu.
 \subsection{Génération et gestion des particules}
 \subsection{Création de la carte de hauteurs}
 \subsection{Réflection}
