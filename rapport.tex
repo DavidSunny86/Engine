@@ -106,6 +106,8 @@ Dans le cadre du cours
 \thispagestyle{empty}
 \clearpage\maketitle % Print the title section
 \pagebreak[4]
+\tableofcontents
+\pagebreak[4]
 %----------------------------------------------------------------------------------------
 %	En tête et pieds de page 
 %----------------------------------------------------------------------------------------
@@ -145,11 +147,48 @@ Dans le cadre du cours
 \section{Théorie}
 \section{Implémentation}
 \subsection{Introduction au moteur graphique}
+Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4.
+\begin{itemize}
+	\item Assimp pour le chargement des modèles 3D
+	\item DevIL pour le chargement des textures
+	\item glfw3 pour la création des fenêtre
+\end{itemize}
+
 \subsection{Génération et gestion des particules}
 \subsection{Création de la carte de hauteurs}
 \subsection{Réflection}
 \subsection{Réfraction}
 \section{Conclusion}
 \section{Références}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/EffetFinal.png}
+	\caption{Effet final}
+	\label{EffetFinal}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/NoSubdivide.png}
+	\caption{Sans subdivision}
+	\label{NoSubdivide}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Reflection.png}
+	\caption{Reflection}
+	\label{Reflection}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/Refraction.png}
+	\caption{Refraction}
+	\label{Refractopm}
+\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=0.9\textwidth]{./PhotoRapport/WaterConservation.png}
+	\caption{Conservation d'eau}
+	\label{WaterConservation}
+\end{figure}
 %----------------------------------------------------------------------------------------
 \end{document}
