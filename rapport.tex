@@ -59,7 +59,7 @@
    breakatwhitespace=true
    tabsize=3
 }
-\linespread{1.00} % Change line spacing here, Palatino benefits from a slight increase by default
+\linespread{1.25} % Change line spacing here, Palatino benefits from a slight increase by default
 
 \makeatletter
 \renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
@@ -209,25 +209,40 @@ Dans le cadre du cours
 
 \section{Implémentation}
 \subsection{Introduction au moteur graphique}
-\paragraph{}
-Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. Il utilise les librairies suivantes:
-\begin{description}
-	\item[Assimp] pour le chargement des modèles 3D
-	\item[DevIL] pour le chargement des textures
-	\item[glfw3] pour la création des fenêtre
-	\item[tinyxml2] pour la lecture des fichiers xml
-	\item[glew] pour faciliter l'utilisation de OpenGL
-\end{description}
-\paragraph{}
-Son fonctionnement est simple. Il utilise un arbre de rendu qui appelle la fonction "Update" qui met à jour les noeuds de l'arbre.
-L'arbre de rendu appelle ensuite les fonctions "Render*" qui affiche les noeuds à l'écran. L'arbre de rendu est créé à l'aide du
-fichier "MainRenderTree.xml" et l'environnement qui décrit les lumières est dans le fichier "MainEnvironnement.xml". Il est donc
-simple de déplacer et de rajouter des éléments dans la scène.
+	\paragraph{}
+	Le moteur graphique a été écrit pour nous familiariser avec OpenGL 4.4. Il utilise les librairies suivantes:
+	\begin{description}
+		\item[Assimp] pour le chargement des modèles 3D
+		\item[DevIL] pour le chargement des textures
+		\item[glfw3] pour la création des fenêtre
+		\item[tinyxml2] pour la lecture des fichiers xml
+		\item[glew] pour faciliter l'utilisation de OpenGL
+		\item[OpenMP] pour faciliter la mise en parallèle de l'application
+	\end{description}
+	
+	\paragraph{}
+	Son fonctionnement est simple. Il utilise un arbre de rendu qui appelle la fonction "Update" qui met à jour les noeuds de l'arbre.
+	L'arbre de rendu appelle ensuite les fonctions "Render*" qui affiche les noeuds à l'écran. L'arbre de rendu est créé à l'aide du
+	fichier "MainRenderTree.xml" et l'environnement qui décrit les lumières est dans le fichier "MainEnvironnement.xml". Il est donc
+	simple de déplacer et de rajouter des éléments dans la scène.
 
-\paragraph{}
-La majorité des fonctionnalités implémentées pour ce projet se retrouve dans les fichiers du dossier "./src/Water/". Le noeud 
-"Water" décrit dans le fichier "./src/RenderTree/Node/Water.h" représente la surface d'eau dans l'arbre de rendu.
+	\paragraph{}
+	La majorité des fonctionnalités implémentées pour ce projet se retrouve dans les fichiers du dossier "./src/Water/". Le noeud 
+	"Water" décrit dans le fichier "./src/RenderTree/Node/Water.h" représente la surface d'eau dans l'arbre de rendu.
+	Le moteur comporte plusieurs touches utiles. Les flèches du clavier permettent de déplacer la caméra. La touche "P" permet de mettre la mise en jour
+	en pause permettant d'analyser un moment et les touches "Page up" et "Page Down" permettent de modifier le passage du temps en l'accélérant et en 
+	le diminuant respectivement.
+
 \subsection{Génération et gestion des particules}
+	La génération et la gestion des particules sont prises en charge par la classe WaveParticleManager. Cette classe contient 3 vecteur de particles.
+	Le premier contient toutes les particules que le programme peut utiliser. À la création de l'objet, celui-ci créé 1024 * 1024 particules inactive 
+	qu'il place dans ce vecteur. Les 2 autres servent à contenir les particules présentement en action. Nous utilisons deux vecteurs pour pouvoir 
+	retiré en O(n) plusieurs éléments d'un vecteur en transferant les particules en vie de l'un à l'autre à chaque fin de trame. 
+    
+	\paragraph{}
+	Il est possible d'obtenir une nouvelle particule en appelant la fonction "GetNextParticle" qui récupère la prochaine particle même si celle si est en vie.
+	Cette décision a été prise pour faciliter la gestion des particules, mais aussi pour éviter la création d'objet sur le monceau lors de l'exécution. La 
+	fonction est protégé des appels concurrents pour permettre la mise à jour des particules en parallèle.
 \subsection{Création de la carte de hauteurs}
 \subsection{Réflection}
 \subsection{Réfraction}
