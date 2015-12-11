@@ -3,7 +3,7 @@
         <Position x="0" y ="0" z="0"/>
         <Rotation x="0" y="0" z="0"/>
         <Scale x="30" y="1" z="30"/>
-        <Model Name="Water"/>
+        <Model Name=""/>
     </Water>
     <Plan>
         <Position x="0" y ="0" z="0"/>
@@ -11,4 +11,10 @@
         <Scale x="1" y="1" z="1"/>
         <Model Name="Piscine"/>
     </Plan>
+    <Human>
+        <Position x="0" y ="0" z="0"/>
+        <Rotation x="0" y="0" z="0"/>
+        <Scale x="1" y="1" z="1"/>
+        <Model Name="Human"/>
+    </Human>
 </RenderTree>
