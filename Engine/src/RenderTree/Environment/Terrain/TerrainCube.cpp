@@ -29,16 +29,14 @@ TerrainCube::TerrainCube(const glm::vec3& position, RandomTextures* noise)
         constantBufferLoaded_ = true;
     }
     generateProgram_ = GLSLProgramManager::Instance()->GetProgram("GenerateTerrain");
-    renderProgram_ = GLSLProgramManager::Instance()->GetProgram("RenderTerrain");
+
     Initialize(noise);
 }
 
-void TerrainCube::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection)
+void TerrainCube::Render()
 {
     if (numberOfTrianglesGenerated_ != 0)
     {
-        renderProgram_->Activate();
-        glUniformMatrix4fv(0, 1, GL_FALSE, glm::value_ptr(projection * view * model));
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, numberOfTrianglesGenerated_ * 3);
         glBindVertexArray(0);

@@ -1,24 +1,26 @@
 #include <glm/mat4x4.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include "Terrain.h"
 #include "TerrainCube.h"
 #include "RandomTextures.h"
+#include "Manager/GLSLProgramManager.h"
+#include "OpenGL/GLSLProgram.h"
 
 Terrain::Terrain()
 {
     textures_ = new RandomTextures();
-    for (int i = -8; i < 8; i++)
+    for (int i = -32; i < 32; i++)
     {
         for (int j = -8; j < 8; j++)
         {
-            for (int k = -8; k < 8; k++)
+            for (int k = -32; k < 32; k++)
             {
                 cubes_.push_back(new TerrainCube(glm::vec3(i, j - 0.5f, k), textures_));
             }
         }
     }
-    //cubes_.push_back(new TerrainCube(glm::vec3(0, 0.f, 0), textures_));
-    //cubes_.push_back(new TerrainCube(glm::vec3(1.0, 0.0, 1.0),textures_));
+    renderProgram_ = GLSLProgramManager::Instance()->GetProgram("RenderTerrain");
 }
 
 
@@ -34,8 +36,12 @@ Terrain::~Terrain()
 void Terrain::Render(const glm::mat4& view, const glm::mat4& projection)
 {
     glDisable(GL_CULL_FACE);
+    glBlendFunc(GL_ONE, GL_ZERO);
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    renderProgram_->Activate();
+    glm::mat4 mvp = projection * view;
+    glUniformMatrix4fv(renderProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     for (auto cube : cubes_)
-        cube->Render(glm::mat4(1.0),view, projection);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        cube->Render();
+    //  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
