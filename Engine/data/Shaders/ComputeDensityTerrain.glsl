@@ -19,7 +19,7 @@ void main()
 	density += texture(noiseTexture3, worldCoordinate * 0.040 * 1.051).r * 1.28 * 1.08;
 	density += texture(noiseTexture4, worldCoordinate * 0.020 * 1.023).r * 2.56 * 1.04;
 	density += texture(noiseTexture4, worldCoordinate * 0.010 * 0.943).r * 5.12 * 1.0;
-	//density += texture(noiseTexture4, worldCoordinate * 0.050 * 0.989).r * 8.02* 0.96;
+	density += texture(noiseTexture2, worldCoordinate * 0.005 * 0.989).r * 8.02 * 0.96;
 	density += clamp((hard_floor - worldCoordinate.y) * 3, 0, 1) * 40;
 	imageStore(densityTexture, id, vec4(density,0,0,0)); 
 }

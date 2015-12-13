@@ -5,12 +5,14 @@
 class GLSLProgram;
 class TerrainCube;
 class RandomTextures;
+class Light;
+
 class Terrain
 {
 public:
     Terrain();
     ~Terrain();
-    void Render(const glm::mat4& view, const glm::mat4& projection);
+    void Render(const glm::mat4& view, const glm::mat4& projection, Light* light);
 protected:
     std::vector<TerrainCube*> cubes_;
     RandomTextures* textures_;

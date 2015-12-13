@@ -2,10 +2,21 @@
 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 normal;
-out vec3 mNormal;
+
+out vec3 Normal;
+out vec3 DirLum;
+out vec3 vecYeux;
+
+uniform vec4 lightPosition;
+
 uniform mat4 MVP;
+uniform mat4 MV;
+uniform mat3 normalMatrix;
 void main()
 {
 	gl_Position = MVP * position;
-	mNormal = normal.xyz;
+	Normal = normalMatrix * normal.xyz;
+	vec4 MVPosition = MV * position;
+	DirLum = (lightPosition.xyz - (MVPosition.xyz * lightPosition.w)).xyz;
+	vecYeux = -MVPosition.xyz;
 }

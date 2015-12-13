@@ -14,7 +14,7 @@ Environment::~Environment()
 
 void Environment::Render(const glm::mat4& view, const glm::mat4& projection)
 {
-    terrain_->Render(view, projection);
+    terrain_->Render(view, projection, lights_[0]);
 }
 
 void Environment::TransformLight(const glm::mat4& model, const glm::mat4& view)

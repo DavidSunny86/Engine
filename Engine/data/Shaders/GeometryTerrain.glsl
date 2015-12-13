@@ -132,7 +132,7 @@ vec4 ComputeNormal(in vec3 wsPosition)
 	gradient.x = textureOffset(densityTexture,wsPosition,ivec3(1,0,0)).r - 
 					textureOffset(densityTexture,wsPosition,ivec3(-1,0,0)).r;
 	gradient.y = textureOffset(densityTexture,wsPosition,ivec3(0,1,0)).r - 
-					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r;
+					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r + 0.001;
 	gradient.z = textureOffset(densityTexture,wsPosition,ivec3(0,0,1)).r -
 					textureOffset(densityTexture,wsPosition,ivec3(0,0,-1)).r;
 	return vec4(normalize(-gradient),0.0);
