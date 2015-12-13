@@ -5,6 +5,7 @@ layout(triangle_strip, max_vertices = 15) out;
 
 uniform sampler3D densityTexture;
 uniform vec4 cubePosition;
+uniform int numberOfVoxel;
 
 uniform case_to_numberPoly_t
 {
@@ -53,7 +54,7 @@ void main()
 		for(int j = 0; j < 3; ++j)
 		{
 			int edge = edgeConnect[voxelCase * 15 + 3 * i + j];
-			float edgeLength = 1.0 / 32.0;
+			float edgeLength = 1.0 / numberOfVoxel;
 			float linearInterpolation;
 			vec4 outPosition;
 			switch(edge)
@@ -131,7 +132,7 @@ vec4 ComputeNormal(in vec3 wsPosition)
 	gradient.x = textureOffset(densityTexture,wsPosition,ivec3(1,0,0)).r - 
 					textureOffset(densityTexture,wsPosition,ivec3(-1,0,0)).r;
 	gradient.y = textureOffset(densityTexture,wsPosition,ivec3(0,1,0)).r - 
-					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r;
+					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r + 0.00001;
 	gradient.z = textureOffset(densityTexture,wsPosition,ivec3(0,0,1)).r -
 					textureOffset(densityTexture,wsPosition,ivec3(0,0,-1)).r;
 	return vec4(normalize(-gradient),0.0);

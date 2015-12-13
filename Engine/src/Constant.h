@@ -9,4 +9,5 @@ public:
 
     static int maxNumberOfWaveParticleWidth;
     static int maxNumberOfWaveParticleHeight;
+    static int numberOfVoxelPerTerrainCube;
 };

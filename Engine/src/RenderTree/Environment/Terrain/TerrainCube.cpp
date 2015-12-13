@@ -9,6 +9,7 @@
 #include "RandomTextures.h"
 #include "Manager/GLSLProgramManager.h"
 #include "OpenGL/GLSLProgram.h"
+#include "Constant.h"
 
 bool TerrainCube::constantBufferLoaded_ = false;
 GLuint TerrainCube::caseNumPolys_ = 0;
@@ -58,6 +59,7 @@ void TerrainCube::Initialize(RandomTextures* noise)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, texture->ID());
     glUniform1i(generateProgram_->GetUniformLocation("densityTexture"), 0);
+    glUniform1i(generateProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube);
     glUniform4fv(generateProgram_->GetUniformLocation("cubePosition"),1, glm::value_ptr(glm::vec4(position_.x,position_.y,position_.z,0.0)));
     
     GLuint uniformLocation = glGetUniformBlockIndex(generateProgram_->ID(), "case_to_numberPoly_t");
@@ -75,7 +77,8 @@ void TerrainCube::Initialize(RandomTextures* noise)
     GLuint query;
     glGenQueries(1, &query);
     glBeginQuery(GL_PRIMITIVES_GENERATED, query);
-    glDrawArrays(GL_POINTS, 0, 33 * 33 * 33);
+    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
+    glDrawArrays(GL_POINTS, 0, numberOfPoint * numberOfPoint * numberOfPoint);
     glEndQuery(GL_PRIMITIVES_GENERATED);
     glGetQueryObjectiv(query, GL_QUERY_RESULT, &numberOfTrianglesGenerated_);
     glEndTransformFeedback();
@@ -84,6 +87,10 @@ void TerrainCube::Initialize(RandomTextures* noise)
     if (numberOfTrianglesGenerated_ == 0)
     {
         LiberateMemory();
+    }
+    else
+    {
+        ResizeBuffer();
     }
     delete texture;
 }
@@ -165,24 +172,25 @@ void TerrainCube::LoadEdgeConnectList()
 
 void TerrainCube::GeneratePointVao()
 {
+    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
     glGenVertexArrays(1, &pointVao_);
     glBindVertexArray(pointVao_);
-    GLfloat* vertices = new GLfloat[33 * 33 * 33 * 3];
-    for (int i = 0; i < 33; i++)
+    GLfloat* vertices = new GLfloat[numberOfPoint * numberOfPoint * numberOfPoint * 3];
+    for (int i = 0; i < numberOfPoint; i++)
     {
-        for (int j = 0; j < 33; j++)
+        for (int j = 0; j < numberOfPoint; j++)
         {
-            for (int k = 0; k < 33; k++)
+            for (int k = 0; k < numberOfPoint; k++)
             {
-                vertices[(i * 33 * 33 * 3) + j * 33 * 3 + k * 3 + 0] = float(i) / 33.f;
-                vertices[(i * 33 * 33 * 3) + j * 33 * 3 + k * 3 + 1] = float(j) / 33.f;
-                vertices[(i * 33 * 33 * 3) + j * 33 * 3 + k * 3 + 2] = float(k) / 33.f;
+                vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 0] = float(i) / numberOfPoint;
+                vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 1] = float(j) / numberOfPoint;
+                vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 2] = float(k) / numberOfPoint;
             }
         }
     }
     glGenBuffers(1, &pointVbo_);
     glBindBuffer(GL_ARRAY_BUFFER, pointVbo_);
-    glBufferData(GL_ARRAY_BUFFER, 3 * 33 * 33 * 33 * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 3 * numberOfPoint * numberOfPoint * numberOfPoint * sizeof(GLfloat), vertices, GL_STATIC_DRAW);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
     glEnableVertexAttribArray(0);
     delete[] vertices;
@@ -191,15 +199,16 @@ void TerrainCube::GeneratePointVao()
 
 void TerrainCube::CreateBuffers()
 {
+    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
     glGenBuffers(1, &tbo_);
     glBindBuffer(GL_ARRAY_BUFFER, tbo_);
-    glBufferData(GL_ARRAY_BUFFER, 5 * 8 * 33 * 33 * 33 * sizeof(float), nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 5 * 8 * numberOfPoint * numberOfPoint * numberOfPoint * sizeof(float), nullptr, GL_STATIC_DRAW);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, tbo_);
 
     glGenVertexArrays(1, &vao_);
     glBindVertexArray(vao_);
     glBindBuffer(GL_ARRAY_BUFFER, tbo_);
-    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*) 0);
+    glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(4 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
@@ -210,4 +219,14 @@ void TerrainCube::LiberateMemory()
 {
     glDeleteVertexArrays(1, &vao_);
     glDeleteBuffers(1, &tbo_);
+}
+
+void TerrainCube::ResizeBuffer()
+{
+    GLuint tempBufferHandle = tbo_;
+    glGenBuffers(1, &tbo_);
+    glBindBuffer(GL_COPY_READ_BUFFER, tempBufferHandle);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, tbo_);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, NULL, NULL, numberOfTrianglesGenerated_ * 24 * sizeof(GLfloat));
+    glDeleteBuffers(1, &tempBufferHandle);
 }

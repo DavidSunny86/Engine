@@ -20,6 +20,7 @@ protected:
 
     void CreateBuffers();
     void LiberateMemory();
+    void ResizeBuffer();
     glm::vec3 position_;
     int numberOfTrianglesGenerated_;
     GLSLProgram* generateProgram_;
