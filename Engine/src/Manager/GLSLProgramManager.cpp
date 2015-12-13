@@ -34,7 +34,22 @@ void GLSLProgramManager::LoadPrograms(std::string& path)
         {
             std::string vertex = element->Attribute("Vertex");
             std::string fragment = element->Attribute("Fragment");
-            program = new GLSLProgram(std::string(".\\Shaders\\" + vertex), std::string(".\\Shaders\\" + fragment));
+            if (element->Attribute("Geometry") != NULL)
+            {
+                std::string geometry = std::string(element->Attribute("Geometry"));
+                std::vector<GLSLShader*> shaders;
+                GLSLShader* shader = new GLSLShader(GLSLShaderType::Vertex, ".\\Shaders\\" + vertex);
+                shaders.push_back(shader);
+                shader = new GLSLShader(GLSLShaderType::Fragment, ".\\Shaders\\" + fragment);
+                shaders.push_back(shader);
+                shader = new GLSLShader(GLSLShaderType::Geometry, ".\\Shaders\\" + geometry);
+                shaders.push_back(shader);
+                program = new GLSLProgram(shaders);
+            }
+            else
+            {
+                program = new GLSLProgram(std::string(".\\Shaders\\" + vertex), std::string(".\\Shaders\\" + fragment));
+            }
         }
         programs_.insert(std::pair<std::string, GLSLProgram*>(name, program));
     } while (element = element->NextSiblingElement());

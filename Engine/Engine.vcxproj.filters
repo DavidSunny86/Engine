@@ -81,16 +81,7 @@
     <ClCompile Include="src\RenderTree\Environment\Light.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Loader\EnvironmentLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\RenderTree\Node\Plan.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Loader\NodeFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Loader\RenderTreeLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\RenderTree\Node\Water.cpp">
@@ -127,6 +118,27 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Water\WaveParticleRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTree\Environment\Terrain\TerrainCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTree\Environment\Terrain\DensityTexture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTree\Environment\Terrain\Terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\RenderTree\Environment\Terrain\RandomTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loader\EnvironmentLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loader\NodeFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Loader\RenderTreeLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -191,16 +203,7 @@
     <ClInclude Include="src\RenderTree\Environment\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Loader\EnvironmentLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\RenderTree\Node\Plan.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Loader\NodeFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Loader\RenderTreeLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\RenderTree\Node\Water.h">
@@ -239,6 +242,36 @@
     <ClInclude Include="src\Water\WaveParticleRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\RenderTree\Environment\Terrain\TerrainCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderTree\Environment\Terrain\DensityTexture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderTree\Environment\Terrain\Terrain.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\RenderTree\Environment\Terrain\RandomTextures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\Loader\EnvironmentLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\Loader\RenderTreeLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Manager\Loader\NodeFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loader\EnvironmentLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loader\NodeFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Loader\RenderTreeLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="data\Shaders\HumanVertex.glsl" />
@@ -259,6 +292,12 @@
     <None Include="data\Shaders\WaveVertex.glsl" />
     <None Include="data\Shaders\WaveFragment.glsl" />
     <None Include="data\Shaders\ComputeHeightMapNormal.glsl" />
+    <None Include="data\Shaders\ComputeDensityTerrain.glsl" />
+    <None Include="data\Shaders\GeometryTerrain.glsl" />
+    <None Include="data\Shaders\GenerateTerrainVertex.glsl" />
+    <None Include="data\Shaders\GenerateTerrainFragment.glsl" />
+    <None Include="data\Shaders\RenderTerrainFragment.glsl" />
+    <None Include="data\Shaders\RenderTerrainVertex.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Xml Include="data\Shaders\Programs.xml" />

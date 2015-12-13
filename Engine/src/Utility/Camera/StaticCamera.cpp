@@ -14,7 +14,7 @@ StaticCamera::StaticCamera(const glm::vec3& position, const glm::vec3& lookAt, c
     : Camera(position, lookAt, up, zNear, zFar, fov, aspectRatio, 0)
     , theta_(1.57f)
     , phi_(1.57f / 2.0f)
-    , rho_(50.f)
+    , rho_(4.f)
 {
     
 }

@@ -1,5 +1,8 @@
 #pragma once
 #include "RenderTree\Node\AbstractNode.h"
+
+class GLSLProgram;
+
 class Skybox :
     public AbstractNode
 {
@@ -14,6 +17,7 @@ public:
 
     void LoadTextures();
 protected:
+    GLSLProgram* skyboxProgram_;
     GLuint vbo_;
     GLuint vao_;
     GLuint texture_;

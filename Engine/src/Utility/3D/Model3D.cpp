@@ -35,7 +35,7 @@ Model3D::~Model3D()
 
 void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane)
 {
-    glUseProgram(program_->ID());
+    program_->Activate();
     glm::mat4 mv = v * m;
     glm::mat4 mvp = p * mv;
     glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(mv)));
@@ -68,7 +68,7 @@ void Model3D::Render(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p,
 
 void Model3D::RenderFirstPass(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, const glm::vec4& clipPlane)
 {
-    glUseProgram(firstPassProgram_->ID());
+    firstPassProgram_->Activate();
     glm::mat4 mv = v * m;
     glm::mat4 mvp = p * mv;
     glUniformMatrix4fv(firstPassMVPLocation_, 1, GL_FALSE, glm::value_ptr(mvp));
@@ -83,7 +83,7 @@ void Model3D::RenderFirstPass(const glm::mat4& m, const glm::mat4& v, const glm:
 
 void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p)
 {
-    glUseProgram(shadowMapProgram_->ID());
+    shadowMapProgram_->Activate();
     glm::mat4 depthMVP = p * v * m;
     glUniformMatrix4fv(shadowMapDepthMVPLocation_, 1, GL_FALSE, glm::value_ptr(depthMVP));
     for (auto mesh : meshes_)
@@ -95,7 +95,7 @@ void Model3D::RenderShadowMap(const glm::mat4& m, const glm::mat4& v, const glm:
 void Model3D::RenderReflection(glm::mat4 m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
     RenderFirstPass(m, v, p, clipPlane);
-    glUseProgram(program_->ID());
+    program_->Activate();
     glm::mat4 mv = v * m;
     glm::mat4 mvp = p * mv;
     glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(mv)));

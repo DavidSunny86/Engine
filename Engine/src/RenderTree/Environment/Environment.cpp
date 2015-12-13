@@ -1,14 +1,20 @@
 #include "Environment.h"
 #include "Light.h"
-
+#include "Terrain/Terrain.h"
 
 Environment::Environment()
 {
+    terrain_ = new Terrain();
 }
 
 
 Environment::~Environment()
 {
+}
+
+void Environment::Render(const glm::mat4& view, const glm::mat4& projection)
+{
+    terrain_->Render(view, projection);
 }
 
 void Environment::TransformLight(const glm::mat4& model, const glm::mat4& view)

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <glm\gtc\type_ptr.hpp>
 #include <GL\glew.h>
+#include <glm\gtc\matrix_transform.hpp>
 
 #include "Water.h"
 #include "Constant.h"
@@ -127,7 +128,7 @@ void Water::ApplyReflectionTransformation(glm::mat4& modelReflection)
 
 void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, Environment* e, const glm::vec4& clipPlane /*= glm::vec4(0)*/)
 {
-    glUseProgram(waterProgram_->ID());
+    waterProgram_->Activate();
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, reflectionTexture_);
     glActiveTexture(GL_TEXTURE2);
@@ -182,7 +183,7 @@ void Water::RenderModel(const glm::mat4& m, const glm::mat4& v, const glm::mat4&
 
 void Water::RenderModelFirstPass(const glm::mat4& m, const glm::mat4& v, const glm::mat4& p, const glm::vec4& clipPlane /*= glm::vec4(0)*/)
 {
-    glUseProgram(firstPassProgram_->ID());
+    firstPassProgram_->Activate();
     glm::mat4 mv = v * m;
     glm::mat4 mvp = p * mv;
     glUniformMatrix4fv(firstPassProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));

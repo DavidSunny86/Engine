@@ -1,7 +1,4 @@
 <Models>
 	<Human File="FinalBaseMesh.obj" Program="Human"/>
-    <IronMan File="Mark 42.obj" Program="IronMan"/>
-	<Water File="Water.dae" Program="Water"/>
-	<Plan File="Water.dae" Program="Human"/>
 	<Piscine File="Piscine.dae" Program="IronMan"/>
 </Models>

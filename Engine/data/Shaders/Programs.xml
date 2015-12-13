@@ -1,13 +1,18 @@
 <Programs>
 	<Human Vertex="HumanVertex.glsl" Fragment="HumanFragment.glsl"/>
 	<IronMan Vertex="HumanVertex.glsl" Fragment="IronManFragment.glsl"/>
-	<Cube Vertex="HumanVertex.glsl" Fragment="HumanFragment.glsl"/>
 	<ShadowMap Vertex="ShadowMapVertex.glsl" Fragment="ShadowMapFragment.glsl"/>
-	<FirstPass Vertex="FirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
     <Water Vertex="WaterVertex.glsl" Fragment="WaterFragment.glsl"/>
-    <Skybox Vertex="SkyboxVertex.glsl" Fragment="SkyboxFragment.glsl"/>
+    <FirstPass Vertex="FirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
     <WaterFirstPass Vertex="WaterFirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
+    <Skybox Vertex="SkyboxVertex.glsl" Fragment="SkyboxFragment.glsl"/>
+    <WaveParticle Vertex="WaveVertex.glsl" Fragment="WaveFragment.glsl"/>
+
+    <GenerateTerrain Vertex="GenerateTerrainVertex.glsl" Fragment="GenerateTerrainFragment.glsl" Geometry="GeometryTerrain.glsl"/>
+    <RenderTerrain Vertex="RenderTerrainVertex.glsl" Fragment="RenderTerrainFragment.glsl"/>
+    
     <ComputeWaterHeight Compute="ComputeWaterHeightMap.glsl"/>
     <ComputeHeightMapNormal Compute="ComputeHeightMapNormal.glsl"/>
-    <WaveParticle Vertex="WaveVertex.glsl" Fragment="WaveFragment.glsl"/>
+    <ComputeDensityTerrain Compute="ComputeDensityTerrain.glsl"/>
+    
 </Programs>

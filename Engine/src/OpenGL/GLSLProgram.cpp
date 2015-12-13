@@ -22,6 +22,16 @@ GLSLProgram::~GLSLProgram()
         delete shader;
 }
 
+void GLSLProgram::Activate()
+{
+    glUseProgram(id_);
+}
+
+void GLSLProgram::Deactivate()
+{
+    glUseProgram(0);
+}
+
 GLint GLSLProgram::GetUniformLocation(std::string name)
 {
     GLint location = glGetUniformLocation(id_, name.c_str());
@@ -45,7 +55,15 @@ void GLSLProgram::CompileProgram()
 {
     id_ = glCreateProgram();
     for (auto shader : shaders_)
+    {
         glAttachShader(id_, shader->ID());
+        if (shader->Type() == Geometry)
+        {
+            const GLchar* feedbackOut[] = { "outVertexData.wsPosition", "outVertexData.normal" };
+            glTransformFeedbackVaryings(id_, 2, feedbackOut, GL_INTERLEAVED_ATTRIBS); 
+        }
+    }
+
     
     glLinkProgram(id_);
     GLint results;

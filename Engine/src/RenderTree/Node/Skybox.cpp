@@ -2,6 +2,7 @@
 #include <iostream>
 #include <GL/glew.h>
 #include <IL\il.h>
+#include <glm\gtc\matrix_transform.hpp>
 
 #include "Skybox.h"
 #include "Manager\GLSLProgramManager.h"
@@ -54,6 +55,7 @@ GLfloat points[] = {
 
 Skybox::Skybox(AbstractNode* parent) : AbstractNode(parent)
 {
+    skyboxProgram_ = GLSLProgramManager::Instance()->GetProgram("Skybox");
     glGenBuffers(1, &vbo_);
     glBindBuffer(GL_ARRAY_BUFFER, vbo_);
     glBufferData(GL_ARRAY_BUFFER, 3 * 36 * sizeof(float), points, GL_STATIC_DRAW);
@@ -73,14 +75,13 @@ Skybox::~Skybox()
 
 void Skybox::Render(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane)
 {
-    GLSLProgram* skyboxProgram = GLSLProgramManager::Instance()->GetProgram("Skybox");
-    glUseProgram(skyboxProgram->ID());
+    skyboxProgram_->Activate();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture_);
     glm::mat4 viewTemp = glm::mat4(glm::mat3(view));
     glm::mat4 MVP = projection * viewTemp * glm::mat4(1);
-    glUniform1i(skyboxProgram->GetUniformLocation("Texture"), 0);
-    glUniformMatrix4fv(skyboxProgram->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
+    glUniform1i(skyboxProgram_->GetUniformLocation("Texture"), 0);
+    glUniformMatrix4fv(skyboxProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
 
     glBindVertexArray(vao_);
     glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -99,14 +100,13 @@ void Skybox::RenderShadowMap(glm::mat4 model, const glm::mat4& view, const glm::
 
 void Skybox::RenderReflection(glm::mat4 model, const glm::mat4& view, const glm::mat4& projection, Environment* environnement, const glm::vec4& clipPlane, glm::mat4 shadowModel)
 {
-    GLSLProgram* skyboxProgram = GLSLProgramManager::Instance()->GetProgram("Skybox");
-    glUseProgram(skyboxProgram->ID());
+    skyboxProgram_->Activate();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_CUBE_MAP, texture_);
     glm::mat4 viewTemp = glm::mat4(glm::mat3(view));
     glm::mat4 MVP = projection * viewTemp * glm::scale(glm::mat4(1), glm::vec3(-1, -1, 1));
-    glUniform1i(skyboxProgram->GetUniformLocation("Texture"), 0);
-    glUniformMatrix4fv(skyboxProgram->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
+    glUniform1i(skyboxProgram_->GetUniformLocation("Texture"), 0);
+    glUniformMatrix4fv(skyboxProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(MVP));
     glBindVertexArray(vao_);
     glDrawArrays(GL_TRIANGLES, 0, 36);
 }

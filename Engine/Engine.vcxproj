@@ -159,6 +159,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Loader\EnvironmentLoader.cpp" />
+    <ClCompile Include="src\Loader\NodeFactory.cpp" />
+    <ClCompile Include="src\Loader\RenderTreeLoader.cpp" />
+    <ClCompile Include="src\RenderTree\Environment\Terrain\RandomTextures.cpp" />
+    <ClCompile Include="src\RenderTree\Environment\Terrain\DensityTexture.cpp" />
     <ClCompile Include="src\Input\Manager\KeyboardKeyManager.cpp" />
     <ClCompile Include="src\Input\Manager\MouseButtonManager.cpp" />
     <ClCompile Include="src\Input\Manager\MousePositionManager.cpp" />
@@ -167,10 +172,7 @@
     <ClCompile Include="src\Input\Handler\IMouseButtonHandler.cpp" />
     <ClCompile Include="src\Constant.cpp" />
     <ClCompile Include="src\RenderTree\Node\Skybox.cpp" />
-    <ClCompile Include="src\Loader\NodeFactory.cpp" />
-    <ClCompile Include="src\Loader\RenderTreeLoader.cpp" />
     <ClCompile Include="src\RenderTree\Node\Plan.cpp" />
-    <ClCompile Include="src\Loader\EnvironmentLoader.cpp" />
     <ClCompile Include="src\RenderTree\Scene.cpp" />
     <ClCompile Include="src\RenderTree\Environment\Environment.cpp" />
     <ClCompile Include="src\RenderTree\Environment\Light.cpp" />
@@ -196,8 +198,16 @@
     <ClCompile Include="src\Water\WaveParticle.cpp" />
     <ClCompile Include="src\Water\WaveParticleManager.cpp" />
     <ClCompile Include="src\Water\WaveParticleRenderer.cpp" />
+    <ClCompile Include="src\RenderTree\Environment\Terrain\TerrainCube.cpp" />
+    <ClCompile Include="src\RenderTree\Environment\Terrain\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Loader\EnvironmentLoader.h" />
+    <ClInclude Include="src\Loader\NodeFactory.h" />
+    <ClInclude Include="src\Loader\RenderTreeLoader.h" />
+    <ClInclude Include="src\Manager\Loader\NodeFactory.h" />
+    <ClInclude Include="src\RenderTree\Environment\Terrain\RandomTextures.h" />
+    <ClInclude Include="src\RenderTree\Environment\Terrain\DensityTexture.h" />
     <ClInclude Include="src\Input\Manager\KeyboardKeyManager.h" />
     <ClInclude Include="src\Input\Manager\MouseButtonManager.h" />
     <ClInclude Include="src\Input\Manager\MousePositionManager.h" />
@@ -206,10 +216,9 @@
     <ClInclude Include="src\Input\Handler\IMouseButtonHandler.h" />
     <ClInclude Include="src\Constant.h" />
     <ClInclude Include="src\RenderTree\Node\Skybox.h" />
-    <ClInclude Include="src\Loader\NodeFactory.h" />
-    <ClInclude Include="src\Loader\RenderTreeLoader.h" />
+    <ClInclude Include="src\Manager\Loader\RenderTreeLoader.h" />
     <ClInclude Include="src\RenderTree\Node\Plan.h" />
-    <ClInclude Include="src\Loader\EnvironmentLoader.h" />
+    <ClInclude Include="src\Manager\Loader\EnvironmentLoader.h" />
     <ClInclude Include="src\RenderTree\Scene.h" />
     <ClInclude Include="src\RenderTree\Environment\Environment.h" />
     <ClInclude Include="src\RenderTree\Environment\Light.h" />
@@ -234,21 +243,29 @@
     <ClInclude Include="src\Water\WaveParticle.h" />
     <ClInclude Include="src\Water\WaveParticleManager.h" />
     <ClInclude Include="src\Water\WaveParticleRenderer.h" />
+    <ClInclude Include="src\RenderTree\Environment\Terrain\TerrainCube.h" />
+    <ClInclude Include="src\RenderTree\Environment\Terrain\Terrain.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\Shaders\ComputeDensityTerrain.glsl" />
     <None Include="data\Shaders\ComputeHeightMapNormal.glsl" />
     <None Include="data\Shaders\ComputeWaterHeightMap.glsl" />
     <None Include="data\Shaders\FirstPassFragment.glsl" />
     <None Include="data\Shaders\FirstPassVertex.glsl" />
+    <None Include="data\Shaders\GenerateTerrainFragment.glsl" />
+    <None Include="data\Shaders\GeometryTerrain.glsl" />
     <None Include="data\Shaders\HumanFragment.glsl" />
     <None Include="data\Shaders\HumanVertex.glsl" />
     <None Include="data\Shaders\IronManFragment.glsl" />
+    <None Include="data\Shaders\RenderTerrainFragment.glsl" />
+    <None Include="data\Shaders\RenderTerrainVertex.glsl" />
     <None Include="data\Shaders\RomanFragment.glsl" />
     <None Include="data\Shaders\RomanVertex.glsl" />
     <None Include="data\Shaders\ShadowMapFragment.glsl" />
     <None Include="data\Shaders\ShadowMapVertex.glsl" />
     <None Include="data\Shaders\SkyboxFragment.glsl" />
     <None Include="data\Shaders\SkyboxVertex.glsl" />
+    <None Include="data\Shaders\GenerateTerrainVertex.glsl" />
     <None Include="data\Shaders\WaterFirstPassVertex.glsl" />
     <None Include="data\Shaders\WaterFragment.glsl" />
     <None Include="data\Shaders\WaterVertex.glsl" />

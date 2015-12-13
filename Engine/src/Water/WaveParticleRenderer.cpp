@@ -64,7 +64,7 @@ void WaveParticleRenderer::Update(double deltaT)
     glBindFramebuffer(GL_FRAMEBUFFER, WaveParticleFbo_);
     glViewport(0, 0, heightMapWidth_, heightMapHeight_);
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(waveProgram_->ID());
+    waveProgram_->Activate();
     glPointParameteri(GL_POINT_SPRITE_COORD_ORIGIN, GL_LOWER_LEFT);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, waveStartPointDirectionTexture_);
@@ -205,7 +205,7 @@ void WaveParticleRenderer::CreateVertexArrayObject()
 
 void WaveParticleRenderer::ComputeNormalMap()
 {
-    glUseProgram(normalComputeProgram_->ID());
+    normalComputeProgram_->Activate();
 
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, heightMapTexture_);
