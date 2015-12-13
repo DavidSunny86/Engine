@@ -16,6 +16,7 @@ GLuint TerrainCube::caseNumPolys_ = 0;
 GLuint TerrainCube::edgeConnectList_ = 0;
 GLuint TerrainCube::pointVao_ = 0;
 GLuint TerrainCube::pointVbo_ = 0;
+GLuint TerrainCube::tbo_ = 0;
 
 TerrainCube::TerrainCube(const glm::vec3& position, RandomTextures* noise)
     : position_(position)
@@ -25,7 +26,7 @@ TerrainCube::TerrainCube(const glm::vec3& position, RandomTextures* noise)
     {
         LoadCaseNumberPoly();
         LoadEdgeConnectList();
-        GeneratePointVao();
+        GenerateStaticBuffers();
         constantBufferLoaded_ = true;
     }
     generateProgram_ = GLSLProgramManager::Instance()->GetProgram("GenerateTerrain");
@@ -39,21 +40,22 @@ void TerrainCube::Render()
     {
         glBindVertexArray(vao_);
         glDrawArrays(GL_TRIANGLES, 0, numberOfTrianglesGenerated_ * 3);
-        glBindVertexArray(0);
     }
 }
 
 TerrainCube::~TerrainCube()
 {
-    LiberateMemory();
+    if (numberOfTrianglesGenerated_ != 0)
+    {
+        LiberateGPUMemory();
+    }
+
 }
 
 void TerrainCube::Initialize(RandomTextures* noise)
 {
     DensityTexture* texture = new DensityTexture(position_, noise);
-    CreateBuffers();
     generateProgram_->Activate();
-    
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, texture->ID());
     glUniform1i(generateProgram_->GetUniformLocation("densityTexture"), 0);
@@ -82,13 +84,9 @@ void TerrainCube::Initialize(RandomTextures* noise)
     glEndTransformFeedback();
     glDisable(GL_RASTERIZER_DISCARD);
 
-    if (numberOfTrianglesGenerated_ == 0)
+    if(numberOfTrianglesGenerated_ != 0)
     {
-        LiberateMemory();
-    }
-    else
-    {
-        ResizeBuffer();
+        SaveVertexData();
     }
     delete texture;
 }
@@ -168,7 +166,7 @@ void TerrainCube::LoadEdgeConnectList()
     }
 }
 
-void TerrainCube::GeneratePointVao()
+void TerrainCube::GenerateStaticBuffers()
 {
     int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
     glGenVertexArrays(1, &pointVao_);
@@ -193,38 +191,33 @@ void TerrainCube::GeneratePointVao()
     glEnableVertexAttribArray(0);
     delete[] vertices;
     glBindVertexArray(0);
-}
 
-void TerrainCube::CreateBuffers()
-{
-    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
     glGenBuffers(1, &tbo_);
     glBindBuffer(GL_ARRAY_BUFFER, tbo_);
-    glBufferData(GL_ARRAY_BUFFER, 5 * 8 * numberOfPoint * numberOfPoint * numberOfPoint * sizeof(float), nullptr, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 5 * 8 * numberOfPoint * numberOfPoint * numberOfPoint * sizeof(float), nullptr, GL_STREAM_DRAW);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, tbo_);
+}
 
+void TerrainCube::LiberateGPUMemory()
+{
+    glDeleteVertexArrays(1, &vao_);
+    glDeleteBuffers(1, &vbo_);
+}
+
+void TerrainCube::SaveVertexData()
+{
+    glGenBuffers(1, &vbo_);
+    glBindBuffer(GL_COPY_READ_BUFFER, tbo_);
+    glBindBuffer(GL_COPY_WRITE_BUFFER, vbo_);
+    glBufferData(GL_COPY_WRITE_BUFFER, numberOfTrianglesGenerated_ * 24 * sizeof(GLfloat), NULL, GL_STATIC_DRAW);
+    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, NULL, NULL, numberOfTrianglesGenerated_ * 24 * sizeof(GLfloat));
+    
     glGenVertexArrays(1, &vao_);
     glBindVertexArray(vao_);
-    glBindBuffer(GL_ARRAY_BUFFER, tbo_);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo_);
     glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(4 * sizeof(GLfloat)));
     glEnableVertexAttribArray(1);
     glBindVertexArray(0);
-}
-
-void TerrainCube::LiberateMemory()
-{
-    glDeleteVertexArrays(1, &vao_);
-    glDeleteBuffers(1, &tbo_);
-}
-
-void TerrainCube::ResizeBuffer()
-{
-    GLuint tempBufferHandle = tbo_;
-    glGenBuffers(1, &tbo_);
-    glBindBuffer(GL_COPY_READ_BUFFER, tempBufferHandle);
-    glBindBuffer(GL_COPY_WRITE_BUFFER, tbo_);
-    glCopyBufferSubData(GL_COPY_READ_BUFFER, GL_COPY_WRITE_BUFFER, NULL, NULL, numberOfTrianglesGenerated_ * 24 * sizeof(GLfloat));
-    glDeleteBuffers(1, &tempBufferHandle);
 }

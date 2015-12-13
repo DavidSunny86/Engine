@@ -36,12 +36,10 @@ Terrain::~Terrain()
 void Terrain::Render(const glm::mat4& view, const glm::mat4& projection)
 {
     glDisable(GL_CULL_FACE);
-    glBlendFunc(GL_ONE, GL_ZERO);
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glBlendFunc(GL_ONE, GL_NONE);
     renderProgram_->Activate();
     glm::mat4 mvp = projection * view;
     glUniformMatrix4fv(renderProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
     for (auto cube : cubes_)
         cube->Render();
-    //  glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

@@ -16,22 +16,22 @@ protected:
     void Initialize(RandomTextures* noise);
     void LoadCaseNumberPoly();
     void LoadEdgeConnectList();
-    void GeneratePointVao();
+    void GenerateStaticBuffers();
 
-    void CreateBuffers();
-    void LiberateMemory();
-    void ResizeBuffer();
+    void LiberateGPUMemory();
+    void SaveVertexData();
     glm::vec3 position_;
     int numberOfTrianglesGenerated_;
     GLSLProgram* generateProgram_;
     GLSLProgram* renderProgram_;
-    GLuint tbo_;
+    GLuint vbo_;
     GLuint vao_;
 
     static GLuint caseNumPolys_;
     static GLuint edgeConnectList_;
     static GLuint pointVao_;
     static GLuint pointVbo_;
+    static GLuint tbo_;
     static bool constantBufferLoaded_;
 };
 

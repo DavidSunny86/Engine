@@ -28,7 +28,7 @@ vec4 ComputeNormal(in vec3 wsPosition);
 void main()
 {
 	vec4 positionInCube = gl_in[0].gl_Position;
-	ivec3 voxelPosition = ivec3(positionInCube.xyz * 32.0);
+	ivec3 voxelPosition = ivec3(positionInCube.xyz * numberOfVoxel);
 	const ivec3 offset = ivec3(-1,0,1);
 	float d0 = texture(densityTexture, positionInCube.xyz).r;
 	float d1 = textureOffset(densityTexture, positionInCube.xyz, offset.yzy).r;
@@ -54,7 +54,7 @@ void main()
 		for(int j = 0; j < 3; ++j)
 		{
 			int edge = edgeConnect[voxelCase * 15 + 3 * i + j];
-			float edgeLength = 1.0 / numberOfVoxel;
+			float edgeLength = 1.0 / (numberOfVoxel + 1);
 			float linearInterpolation;
 			vec4 outPosition;
 			switch(edge)
@@ -132,7 +132,7 @@ vec4 ComputeNormal(in vec3 wsPosition)
 	gradient.x = textureOffset(densityTexture,wsPosition,ivec3(1,0,0)).r - 
 					textureOffset(densityTexture,wsPosition,ivec3(-1,0,0)).r;
 	gradient.y = textureOffset(densityTexture,wsPosition,ivec3(0,1,0)).r - 
-					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r + 0.00001;
+					textureOffset(densityTexture,wsPosition,ivec3(0,-1,0)).r;
 	gradient.z = textureOffset(densityTexture,wsPosition,ivec3(0,0,1)).r -
 					textureOffset(densityTexture,wsPosition,ivec3(0,0,-1)).r;
 	return vec4(normalize(-gradient),0.0);
