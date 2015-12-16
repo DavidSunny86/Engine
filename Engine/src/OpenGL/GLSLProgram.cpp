@@ -59,8 +59,27 @@ void GLSLProgram::CompileProgram()
         glAttachShader(id_, shader->ID());
         if (shader->Type() == Geometry)
         {
-            const GLchar* feedbackOut[] = { "outVertexData.wsPosition", "outVertexData.normal" };
-            glTransformFeedbackVaryings(id_, 2, feedbackOut, GL_INTERLEAVED_ATTRIBS); 
+            if (shader->PathToFile() == ".\\Shaders\\Terrain/FirstPassGeometry.glsl")
+            {
+                const GLchar* feedbackOut[] = {"z8_y8_x8_case8"};
+                glTransformFeedbackVaryings(id_, 1, feedbackOut, GL_INTERLEAVED_ATTRIBS);
+
+            }
+            else if (shader->PathToFile() == ".\\Shaders\\Terrain/SecondPassGeometry.glsl")
+            {
+                const GLchar* feedbackOut[] = { "z8_y8_x8_null4_edge4" };
+                glTransformFeedbackVaryings(id_, 1, feedbackOut, GL_INTERLEAVED_ATTRIBS);
+            }
+            else if (shader->PathToFile() == ".\\Shaders\\Terrain/ThirdPassGeometry.glsl")
+            {
+                const GLchar* feedbackOut[] = { "outData.wsPosition", "outData.normal" };
+                glTransformFeedbackVaryings(id_, 2, feedbackOut, GL_INTERLEAVED_ATTRIBS);
+            }
+            else if (shader->PathToFile() == ".\\Shaders\\Terrain/FifthPassGeometry.glsl")
+            {
+                const GLchar* feedbackOut[] = { "index" };
+                glTransformFeedbackVaryings(id_, 1, feedbackOut, GL_INTERLEAVED_ATTRIBS);
+            }
         }
     }
 

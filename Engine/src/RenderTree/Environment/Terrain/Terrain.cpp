@@ -1,5 +1,7 @@
 #include <glm/mat4x4.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
 
 #include "Terrain.h"
 #include "TerrainCube.h"
@@ -13,7 +15,7 @@ Terrain::Terrain()
     textures_ = new RandomTextures();
     for (int i = -32; i < 32; i++)
     {
-        for (int j = -2; j < 16; j++)
+        for (int j = -2; j < 10; j++)
         {
             for (int k = -32; k < 32; k++)
             {
@@ -38,6 +40,8 @@ void Terrain::Render(const glm::mat4& view, const glm::mat4& projection, Light* 
 {
     glCullFace(GL_FRONT);
     glBlendFunc(GL_ONE, GL_NONE);
+    if(renderWireframe_)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
     renderProgram_->Activate();
     glm::mat4 mvp = projection * view;
     glUniformMatrix4fv(renderProgram_->GetUniformLocation("MVP"), 1, GL_FALSE, glm::value_ptr(mvp));
@@ -49,10 +53,20 @@ void Terrain::Render(const glm::mat4& view, const glm::mat4& projection, Light* 
     glUniform4fv(renderProgram_->GetUniformLocation("lightSpecularColor"), 1, glm::value_ptr(light->specularColor_));
 
 
-    glUniform4fv(renderProgram_->GetUniformLocation("materialAmbient"), 1, glm::value_ptr(glm::vec4(0.2)));
-    glUniform4fv(renderProgram_->GetUniformLocation("materialDiffuse"), 1, glm::value_ptr(glm::vec4(0.6)));
-    glUniform4fv(renderProgram_->GetUniformLocation("materialSpecular"), 1, glm::value_ptr(glm::vec4(0.6)));
-    glUniform1f(renderProgram_->GetUniformLocation("shininess"), 1.0);
+    glUniform4fv(renderProgram_->GetUniformLocation("materialAmbient"), 1, glm::value_ptr(glm::vec4(0.2f)));
+    glUniform4fv(renderProgram_->GetUniformLocation("materialDiffuse"), 1, glm::value_ptr(glm::vec4(0.6f)));
+    glUniform4fv(renderProgram_->GetUniformLocation("materialSpecular"), 1, glm::value_ptr(glm::vec4(0.6f)));
+    glUniform1f(renderProgram_->GetUniformLocation("shininess"), 1.0f);
     for (auto cube : cubes_)
         cube->Render();
+    if(renderWireframe_)
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Terrain::HandleKeyboardKey(int key, int action, int modifier)
+{
+    if (key == GLFW_KEY_K && action == GLFW_PRESS)
+    {
+        renderWireframe_ = !renderWireframe_;
+    }
 }

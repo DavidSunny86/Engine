@@ -2,17 +2,21 @@
 	<Human Vertex="HumanVertex.glsl" Fragment="HumanFragment.glsl"/>
 	<IronMan Vertex="HumanVertex.glsl" Fragment="IronManFragment.glsl"/>
 	<ShadowMap Vertex="ShadowMapVertex.glsl" Fragment="ShadowMapFragment.glsl"/>
-    <Water Vertex="WaterVertex.glsl" Fragment="WaterFragment.glsl"/>
+    <Water Vertex="Water/WaterVertex.glsl" Fragment="Water/WaterFragment.glsl"/>
     <FirstPass Vertex="FirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
-    <WaterFirstPass Vertex="WaterFirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
+    <WaterFirstPass Vertex="Water/WaterFirstPassVertex.glsl" Fragment="FirstPassFragment.glsl"/>
     <Skybox Vertex="SkyboxVertex.glsl" Fragment="SkyboxFragment.glsl"/>
-    <WaveParticle Vertex="WaveVertex.glsl" Fragment="WaveFragment.glsl"/>
+    <WaveParticle Vertex="Water/WaveVertex.glsl" Fragment="Water/WaveFragment.glsl"/>
 
-    <GenerateTerrain Vertex="GenerateTerrainVertex.glsl" Fragment="GenerateTerrainFragment.glsl" Geometry="GeometryTerrain.glsl"/>
-    <RenderTerrain Vertex="RenderTerrainVertex.glsl" Fragment="RenderTerrainFragment.glsl"/>
+    <FirstPassGenerateTerrain Vertex="Terrain/FirstPassVertex.glsl" Fragment="Terrain/GenerateTerrainFragment.glsl" Geometry="Terrain/FirstPassGeometry.glsl"/>
+    <SecondPassGenerateTerrain Vertex="Terrain/SecondPassVertex.glsl" Fragment="Terrain/GenerateTerrainFragment.glsl" Geometry="Terrain/SecondPassGeometry.glsl"/>
+    <ThirdPassGenerateTerrain Vertex="Terrain/ThirdPassVertex.glsl" Fragment="Terrain/GenerateTerrainFragment.glsl" Geometry="Terrain/ThirdPassGeometry.glsl"/>
+    <FourthPassGenerateTerrain Vertex="Terrain/FourthPassVertex.glsl" Fragment="Terrain/FourthPassFragment.glsl" Geometry="Terrain/FourthPassGeometry.glsl"/>
+    <FifthPassGenerateTerrain Vertex="Terrain/FifthPassVertex.glsl" Fragment="Terrain/GenerateTerrainFragment.glsl" Geometry="Terrain/FifthPassGeometry.glsl"/>
+    <GenerateTerrain Vertex="Terrain/FirstPassVertex.glsl" Fragment="Terrain/GenerateTerrainFragment.glsl" Geometry="Terrain/GeometryTerrain.glsl"/>
+    <RenderTerrain Vertex="Terrain/RenderTerrainVertex.glsl" Fragment="Terrain/RenderTerrainFragment.glsl"/>
     
-    <ComputeWaterHeight Compute="ComputeWaterHeightMap.glsl"/>
-    <ComputeHeightMapNormal Compute="ComputeHeightMapNormal.glsl"/>
-    <ComputeDensityTerrain Compute="ComputeDensityTerrain.glsl"/>
-    
+    <ComputeWaterHeight Compute="Water/ComputeWaterHeightMap.glsl"/>
+    <ComputeHeightMapNormal Compute="Water/ComputeHeightMapNormal.glsl"/>
+    <ComputeDensityTerrain Compute="Terrain/ComputeDensityTerrain.glsl"/>
 </Programs>

@@ -14,7 +14,7 @@ void main()
 	ivec3 id = ivec3(gl_WorkGroupID);
 	vec3 worldCoordinate = position + ((vec3(id) / numberOfVoxel));
 	float density = -worldCoordinate.y;
-	density += texture(noiseTexture1, worldCoordinate * 0.160 * 1.021).r * 0.32 * 1.16;
+	density += texture(noiseTexture1, worldCoordinate * 0.160 * 1.021).r * 0.08 * 1.16;
 	density += texture(noiseTexture2, worldCoordinate * 0.080 * 0.985).r * 0.64 * 1.12;
 	density += texture(noiseTexture3, worldCoordinate * 0.040 * 1.051).r * 1.28 * 1.08;
 	density += texture(noiseTexture4, worldCoordinate * 0.020 * 1.023).r * 2.56 * 1.04;

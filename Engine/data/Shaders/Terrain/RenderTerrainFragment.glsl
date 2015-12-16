@@ -9,9 +9,9 @@ uniform vec4 materialSpecular;
 uniform float shininess;
 
 
-in vec3 Normal;
-in vec3 vecYeux;
-in vec3 DirLum;
+smooth in vec3 Normal;
+smooth in vec3 vecYeux;
+smooth in vec3 DirLum;
 
 out vec4 color;
 

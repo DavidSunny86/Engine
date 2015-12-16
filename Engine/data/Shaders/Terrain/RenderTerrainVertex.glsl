@@ -3,9 +3,9 @@
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec4 normal;
 
-out vec3 Normal;
-out vec3 DirLum;
-out vec3 vecYeux;
+smooth out vec3 Normal;
+smooth out vec3 DirLum;
+smooth out vec3 vecYeux;
 
 uniform vec4 lightPosition;
 
