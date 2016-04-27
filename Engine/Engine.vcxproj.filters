@@ -99,24 +99,6 @@
     <ClCompile Include="src\Water\WaveParticleManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Input\Handler\IMouseButtonHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\Handler\IMousePositionHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\Handler\IKeyboardKeyHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\Manager\MousePositionManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\Manager\MouseButtonManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Input\Manager\KeyboardKeyManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Water\WaveParticleRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -139,6 +121,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Loader\RenderTreeLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Input\Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -270,6 +255,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Loader\RenderTreeLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -159,17 +159,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Input\Input.cpp" />
     <ClCompile Include="src\Loader\EnvironmentLoader.cpp" />
     <ClCompile Include="src\Loader\NodeFactory.cpp" />
     <ClCompile Include="src\Loader\RenderTreeLoader.cpp" />
     <ClCompile Include="src\RenderTree\Environment\Terrain\RandomTextures.cpp" />
     <ClCompile Include="src\RenderTree\Environment\Terrain\DensityTexture.cpp" />
-    <ClCompile Include="src\Input\Manager\KeyboardKeyManager.cpp" />
-    <ClCompile Include="src\Input\Manager\MouseButtonManager.cpp" />
-    <ClCompile Include="src\Input\Manager\MousePositionManager.cpp" />
-    <ClCompile Include="src\Input\Handler\IKeyboardKeyHandler.cpp" />
-    <ClCompile Include="src\Input\Handler\IMousePositionHandler.cpp" />
-    <ClCompile Include="src\Input\Handler\IMouseButtonHandler.cpp" />
     <ClCompile Include="src\Constant.cpp" />
     <ClCompile Include="src\RenderTree\Node\Skybox.cpp" />
     <ClCompile Include="src\RenderTree\Node\Plan.cpp" />
@@ -202,6 +197,7 @@
     <ClCompile Include="src\RenderTree\Environment\Terrain\Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Input\Input.h" />
     <ClInclude Include="src\Loader\EnvironmentLoader.h" />
     <ClInclude Include="src\Loader\NodeFactory.h" />
     <ClInclude Include="src\Loader\RenderTreeLoader.h" />

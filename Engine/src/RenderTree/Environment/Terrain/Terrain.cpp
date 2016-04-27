@@ -62,11 +62,3 @@ void Terrain::Render(const glm::mat4& view, const glm::mat4& projection, Light* 
     if(renderWireframe_)
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
-
-void Terrain::HandleKeyboardKey(int key, int action, int modifier)
-{
-    if (key == GLFW_KEY_K && action == GLFW_PRESS)
-    {
-        renderWireframe_ = !renderWireframe_;
-    }
-}

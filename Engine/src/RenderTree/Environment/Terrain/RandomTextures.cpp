@@ -9,7 +9,7 @@ RandomTextures::RandomTextures()
     glGenTextures(NUMBER_OF_TEXTURE, textures_);
     if (!seeded_)
     {
-        srand(time(NULL));
+        srand(static_cast<unsigned int>(time(NULL)));
         seeded_ = true;
     }
     for (int i = 0; i < NUMBER_OF_TEXTURE; i++)
