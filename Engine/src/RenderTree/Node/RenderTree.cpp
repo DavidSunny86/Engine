@@ -70,22 +70,3 @@ void RenderTree::RenderReflection(glm::mat4 model, const glm::mat4& view, const 
     }
     skybox_->RenderReflection(model, view, projection, environnement, clipPlane, shadowModel);
 }
-
-void RenderTree::HandleKeyboardKey(int key, int action, int modifier)
-{
-    if (action == GLFW_PRESS)
-    {
-        switch (key)
-        {
-        case GLFW_KEY_P:
-            pause_ = !RenderTree::pause_;
-            break;
-        case GLFW_KEY_PAGE_UP:
-            timeFactor_ += 0.05;
-            break;
-        case GLFW_KEY_PAGE_DOWN:
-            timeFactor_ -= 0.05;
-            break;
-        }
-    }
-}

@@ -46,6 +46,7 @@ void Scene::Render()
 
 void Scene::Update(double deltaT)
 {
+    camera_->Update(deltaT);
     renderTree_->Update(deltaT);
 }
 

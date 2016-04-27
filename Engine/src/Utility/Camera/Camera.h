@@ -10,7 +10,7 @@ public:
     virtual ~Camera();
 
     virtual void Apply(glm::mat4& view, glm::mat4& projection) = 0;
-
+    virtual void Update(double deltaT) = 0;
     const glm::vec3& Position() const;
     const glm::vec3& LookAt() const;
     const glm::vec3& Up() const;

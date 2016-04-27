@@ -4,20 +4,17 @@
 #include "RenderTree/Node/RenderTree.h"
 #include "Water/WaveParticleManager.h"
 #include "RenderTree/Scene.h"
-#include "Input/Manager/KeyboardKeyManager.h"
-#include "Input/Manager/MouseButtonManager.h"
-#include "Input/Manager/MousePositionManager.h"
-
+#include "Input/Input.h"
 Scene* Window::scene_ = NULL;
 
 Window::Window(std::string name, unsigned int width, unsigned int height, bool isFullscreen, bool isVSync)
-	: name_(name)
-	, width_(width)
-	, height_(height)
-	, isFullscreen_(isFullscreen)
-	, isVSync_(isVSync)
-	, monitor_(NULL)
-	, window_(NULL)
+    : name_(name)
+    , width_(width)
+    , height_(height)
+    , isFullscreen_(isFullscreen)
+    , isVSync_(isVSync)
+    , monitor_(NULL)
+    , window_(NULL)
 {
     CreateWindow();
 }
@@ -34,6 +31,7 @@ void Window::SwapBuffer()
 void Window::PollEvent()
 {
     glfwPollEvents();
+    Input::UpdateInputs(window_);
 }
 
 GLFWwindow* Window::GetWindow()
@@ -111,7 +109,7 @@ void Window::IsVSync(bool isVSync)
             glfwSwapInterval(0);
         }
     }
-    
+
 }
 
 void Window::Resize_CallBack(GLFWwindow* window, int width, int height)
@@ -120,24 +118,13 @@ void Window::Resize_CallBack(GLFWwindow* window, int width, int height)
     Constant::ViewPortHeight = height;
 }
 
-void Window::Keyboard_Callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (action == GLFW_REPEAT || action == GLFW_PRESS)
-    {
-        switch (key)
-        {
-
-        }
-    }
-}
-
 void Window::CreateWindow()
 {
     if (isFullscreen_)
     {
         monitor_ = glfwGetPrimaryMonitor();
     }
-   
+
     glfwWindowHint(GLFW_SAMPLES, 8);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
@@ -146,7 +133,7 @@ void Window::CreateWindow()
 
     window_ = glfwCreateWindow(width_, height_, name_.c_str(), monitor_, NULL);
     glfwMakeContextCurrent(window_);
-    
+
     glewExperimental = GL_TRUE;
     glewInit();
     glGetError();
@@ -156,7 +143,4 @@ void Window::CreateWindow()
     }
 
     glfwSetWindowSizeCallback(window_, Resize_CallBack);
-    glfwSetKeyCallback(window_, KeyboardKeyManager::KeyboardKeyCallback);
-    glfwSetMouseButtonCallback(window_, MouseButtonManager::MouseButtonCallback);
-    glfwSetCursorPosCallback(window_, MousePositionManager::MousePositionCallback);
 }
