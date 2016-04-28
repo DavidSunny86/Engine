@@ -32,7 +32,7 @@ void main()
 	float d4 = texelFetch(densityTexture, voxelPosition + offset.yyz, 0).r;
 	vec4 outPosition;
 	float linearInterpolation;
-	float edgeLength = 1.0 / (numberOfVoxel);
+	float edgeLength = 1.0 / numberOfVoxel;
 	switch(edge)
 	{
 		case 0:

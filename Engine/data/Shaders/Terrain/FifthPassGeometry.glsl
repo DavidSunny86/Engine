@@ -35,7 +35,7 @@ void main()
 	position.y = int(v2g_z8_y8_x8_case8[0] >> 16 & 0xFF);
 	position.z = int(v2g_z8_y8_x8_case8[0] >> 24 & 0xFF);
 
-	numberOfPoly = max(max(position.x,position.y),position.z) >= (numberOfVoxel - 1) ? 0 : numberOfPoly;
+	numberOfPoly = max(max(position.x,position.y),position.z) > (numberOfVoxel - 1) ? 0 : numberOfPoly;
 	for(int i = 0; i < numberOfPoly; ++i)
 	{
 		for(int j = 0; j < 3; ++j)

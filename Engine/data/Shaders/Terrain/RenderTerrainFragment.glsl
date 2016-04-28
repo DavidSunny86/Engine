@@ -30,4 +30,5 @@ void main()
 		float specular = pow(max(dot(R,E),0.0), shininess) * 0.5;
 		color += clamp(materialSpecular * specular * lightSpecularColor , 0.0,1.0);
 	}
+    color = vec4(Normal,0.0);
 }

@@ -16,14 +16,12 @@ void main()
 	position.x += edgeNum == 3 ? 0 : 0;
 	position.x += edgeNum == 0 ? 1 : 0;
 	position.x += edgeNum == 8 ? 2 : 0;
-
 	vec2 uvCoord = position.xy;
 	uvCoord.x += 0.5 / (3.0 * numberOfVoxel);
 	uvCoord.y += 0.5 / (1.0 * numberOfVoxel);
 
-	gl_Position.x = ((2.0 * uvCoord.x / (3.0 * numberOfVoxel))) - 1.0;
-	gl_Position.y = ((2.0 * uvCoord.y / (1.0 * numberOfVoxel))) - 1.0;
-	//gl_Position.y = -gl_Position.y;
+	gl_Position.x = (((2.0 * uvCoord.x) / (3.0 * numberOfVoxel))) - 1.0;
+	gl_Position.y = (((2.0 * uvCoord.y) / (1.0 * numberOfVoxel))) - 1.0;
 	gl_Position.z = 0.0;
 	gl_Position.w = 1.0;
 	vertexID_slice = ivec2(gl_VertexID, position.z);

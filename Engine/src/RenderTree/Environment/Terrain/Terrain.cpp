@@ -13,11 +13,11 @@
 Terrain::Terrain()
 {
     textures_ = new RandomTextures();
-    for (int i = -32; i < 32; i++)
+    for (int i = -5; i < 5; i++)
     {
-        for (int j = -2; j < 10; j++)
+        for (int j = -5; j < 5; j++)
         {
-            for (int k = -32; k < 32; k++)
+            for (int k = -5; k < 51; k++)
             {
                 cubes_.push_back(new TerrainCube(glm::vec3(i, j - 0.5f, k), textures_));
             }

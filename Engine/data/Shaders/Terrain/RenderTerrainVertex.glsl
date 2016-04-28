@@ -15,7 +15,7 @@ uniform mat3 normalMatrix;
 void main()
 {
 	gl_Position = MVP * position;
-	Normal = normalMatrix * normal.xyz;
+	Normal = normal.xyz;//normalMatrix * normal.xyz;
 	vec4 MVPosition = MV * position;
 	DirLum = (lightPosition.xyz - (MVPosition.xyz * lightPosition.w)).xyz;
 	vecYeux = -MVPosition.xyz;

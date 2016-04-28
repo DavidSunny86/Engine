@@ -54,11 +54,10 @@ TerrainCube::TerrainCube(const glm::vec3& position, RandomTextures* noise)
 
 void TerrainCube::Render()
 {
-    if (thirdPassnumberOfPrimitiveGenerated_ != 0)
+    if (numberOfTrianges_ != 0)
     {
         glBindVertexArray(vao_);
-        glDrawElements(GL_TRIANGLES, numberOfTrianges_ * 3,GL_UNSIGNED_INT,0);
-        //glDrawArrays(GL_TRIANGLES, 0, thirdPassnumberOfPrimitiveGenerated_);
+        glDrawElements(GL_TRIANGLES, numberOfTrianges_ * 3, GL_UNSIGNED_INT,0);
         glBindVertexArray(0);
     }
 }
@@ -163,18 +162,20 @@ void TerrainCube::LoadEdgeConnectList()
 
 void TerrainCube::GenerateStaticBuffers()
 {
-    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube;
+    int numberOfPoint = Constant::numberOfVoxelPerTerrainCube + 1;
 
     GLint* vertices = new GLint[numberOfPoint * numberOfPoint * numberOfPoint * 3];
+    int index = 0;
     for (int i = 0; i < numberOfPoint; i++)
     {
         for (int j = 0; j < numberOfPoint; j++)
         {
             for (int k = 0; k < numberOfPoint; k++)
             {
-                vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 0] = i;
-                vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 1] = j;
-                    vertices[(i * numberOfPoint * numberOfPoint * 3) + j * numberOfPoint * 3 + k * 3 + 2] = k;
+                vertices[index + 0] = i;
+                vertices[index + 1] = j;
+                vertices[index + 2] = k;
+                index += 3;
             }
         }
     }
@@ -225,11 +226,10 @@ void TerrainCube::GenerateStaticBuffers()
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R32UI, Constant::numberOfVoxelPerTerrainCube * 3, Constant::numberOfVoxelPerTerrainCube, Constant::numberOfVoxelPerTerrainCube, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R32UI, numberOfPoint * 3, numberOfPoint, numberOfPoint, 0, GL_RED_INTEGER, GL_UNSIGNED_INT, 0);
     glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, vertexIdTexture_, 0);
     GLenum buffers[1] = { GL_COLOR_ATTACHMENT0 };
     glDrawBuffers(1, buffers);
-    GLenum error = glGetError();
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -299,10 +299,10 @@ void TerrainCube::ThirdPass(DensityTexture* density)
 void TerrainCube::FourthPass(DensityTexture* density)
 {
     glBindFramebuffer(GL_FRAMEBUFFER,vertexIDframebuffer_);
-    glViewport(0, 0, Constant::numberOfVoxelPerTerrainCube * 3, Constant::numberOfVoxelPerTerrainCube);
+    glViewport(0, 0, (Constant::numberOfVoxelPerTerrainCube + 1) * 3, (Constant::numberOfVoxelPerTerrainCube + 1));
     glClear(GL_COLOR_BUFFER_BIT);
     fourthPassProgram_->Activate();
-    glUniform1i(fourthPassProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube);
+    glUniform1i(fourthPassProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube + 1);
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
     glDisable(GL_DEPTH_TEST);
