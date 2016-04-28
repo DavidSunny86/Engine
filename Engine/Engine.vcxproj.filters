@@ -27,9 +27,6 @@
     <ClCompile Include="src\Utility\Camera\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utility\Camera\FirstPersonCamera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -134,9 +131,6 @@
     <ClInclude Include="src\Utility\Camera\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utility\Camera\FirstPersonCamera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -204,24 +198,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Water\WaveParticleManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Handler\IMouseButtonHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Handler\IMousePositionHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Handler\IKeyboardKeyHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Manager\MousePositionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Manager\MouseButtonManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Input\Manager\KeyboardKeyManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Water\WaveParticleRenderer.h">

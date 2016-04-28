@@ -178,7 +178,6 @@
     <ClCompile Include="src\Utility\3D\Mesh.cpp" />
     <ClCompile Include="src\RenderTree\Node\RenderTree.cpp" />
     <ClCompile Include="src\Engine.cpp" />
-    <ClCompile Include="src\Utility\Camera\FirstPersonCamera.cpp" />
     <ClCompile Include="src\Utility\Camera\Camera.cpp" />
     <ClCompile Include="src\Utility\3D\Model3D.cpp" />
     <ClCompile Include="src\OpenGL\GLSLProgram.cpp" />
@@ -204,12 +203,6 @@
     <ClInclude Include="src\Manager\Loader\NodeFactory.h" />
     <ClInclude Include="src\RenderTree\Environment\Terrain\RandomTextures.h" />
     <ClInclude Include="src\RenderTree\Environment\Terrain\DensityTexture.h" />
-    <ClInclude Include="src\Input\Manager\KeyboardKeyManager.h" />
-    <ClInclude Include="src\Input\Manager\MouseButtonManager.h" />
-    <ClInclude Include="src\Input\Manager\MousePositionManager.h" />
-    <ClInclude Include="src\Input\Handler\IKeyboardKeyHandler.h" />
-    <ClInclude Include="src\Input\Handler\IMousePositionHandler.h" />
-    <ClInclude Include="src\Input\Handler\IMouseButtonHandler.h" />
     <ClInclude Include="src\Constant.h" />
     <ClInclude Include="src\RenderTree\Node\Skybox.h" />
     <ClInclude Include="src\Manager\Loader\RenderTreeLoader.h" />
@@ -225,7 +218,6 @@
     <ClInclude Include="src\Utility\3D\Mesh.h" />
     <ClInclude Include="src\RenderTree\Node\RenderTree.h" />
     <ClInclude Include="src\Engine.h" />
-    <ClInclude Include="src\Utility\Camera\FirstPersonCamera.h" />
     <ClInclude Include="src\Utility\Camera\Camera.h" />
     <ClInclude Include="src\Utility\3D\Model3D.h" />
     <ClInclude Include="src\OpenGL\GLSLProgram.h" />
