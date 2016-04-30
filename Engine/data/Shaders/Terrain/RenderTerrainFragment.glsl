@@ -12,6 +12,7 @@ uniform float shininess;
 smooth in vec3 Normal;
 smooth in vec3 vecYeux;
 smooth in vec3 DirLum;
+smooth in float ambientOcclusion;
 
 out vec4 color;
 
@@ -30,5 +31,5 @@ void main()
 		float specular = pow(max(dot(R,E),0.0), shininess) * 0.5;
 		color += clamp(materialSpecular * specular * lightSpecularColor , 0.0,1.0);
 	}
-    color = vec4(Normal,0.0);
+    //color *= ambientOcclusion;
 }

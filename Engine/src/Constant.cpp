@@ -8,4 +8,5 @@ int Constant::ViewPortHeight = 720;
 int Constant::maxNumberOfWaveParticleWidth = 1024;
 int Constant::maxNumberOfWaveParticleHeight = 1024;
 
-int Constant::numberOfVoxelPerTerrainCube = 6;
+int Constant::numberOfVoxelPerTerrainCube = 32;
+int Constant::edgeSizeTextureTerrainCube = 6;

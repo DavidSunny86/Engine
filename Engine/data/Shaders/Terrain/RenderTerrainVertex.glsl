@@ -6,7 +6,7 @@ layout(location = 1) in vec4 normal;
 smooth out vec3 Normal;
 smooth out vec3 DirLum;
 smooth out vec3 vecYeux;
-
+smooth out float ambientOcclusion;
 uniform vec4 lightPosition;
 
 uniform mat4 MVP;
@@ -15,7 +15,8 @@ uniform mat3 normalMatrix;
 void main()
 {
 	gl_Position = MVP * position;
-	Normal = normal.xyz;//normalMatrix * normal.xyz;
+	Normal = normalMatrix * normal.xyz;
+    ambientOcclusion = normal.w;
 	vec4 MVPosition = MV * position;
 	DirLum = (lightPosition.xyz - (MVPosition.xyz * lightPosition.w)).xyz;
 	vecYeux = -MVPosition.xyz;

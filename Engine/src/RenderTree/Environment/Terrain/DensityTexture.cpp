@@ -9,6 +9,7 @@
 DensityTexture::DensityTexture(const glm::vec3& position,RandomTextures* noise)
 {
     computeDensityProgram_ = GLSLProgramManager::Instance()->GetProgram("ComputeDensityTerrain");
+    sizeOfTexture_ = Constant::numberOfVoxelPerTerrainCube + 2 * Constant::edgeSizeTextureTerrainCube;
     CreateTexture();
     ComputeDensity(position, noise);
 }
@@ -28,7 +29,7 @@ void DensityTexture::CreateTexture()
 {
     glGenTextures(1, &densityTexture_);
     glBindTexture(GL_TEXTURE_3D, densityTexture_);
-    glTexImage3D(GL_TEXTURE_3D, 0, GL_R16F, Constant::numberOfVoxelPerTerrainCube + 2, Constant::numberOfVoxelPerTerrainCube + 2, Constant::numberOfVoxelPerTerrainCube + 2, 0, GL_RED, GL_FLOAT, 0);
+    glTexImage3D(GL_TEXTURE_3D, 0, GL_R16F, sizeOfTexture_, sizeOfTexture_, sizeOfTexture_, 0, GL_RED, GL_FLOAT, 0);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -54,8 +55,9 @@ void DensityTexture::ComputeDensity(const glm::vec3& position, RandomTextures* n
     glBindTexture(GL_TEXTURE_3D, noise->Texture(3));
     glUniform1i(computeDensityProgram_->GetUniformLocation("noiseTexture4"), 4);
     glUniform1i(computeDensityProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube);
+    glUniform1i(computeDensityProgram_->GetUniformLocation("edgeSize"), Constant::edgeSizeTextureTerrainCube);
     glBindImageTexture(0, densityTexture_, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_R16F);
     glUniform3fv(computeDensityProgram_->GetUniformLocation("position"), 1, glm::value_ptr(position));
-    glDispatchCompute(Constant::numberOfVoxelPerTerrainCube + 2, Constant::numberOfVoxelPerTerrainCube + 2, Constant::numberOfVoxelPerTerrainCube + 2);
+    glDispatchCompute(sizeOfTexture_, sizeOfTexture_, sizeOfTexture_);
     glFinish();
 }

@@ -16,6 +16,7 @@ protected:
     void CreateTexture();
     void ComputeDensity(const glm::vec3& position, RandomTextures* noise);
     GLuint densityTexture_;
+    int sizeOfTexture_;
     GLSLProgram* computeDensityProgram_;
 };
 

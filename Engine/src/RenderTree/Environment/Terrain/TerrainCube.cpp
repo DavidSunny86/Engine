@@ -3,7 +3,7 @@
 #include <string>
 #include <fstream>
 #include <iostream>
-
+#include <memory>
 #include "TerrainCube.h"
 #include "DensityTexture.h"
 #include "RandomTextures.h"
@@ -68,21 +68,19 @@ TerrainCube::~TerrainCube()
     {
         LiberateGPUMemory();
     }
-
 }
 
 void TerrainCube::Initialize(RandomTextures* noise)
 {
-    DensityTexture* texture = new DensityTexture(position_, noise);
-    if (FirstPass(texture))
+    std::unique_ptr<DensityTexture> texture(new DensityTexture(position_, noise));
+    if (FirstPass(texture.get()))
     {
-        SecondPass(texture);
-        ThirdPass(texture);
-        FourthPass(texture);
-        FifthPass(texture);
+        SecondPass(texture.get());
+        ThirdPass(texture.get());
+        FourthPass(texture.get());
+        FifthPass(texture.get());
         SaveVertexData();
     }
-    delete texture;
 }
 
 void TerrainCube::LoadCaseNumberPoly()
@@ -239,6 +237,7 @@ bool TerrainCube::FirstPass(DensityTexture* density)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_3D, density->ID());
     glUniform1i(firstPassProgram_->GetUniformLocation("densityTexture"), 0);
+    glUniform1i(firstPassProgram_->GetUniformLocation("edgeSize"), Constant::edgeSizeTextureTerrainCube);
     glUniform1i(firstPassProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube);
     glEnable(GL_RASTERIZER_DISCARD);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, firstPassOutputTbo_);
@@ -281,6 +280,7 @@ void TerrainCube::ThirdPass(DensityTexture* density)
     glUniform1i(thirdPassProgram_->GetUniformLocation("densityTexture"), 0);
     glUniform1i(thirdPassProgram_->GetUniformLocation("numberOfVoxel"), Constant::numberOfVoxelPerTerrainCube);
     glUniform4fv(thirdPassProgram_->GetUniformLocation("cubePosition"), 1, glm::value_ptr(glm::vec4(position_,0.0)));
+    glUniform1i(thirdPassProgram_->GetUniformLocation("edgeSize"), Constant::edgeSizeTextureTerrainCube);
     glEnable(GL_RASTERIZER_DISCARD);
     glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, finalOutputTbo_);
     glBeginTransformFeedback(GL_POINTS);
